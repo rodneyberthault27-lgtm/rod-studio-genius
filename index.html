@@ -2690,16 +2690,16 @@
       const jobs = MENTORS.map(async mentor => {
         const titles = MENTOR_PHOTO_TITLES[mentor.id] || [mentor.name];
         for (const title of titles) {
-          const candidates = [
-            `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,
-            `https://pt.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`
-          ];
+          const candidates = ["en", "pt"].map(lang =>
+            `https://${lang}.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&pithumbsize=180&titles=${encodeURIComponent(title)}`
+          );
           for (const url of candidates) {
             try {
               const response = await fetch(url);
               if (!response.ok) continue;
               const data = await response.json();
-              const image = data.thumbnail?.source || data.originalimage?.source;
+              const page = Object.values(data.query?.pages || {})[0];
+              const image = page?.thumbnail?.source;
               if (image) {
                 state.mentorPhotos[mentor.id] = image;
                 renderMentors();
