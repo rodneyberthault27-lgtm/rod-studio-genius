@@ -3584,6 +3584,11 @@
         const [r, g, b] = key.split(",").map(Number);
         return { hex: rgbToHex(r, g, b), name: colorName(r, g, b), amount };
       });
+      const sortedBins = [...bins.values()].sort((a, b) => b - a);
+      const colorEntropy = clamp(Math.round((1 - ((sortedBins[0] || 0) / count)) * 118));
+      const darkRatio = Math.round(samples.filter(p => p.lum < 42).length / count * 100);
+      const lightRatio = Math.round(samples.filter(p => p.lum > 212).length / count * 100);
+      const breathingRoom = clamp(Math.round((darkRatio + lightRatio) * 0.75));
       const points = [];
       hotGrid.forEach((row, gy) => row.forEach((score, gx) => points.push({
         score,
@@ -3591,6 +3596,17 @@
         y: Math.round(((gy + 0.5) / 6) * 100)
       })));
       points.sort((a, b) => b.score - a.score);
+      const top = points[0]?.score || 1;
+      const second = points[1]?.score || 1;
+      const salienceGap = clamp(Math.round(((top - second) / Math.max(1, top)) * 100 + 35));
+      const focusSpread = points.slice(0, 3).length > 1
+        ? Math.round(points.slice(0, 3).reduce((acc, p, i, arr) => {
+            if (i === 0) return acc;
+            const prev = arr[i - 1];
+            return acc + Math.hypot(p.x - prev.x, p.y - prev.y);
+          }, 0) / 2)
+        : 0;
+      const centerBias = clamp(Math.round(100 - Math.hypot((points[0]?.x || 50) - 50, (points[0]?.y || 50) - 45) * 2.1));
       return {
         width: img.naturalWidth,
         height: img.naturalHeight,
@@ -3598,6 +3614,13 @@
         brightness: Math.round(brightness / count),
         saturation: Math.round((saturation / count) * 100),
         complexity: clamp(Math.round(edgeEnergy / count / 2), 0, 100),
+        colorEntropy,
+        breathingRoom,
+        salienceGap,
+        focusSpread,
+        centerBias,
+        darkRatio,
+        lightRatio,
         palette,
         heatmapPoints: points.slice(0, 3).map((p, i) => ({ ...p, label: String(i + 1) }))
       };
@@ -3607,84 +3630,152 @@
       const formatChoice = $("imageFormatSelect").value;
       const inferred = inferImageFormat(pixels);
       const format = formatChoice === "Automático" ? inferred : formatChoice;
-      const contrast = clamp(Math.round(Math.abs(pixels.brightness - 128) * 0.9 + pixels.saturation * 0.35 + 35));
-      const clarity = clamp(100 - Math.round(pixels.complexity * 0.55) + (format.includes("Outdoor") ? -10 : 5));
-      const persuasion = clamp(Math.round((contrast + pixels.saturation + clarity) / 3));
-      const urgency = clamp(Math.round(42 + pixels.saturation * 0.35 + pixels.complexity * 0.25));
+      const formatFit = scoreFormatFit(format, pixels);
+      const contrast = clamp(Math.round(Math.abs(pixels.brightness - 128) * 0.42 + pixels.saturation * 0.28 + pixels.salienceGap * 0.34 + 24));
+      const cognitiveLoad = clamp(Math.round(pixels.complexity * 0.52 + pixels.colorEntropy * 0.28 + pixels.focusSpread * 0.42 - pixels.breathingRoom * 0.18));
+      const clarity = clamp(Math.round(94 - cognitiveLoad * 0.62 + pixels.salienceGap * 0.22 + pixels.centerBias * 0.18 + formatFit * 0.12));
+      const persuasion = clamp(Math.round(contrast * 0.28 + clarity * 0.26 + pixels.centerBias * 0.16 + pixels.saturation * 0.14 + formatFit * 0.16));
+      const urgency = clamp(Math.round(34 + pixels.saturation * 0.28 + contrast * 0.26 + pixels.complexity * 0.12 + (format.includes("Social") ? 8 : 0)));
+      const dopamine = clamp(Math.round(persuasion * 0.34 + contrast * 0.24 + (100 - cognitiveLoad) * 0.22 + pixels.salienceGap * 0.2));
+      const cortisol = clamp(Math.round(cognitiveLoad * 0.62 + pixels.focusSpread * 0.28 + Math.max(0, 48 - contrast) * 0.32));
+      const visualFluency = clamp(Math.round((clarity + pixels.salienceGap + pixels.breathingRoom + formatFit) / 4));
       const dominant = pixels.palette[0] || { hex: "#22d3ee", name: "Ciano" };
       const points = pixels.heatmapPoints.length ? pixels.heatmapPoints : [
         { x: 50, y: 38, label: "1" }, { x: 50, y: 58, label: "2" }, { x: 72, y: 72, label: "3" }
       ];
+      const improvementActions = buildNeuroActions({ pixels, format, clarity, contrast, persuasion, urgency, cognitiveLoad, dopamine, cortisol, dominant, points, formatFit });
       return {
         context: {
           format,
           reasoning: `Formato ${formatChoice === "Automático" ? "inferido" : "definido"} com proporcao ${pixels.width}x${pixels.height} e leitura visual ${pixels.aspect > 1.35 ? "horizontal" : pixels.aspect < 0.8 ? "vertical" : "quadrada"}.`
         },
-        scores: { clarity, persuasion, urgency, contrast },
+        scores: { clarity, persuasion, urgency, contrast, cognitiveLoad, dopamine, cortisol, visualFluency, formatFit },
         heatmapPoints: points,
         eyeTracking: {
-          hot: "Primeira zona de alto contraste/saturacao. Deve carregar promessa, produto ou rosto.",
-          warm: "Segunda zona de leitura. Boa para beneficio, prova ou detalhe visual.",
-          cold: "Terceira zona. Use para assinatura, CTA ou informacao complementar."
+          hot: `Hotspot 1 em ${points[0].x}%/${points[0].y}%. Esta zona deve conter produto, rosto, promessa ou CTA. Se nao contiver, a arte desperdiça atencao primaria.`,
+          warm: `Hotspot 2 em ${points[1]?.x || 50}%/${points[1]?.y || 50}%. Use esta area para prova, beneficio secundario ou reforco visual.`,
+          cold: `Hotspot 3 em ${points[2]?.x || 50}%/${points[2]?.y || 50}%. Reserve para assinatura, detalhes ou informacao de baixa urgencia.`
         },
         system1: {
-          trigger: pixels.saturation > 42 ? "Contraste cromatico e energia visual" : "Organizacao, sobriedade e baixo ruido",
-          immediate: clarity > 70 ? "A composicao tende a ser entendida rapido." : "A leitura exige simplificacao para caber no primeiro segundo.",
-          emotion: pixels.brightness > 138 ? "leveza e abertura" : "densidade, foco e intensidade"
+          trigger: dopamine > cortisol ? "Recompensa visual: contraste, foco e promessa percebida rapidamente" : "Tensao cognitiva: muitos sinais competindo antes da promessa",
+          immediate: visualFluency > 70 ? "O Sistema 1 tende a entender a peca sem esforco consciente." : "A peca exige trabalho mental; simplifique a hierarquia para ganhar o primeiro segundo.",
+          emotion: dopamine > 72 ? "curiosidade, energia e aproximacao" : cortisol > 58 ? "friccao, duvida e possivel abandono" : "atencao moderada com necessidade de prova"
         },
         colorPalette: pixels.palette.map(c => ({ ...c, psychology: colorPsychology(c.name) })),
         copywriting: {
-          scores: { clarity, persuasion, urgency },
-          headlineReview: clarity > 70 ? "A hierarquia visual favorece leitura rapida. Ainda vale aproximar titulo, prova e CTA para reduzir dispersao." : "Ha sinais de carga cognitiva. Reduza texto, aumente contraste do titulo e deixe uma unica promessa dominar.",
-          toneVoice: persuasion > 72 ? "Direto, confiante e comercial" : "Educacional, claro e mais demonstrativo",
+          scores: { clarity, persuasion, urgency, dopamine, cognitiveLoad },
+          headlineReview: clarity > 70 ? `Boa fluencia visual. Para aumentar conversao, coloque a promessa principal no hotspot 1 e conecte o CTA ao beneficio em uma unica linha.` : `A carga cognitiva esta alta (${cognitiveLoad}/100). Reduza texto, aumente contraste do titulo e escolha uma promessa dominante antes de adicionar argumentos.`,
+          toneVoice: persuasion > 72 ? "Direto, confiante e comercial" : cognitiveLoad > 58 ? "Mais simples, demonstrativo e com menos camadas" : "Educacional, claro e orientado a beneficio",
           betterHeadlines: [
-            "Entenda em 3 segundos por que isso importa",
-            "Menos ruido visual. Mais acao.",
-            "A promessa principal precisa aparecer primeiro"
+            "A promessa principal em uma frase",
+            "Menos esforço para entender. Mais motivo para agir.",
+            "Veja o benefício antes de ler os detalhes"
           ],
-          ctaCritique: urgency > 68 ? "O material tem energia suficiente para um CTA direto." : "O CTA precisa de mais contraste, verbo de acao e proximidade com o beneficio."
+          ctaCritique: urgency > 68 ? "A arte tem energia suficiente para um CTA direto. Use verbo de acao e posicione perto do hotspot 1 ou 2." : "O CTA precisa de mais saliencia: contraste, area de respiro e proximidade com o beneficio principal."
         },
         platformSpecific: {
           tabTitle: format.includes("Social") ? "Social" : format.includes("Embalagem") ? "Pack" : format.includes("Web") ? "Web" : "Plataforma",
-          scoreValue: Math.round((clarity + persuasion + contrast) / 3),
-          scoreLabel: "Visual Performance Score",
+          scoreValue: Math.round(dopamine * 0.38 + persuasion * 0.28 + visualFluency * 0.2 + formatFit * 0.14),
+          scoreLabel: "Neuro Conversion Score",
           firstImpressionLabel: "Primeiros 3 segundos",
-          firstImpression: clarity > 70 ? "A primeira impressao tende a ser clara, com boa chance de retencao." : "A primeira impressao pode se dividir entre muitos elementos; escolha um foco dominante.",
+          firstImpression: dopamine > cortisol ? `A primeira impressao tende a gerar aproximacao: dopamina ${dopamine}/100 contra cortisol ${cortisol}/100.` : `A primeira impressao pode gerar friccao: cortisol ${cortisol}/100 supera a recompensa visual. Simplifique antes de escalar.`,
           brandClarityLabel: "Clareza de marca",
-          brandClarity: contrast > 70 ? "Alta" : "Media",
+          brandClarity: clarity > 72 && contrast > 62 ? "Alta" : clarity > 55 ? "Media" : "Baixa",
           keyElementsTitle: "Hierarquia Visual",
           keyElements: [
-            { element: "Foco principal", status: clarity > 68 ? "Forte" : "Fraco", note: "Precisa comandar o olhar antes dos detalhes." },
-            { element: "Paleta", status: pixels.saturation > 36 ? "Forte" : "Moderada", note: `Cor dominante: ${dominant.name} ${dominant.hex}.` },
-            { element: "CTA", status: urgency > 65 ? "Forte" : "Fraco", note: "Deve ficar em area quente ou proxima da promessa." }
+            { element: "Foco principal", status: pixels.salienceGap > 62 ? "Forte" : "Fraco", note: `Dominancia do primeiro hotspot: ${pixels.salienceGap}/100.` },
+            { element: "Carga cognitiva", status: cognitiveLoad < 46 ? "Forte" : "Fraco", note: `Carga estimada: ${cognitiveLoad}/100. Quanto menor, maior a fluencia.` },
+            { element: "CTA", status: urgency > 65 && contrast > 58 ? "Forte" : "Fraco", note: "Deve ficar perto da promessa e dentro do caminho natural do olhar." }
           ]
         },
         biases: [
           { name: "Fluencia cognitiva", desc: "Quanto mais rapido entender, maior a sensacao de confianca." },
           { name: "Saliencia", desc: "Contraste e cor devem guiar o primeiro olhar." },
-          { name: "Ancoragem visual", desc: "O elemento mais forte define como o resto sera interpretado." }
+          { name: "Ancoragem visual", desc: "O elemento mais forte define como o resto sera interpretado." },
+          { name: "Recompensa dopaminergica", desc: "Clareza + novidade + caminho de acao geram vontade de continuar olhando." }
         ],
-        actions: [
-          { title: "Criar um foco visual dominante", priority: "Alta", why: "Sem foco, a atencao fragmenta e a mensagem perde forca.", steps: ["Aumentar contraste do elemento principal", "Remover ou reduzir elementos secundarios", "Posicionar promessa perto do hotspot 1"] },
-          { title: "Aproximar beneficio e CTA", priority: "Alta", why: "O olhar precisa entender e agir sem procurar a proxima informacao.", steps: ["Usar verbo claro no CTA", "Colocar CTA em area de maior contraste", "Reduzir texto de suporte"] },
-          { title: "Rebalancear paleta", priority: "Media", why: "A cor dominante deve ajudar a emocao certa, nao competir com a leitura.", steps: [`Usar ${dominant.hex} como ativo distintivo`, "Aplicar cor complementar no CTA", "Reservar neutros para respiro"] }
-        ],
+        actions: improvementActions,
         abTest: {
-          hypothesis: "Se a promessa principal e o CTA forem aproximados do primeiro hotspot, a taxa de compreensao e clique deve subir.",
+          hypothesis: `Se a promessa principal for deslocada para o hotspot 1 e a carga cognitiva cair abaixo de 45, a retencao inicial deve subir.`,
           variantA: "Layout atual com hierarquia existente.",
-          variantB: "Titulo maior, CTA contrastante e foco visual unico no primeiro terco da arte."
+          variantB: "Titulo mais curto, CTA contrastante e foco visual unico no caminho 1-2 do olhar."
         },
-        prompts: buildImagePrompts(format, dominant)
+        prompts: buildImagePrompts(format, dominant, improvementActions)
       };
     }
 
-    function buildImagePrompts(format, dominant) {
+    function buildImagePrompts(format, dominant, actions = []) {
       const prefs = $("imagePreferenceInput").value.trim();
       const extra = prefs ? `, user preference: ${prefs}` : "";
+      const actionText = actions.slice(0, 3).map(a => a.steps.join(", ")).join("; ");
       return {
-        redesign: `/imagine prompt: premium commercial redesign for ${format}, clear visual hierarchy, single dominant focal point, stronger headline area, high contrast CTA, refined composition, color accent ${dominant.hex}, professional lighting, conversion-focused layout${extra} --v 6.0 --style raw --q 2`,
+        redesign: `/imagine prompt: premium commercial redesign for ${format}, clear visual hierarchy, single dominant focal point, stronger headline area, high contrast CTA, refined composition, color accent ${dominant.hex}, neuromarketing improvements: ${actionText}${extra} --v 6.0 --style raw --q 2`,
         upscale: `/imagine prompt: high-end commercial remaster of the original image, preserve core product and structure, improve material realism, crisp details, studio-grade lighting, clean shadows, 8k texture quality, polished advertising finish${extra} --v 6.0 --style raw --q 2`
       };
+    }
+
+    function scoreFormatFit(format, pixels) {
+      const aspect = pixels.aspect;
+      let target = 1;
+      if (format.includes("Web") || format.includes("Outdoor")) target = 1.78;
+      if (format.includes("Social")) target = aspect < 0.85 ? 0.8 : 1;
+      if (format.includes("Embalagem")) target = 0.78;
+      const aspectScore = clamp(Math.round(100 - Math.abs(aspect - target) * 42));
+      const complexityPenalty = format.includes("Outdoor") ? pixels.complexity * 0.34 : pixels.complexity * 0.12;
+      const contrastBonus = pixels.salienceGap * 0.18;
+      return clamp(Math.round(aspectScore - complexityPenalty + contrastBonus));
+    }
+
+    function buildNeuroActions(ctx) {
+      const { pixels, format, clarity, contrast, cognitiveLoad, dopamine, cortisol, dominant, points, formatFit } = ctx;
+      const actions = [];
+      if (pixels.salienceGap < 62) {
+        actions.push({
+          title: "Aumentar dominancia do primeiro olhar",
+          priority: "Alta",
+          why: `O hotspot principal ainda nao domina o campo visual (${pixels.salienceGap}/100). Isso reduz memoria e desejo de continuar olhando.`,
+          steps: ["Aumentar tamanho ou contraste do elemento principal", `Mover promessa ou produto para a area ${points[0].x}%/${points[0].y}%`, "Escurecer ou suavizar elementos concorrentes"]
+        });
+      }
+      if (cognitiveLoad > 52) {
+        actions.push({
+          title: "Reduzir carga cognitiva",
+          priority: "Alta",
+          why: `Carga cognitiva estimada em ${cognitiveLoad}/100. O cerebro precisa gastar energia antes de entender a promessa.`,
+          steps: ["Reduzir quantidade de textos pequenos", "Agrupar informacoes em blocos maiores", "Eliminar detalhes que nao mudam a decisao de clique ou compra"]
+        });
+      }
+      if (contrast < 58) {
+        actions.push({
+          title: "Criar contraste de conversao",
+          priority: "Alta",
+          why: `Contraste em ${contrast}/100. Sem saliencia, CTA e beneficio ficam sem recompensa visual.`,
+          steps: ["Usar fundo mais limpo atras do titulo", "Criar CTA com alto contraste", "Separar produto e texto por luz, sombra ou area negativa"]
+        });
+      }
+      if (dopamine <= cortisol) {
+        actions.push({
+          title: "Trocar friccao por recompensa",
+          priority: "Media",
+          why: `A leitura indica cortisol ${cortisol}/100 contra dopamina ${dopamine}/100. A arte pode estar gerando esforco antes de desejo.`,
+          steps: ["Mostrar primeiro o ganho do usuario", "Adicionar prova visual simples", "Transformar a promessa em uma frase curta e concreta"]
+        });
+      }
+      if (formatFit < 62) {
+        actions.push({
+          title: "Ajustar ao formato de publicacao",
+          priority: "Media",
+          why: `Adequacao ao formato em ${formatFit}/100 para ${format}. A composicao pode perder impacto no canal escolhido.`,
+          steps: ["Reenquadrar para o aspect ratio do canal", "Aumentar legibilidade em mobile ou distancia", "Manter CTA dentro da area segura"]
+        });
+      }
+      actions.push({
+        title: "Rebalancear paleta emocional",
+        priority: actions.length ? "Media" : "Baixa",
+        why: `A cor dominante ${dominant.name} (${dominant.hex}) deve guiar emocao e acao, nao competir com a leitura.`,
+        steps: [`Usar ${dominant.hex} como ativo distintivo`, "Aplicar uma cor complementar apenas no CTA", "Reservar areas neutras para respiro visual"]
+      });
+      return actions.slice(0, 4);
     }
 
     function renderImageOverlay() {
@@ -3721,9 +3812,12 @@
       $("imageEmptyReport").classList.add("hidden");
       $("imageReport").classList.remove("hidden");
       $("imageMetrics").innerHTML = [
+        ["Dopamina", a.scores.dopamine, "Recompensa visual"],
+        ["Cortisol", a.scores.cortisol, "Friccao cognitiva"],
+        ["Fluencia", a.scores.visualFluency, "Facilidade de leitura"],
         ["Clareza", a.scores.clarity, "Leitura e hierarquia"],
         ["Persuasao", a.scores.persuasion, "Forca do gancho"],
-        ["Contraste", a.scores.contrast, "Saliencia visual"]
+        ["Formato", a.scores.formatFit, "Adequacao ao canal"]
       ].map(([label, value, desc]) => `<article class="metric-card"><strong>${value}</strong><span class="hint">${label}</span><p class="hint" style="margin:8px 0 0;">${desc}</p></article>`).join("");
       document.querySelectorAll("[data-image-panel]").forEach(btn => btn.classList.toggle("active", btn.dataset.imagePanel === state.image.activePanel));
       renderImagePanel();
