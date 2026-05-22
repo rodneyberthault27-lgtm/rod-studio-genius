@@ -358,6 +358,21 @@
       filter: grayscale(1) contrast(1.08);
     }
 
+    .generic-avatar {
+      background: #f0ede8 !important;
+      color: #0a0a0a !important;
+    }
+
+    .generic-avatar svg {
+      width: 25px;
+      height: 25px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 3.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .mentor-card strong {
       display: block;
       overflow: hidden;
@@ -2683,7 +2698,12 @@
       if (photo) {
         return `<span class="avatar" style="background:#f0ede8"><img src="${photo}" alt="${mentor.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.textContent='${label}'"></span>`;
       }
-      return `<span class="avatar" style="background:${mentor.color}">${label}</span>`;
+      return `<span class="avatar generic-avatar" aria-label="${mentor.name}">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="18" r="9"></circle>
+          <path d="M9 42c2.5-10 9-15 15-15s12.5 5 15 15"></path>
+        </svg>
+      </span>`;
     }
 
     async function loadMentorPhotos() {
