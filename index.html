@@ -349,6 +349,15 @@
       border: 1px solid rgba(255, 255, 255, 0.22);
     }
 
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: inherit;
+      filter: grayscale(1) contrast(1.08);
+    }
+
     .mentor-card strong {
       display: block;
       overflow: hidden;
@@ -2526,6 +2535,7 @@
       activeChannel: "Todos",
       concept: null,
       neuroText: "",
+      mentorPhotos: {},
       image: {
         dataUrl: "",
         name: "",
@@ -2541,6 +2551,28 @@
 
     const $ = (id) => document.getElementById(id);
     window.RODGenius = { state };
+
+    const MENTOR_PHOTO_TITLES = {
+      kotler: ["Philip Kotler"],
+      miller: ["Donald Miller (author)"],
+      godin: ["Seth Godin"],
+      sharp: ["Byron Sharp"],
+      garyvee: ["Gary Vaynerchuk"],
+      clow: ["Lee Clow"],
+      sutherland: ["Rory Sutherland (advertising executive)"],
+      lindstrom: ["Martin Lindstrom"],
+      jobs: ["Steve Jobs"],
+      olivetto: ["Washington Olivetto", "W. Olivetto"],
+      ogilvy: ["David Ogilvy (businessman)"],
+      bernbach: ["William Bernbach", "Bill Bernbach"],
+      lois: ["George Lois"],
+      burnett: ["Leo Burnett"],
+      hopkins: ["Claude C. Hopkins"],
+      bencivenga: ["Gary Bencivenga"],
+      bernays: ["Edward Bernays"],
+      orwell: ["George Orwell"],
+      lippmann: ["Walter Lippmann"]
+    };
 
     function toast(message) {
       const el = $("toast");
@@ -2628,7 +2660,7 @@
           ${mentors.map(m => {
             const active = state.selectedMentors.includes(m.id);
             return `<button class="mentor-card ${active ? "active" : ""}" data-mentor="${m.id}">
-              <span class="avatar" style="background:${m.color}">${initials(m.name)}</span>
+                                                ${avatarMarkup(m)}
               <span><strong>${m.name}</strong><span>${m.role}</span></span>
               <span class="check">${active ? "✓" : ""}</span>
             </button>`;
@@ -2643,6 +2675,44 @@
 
     function initials(name) {
       return name.split(" ").filter(Boolean).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+    }
+
+    function avatarMarkup(mentor) {
+      const photo = state.mentorPhotos[mentor.id];
+      const label = initials(mentor.name);
+      if (photo) {
+        return `<span class="avatar" style="background:#f0ede8"><img src="${photo}" alt="${mentor.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.textContent='${label}'"></span>`;
+      }
+      return `<span class="avatar" style="background:${mentor.color}">${label}</span>`;
+    }
+
+    async function loadMentorPhotos() {
+      const jobs = MENTORS.map(async mentor => {
+        const titles = MENTOR_PHOTO_TITLES[mentor.id] || [mentor.name];
+        for (const title of titles) {
+          const candidates = [
+            `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,
+            `https://pt.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`
+          ];
+          for (const url of candidates) {
+            try {
+              const response = await fetch(url);
+              if (!response.ok) continue;
+              const data = await response.json();
+              const image = data.thumbnail?.source || data.originalimage?.source;
+              if (image) {
+                state.mentorPhotos[mentor.id] = image;
+                renderMentors();
+                if (state.results.length) renderResults();
+                return;
+              }
+            } catch (error) {
+              // Ignore unavailable portraits; initials remain as fallback.
+            }
+          }
+        }
+      });
+      await Promise.allSettled(jobs);
     }
 
     function toggleMentor(id) {
@@ -2801,7 +2871,7 @@
         <article class="result-card">
           <div style="position:absolute;inset:0 auto auto 0;height:3px;width:100%;background:${r.color};"></div>
           <div class="result-head">
-            <span class="avatar" style="background:${r.color}">${initials(r.mentorName)}</span>
+            ${avatarMarkup(MENTORS.find(m => m.id === r.mentorId) || { id: r.mentorId, name: r.mentorName, color: r.color })}
             <div><h3>${r.mentorName}</h3><small>${r.role}</small></div>
           </div>
           <p>${r.diagnosis}</p>
@@ -3424,6 +3494,7 @@
 
     function boot() {
       renderMentors();
+      loadMentorPhotos();
       renderMonths();
       renderFilters();
       $("runBtn").addEventListener("click", runCouncil);
