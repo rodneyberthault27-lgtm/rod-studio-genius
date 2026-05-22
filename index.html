@@ -1,0 +1,3436 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ROD Studio Genius - Conselho Estratégico de Marketing</title>
+  <meta name="description" content="ROD Studio Genius: conselho estratégico de marketing, diagnóstico criativo, visão de imagem e plano tático anual." />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080a0f;
+      --panel: rgba(17, 24, 39, 0.72);
+      --panel-strong: rgba(15, 23, 42, 0.94);
+      --line: rgba(148, 163, 184, 0.18);
+      --line-bright: rgba(125, 211, 252, 0.3);
+      --text: #eef2ff;
+      --muted: #94a3b8;
+      --dim: #64748b;
+      --cyan: #22d3ee;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --violet: #8b5cf6;
+      --blue: #3b82f6;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 8px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(135deg, rgba(34, 211, 238, 0.08), transparent 28%),
+        linear-gradient(225deg, rgba(139, 92, 246, 0.1), transparent 30%),
+        radial-gradient(circle at top, #172033 0, var(--bg) 48%);
+      color: var(--text);
+      font-family: var(--font);
+      overflow-x: hidden;
+    }
+
+    button, textarea, input, select { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: 0.48; }
+
+    .app {
+      width: min(1480px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 24px 0 56px;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 380px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 0 20px;
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(34, 211, 238, 0.34);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(34, 211, 238, 0.18), rgba(139, 92, 246, 0.16));
+      box-shadow: inset 0 0 28px rgba(34, 211, 238, 0.12), 0 16px 40px rgba(0, 0, 0, 0.34);
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .brand-logo {
+      display: block;
+      width: 86px;
+      height: 58px;
+      object-fit: contain;
+      filter: invert(1) grayscale(1) contrast(1.35);
+      mix-blend-mode: screen;
+    }
+
+    .hero-logo {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: min(320px, 72vw);
+      height: auto;
+      margin: 0 0 18px;
+      filter: invert(1) grayscale(1) contrast(1.35);
+      mix-blend-mode: screen;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 0.94;
+      letter-spacing: 0;
+    }
+
+    .brand p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .status-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, 0.72);
+      font-size: 12px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .left {
+      position: sticky;
+      top: 92px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2, .section-title h3 {
+      margin: 0;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #dbeafe;
+    }
+
+    .hint {
+      color: var(--dim);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    textarea {
+      width: 100%;
+      height: 178px;
+      resize: vertical;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: rgba(2, 6, 23, 0.56);
+      color: var(--text);
+      outline: none;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      border-color: rgba(34, 211, 238, 0.52);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--dim);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    input, select {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: var(--radius);
+      padding: 0 11px;
+      background: rgba(2, 6, 23, 0.56);
+      color: var(--text);
+      outline: none;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 44px;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      min-height: 44px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #7c3aed 55%, #06b6d4);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: 0 18px 36px rgba(37, 99, 235, 0.22);
+      transition: transform 160ms ease, filter 160ms ease, border-color 160ms ease;
+    }
+
+    .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn.secondary {
+      background: rgba(15, 23, 42, 0.86);
+      border-color: var(--line);
+      box-shadow: none;
+      color: #dbeafe;
+    }
+    .btn.ghost {
+      min-height: 34px;
+      padding: 0 10px;
+      background: rgba(15, 23, 42, 0.62);
+      border-color: var(--line);
+      box-shadow: none;
+      color: #cbd5e1;
+      font-size: 11px;
+    }
+    .btn.icon { width: 44px; padding: 0; }
+
+    .mentor-tools {
+      display: flex;
+      gap: 6px;
+    }
+
+    .mentor-list {
+      max-height: 470px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .mentor-group {
+      margin-top: 16px;
+    }
+
+    .mentor-group:first-child { margin-top: 0; }
+    .mentor-group h4 {
+      margin: 0 0 8px;
+      color: var(--dim);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .mentor-card {
+      width: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) 22px;
+      gap: 10px;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.42);
+      color: inherit;
+      text-align: left;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .mentor-card:hover { transform: translateX(2px); border-color: rgba(125, 211, 252, 0.32); }
+    .mentor-card.active {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(139, 92, 246, 0.1));
+      border-color: rgba(34, 211, 238, 0.32);
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 950;
+      color: #020617;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .mentor-card strong {
+      display: block;
+      overflow: hidden;
+      color: #e2e8f0;
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mentor-card span {
+      display: block;
+      overflow: hidden;
+      margin-top: 2px;
+      color: var(--dim);
+      font-size: 11px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .check {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 4px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 16px;
+      min-height: 250px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      background:
+        linear-gradient(110deg, rgba(8, 10, 15, 0.4), rgba(8, 10, 15, 0.84)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='620' viewBox='0 0 1200 620'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%2322d3ee' stop-opacity='.36'/%3E%3Cstop offset='.5' stop-color='%238b5cf6' stop-opacity='.2'/%3E%3Cstop offset='1' stop-color='%23f59e0b' stop-opacity='.18'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='620' fill='%23060a12'/%3E%3Cg fill='none' stroke='url(%23g)' stroke-width='2'%3E%3Cpath d='M86 504 C260 190 400 600 575 245 S990 120 1110 470'/%3E%3Cpath d='M70 340 C250 130 460 350 598 188 S930 250 1132 82' opacity='.65'/%3E%3Cpath d='M132 130 C265 300 390 75 540 280 S850 525 1090 225' opacity='.42'/%3E%3C/g%3E%3Cg fill='%23ffffff' opacity='.62'%3E%3Ccircle cx='156' cy='438' r='3'/%3E%3Ccircle cx='371' cy='304' r='4'/%3E%3Ccircle cx='574' cy='246' r='5'/%3E%3Ccircle cx='785' cy='188' r='4'/%3E%3Ccircle cx='1012' cy='306' r='5'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-copy {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #a5f3fc;
+      background: rgba(8, 47, 73, 0.32);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      max-width: 780px;
+      margin: 16px 0 12px;
+      font-size: clamp(32px, 6vw, 72px);
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .score-box {
+      margin: 18px;
+      align-self: stretch;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(2, 6, 23, 0.58);
+      padding: 16px;
+    }
+
+    .score-value {
+      display: grid;
+      place-items: center;
+      min-height: 112px;
+      font-size: 76px;
+      font-weight: 950;
+      line-height: 1;
+      color: white;
+    }
+
+    .score-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 14px;
+      background: rgba(15, 23, 42, 0.62);
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      border-color: rgba(34, 211, 238, 0.34);
+      color: white;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.36), rgba(124, 58, 237, 0.32));
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card, .result-card, .idea-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.58);
+    }
+
+    .mini-card {
+      padding: 16px;
+      min-height: 132px;
+    }
+
+    .mini-card b {
+      display: block;
+      margin-bottom: 8px;
+      color: #e0f2fe;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .diagnosis-layout {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .radar-wrap {
+      padding: 18px;
+      position: sticky;
+      top: 92px;
+    }
+
+    .radar-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .result-card {
+      position: relative;
+      overflow: hidden;
+      padding: 16px;
+      min-height: 270px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .result-head {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .result-card h3 {
+      margin: 0;
+      overflow: hidden;
+      font-size: 15px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .result-card small {
+      color: var(--dim);
+      font-size: 11px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .result-card p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .bars {
+      display: grid;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 70px minmax(0, 1fr) 34px;
+      gap: 8px;
+      align-items: center;
+      color: var(--dim);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .bar {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      border-radius: inherit;
+      background: var(--c);
+    }
+
+    .planner-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+    }
+
+    .month-bar {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding: 0 18px 16px;
+    }
+
+    .month {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 11px;
+      background: rgba(15, 23, 42, 0.62);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .month.active {
+      color: white;
+      border-color: rgba(34, 211, 238, 0.34);
+      background: rgba(14, 165, 233, 0.22);
+    }
+
+    .filter-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 18px 18px;
+      flex-wrap: wrap;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+
+    .ideas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 0 18px 18px;
+    }
+
+    .idea-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 330px;
+      padding: 14px;
+      transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .idea-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34, 211, 238, 0.32);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .idea-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 999px;
+      padding: 0 8px;
+      background: rgba(2, 6, 23, 0.35);
+      color: #bae6fd;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .idea-card h3 {
+      margin: 0 0 10px;
+      color: white;
+      font-size: 16px;
+      line-height: 1.28;
+    }
+
+    .idea-card p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .variations {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 8px;
+    }
+
+    .variation {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: var(--radius);
+      background: rgba(2, 6, 23, 0.24);
+    }
+
+    .variation i {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(34, 211, 238, 0.12);
+      color: var(--cyan);
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 950;
+    }
+
+    .variation b {
+      display: block;
+      color: #e2e8f0;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .variation span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .empty {
+      padding: 54px 22px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.34);
+    }
+
+    .image-lab {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .upload-zone {
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      border: 1px dashed rgba(34, 211, 238, 0.34);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(139, 92, 246, 0.06));
+      color: #cbd5e1;
+      text-align: center;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .upload-zone:hover {
+      transform: translateY(-1px);
+      border-color: rgba(34, 211, 238, 0.62);
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.12), rgba(139, 92, 246, 0.09));
+    }
+
+    .upload-zone h3 {
+      margin: 10px 0 8px;
+      color: white;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .image-stage {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      min-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #020617;
+    }
+
+    .image-stage img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 620px;
+      object-fit: contain;
+    }
+
+    .scan-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--cyan);
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
+      animation: imageScan 1.8s ease-in-out infinite;
+    }
+
+    @keyframes imageScan {
+      0% { top: 0; opacity: 0; }
+      12% { opacity: 1; }
+      88% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .visual-tools {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .visual-tool {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.66);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .visual-tool.active {
+      color: #020617;
+      border-color: rgba(250, 204, 21, 0.8);
+      background: #facc15;
+    }
+
+    .hotspot {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: opacity 160ms ease;
+    }
+
+    .hotspot.heat {
+      width: 42%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      mix-blend-mode: screen;
+      background: radial-gradient(circle, rgba(239, 68, 68, 0.9), rgba(245, 158, 11, 0.55) 35%, rgba(34, 197, 94, 0.24) 60%, transparent 72%);
+    }
+
+    .hotspot.area {
+      width: 28%;
+      height: 20%;
+      border: 3px solid #facc15;
+      border-radius: var(--radius);
+      background: rgba(250, 204, 21, 0.12);
+      box-shadow: 0 0 22px rgba(250, 204, 21, 0.24);
+    }
+
+    .hotspot.area::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -24px;
+      left: 0;
+      padding: 3px 7px;
+      border-radius: 4px 4px 0 0;
+      background: #facc15;
+      color: #020617;
+      font-size: 10px;
+      font-weight: 950;
+    }
+
+    .hotspot.pin {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 50%;
+      background: rgba(2, 6, 23, 0.72);
+      color: white;
+      font-size: 12px;
+      font-weight: 950;
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.18);
+    }
+
+    .path-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric-card {
+      min-height: 108px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.58);
+    }
+
+    .metric-card strong {
+      display: block;
+      color: white;
+      font-size: 36px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .palette-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .swatch {
+      min-height: 86px;
+      display: flex;
+      align-items: end;
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      color: white;
+      font-size: 11px;
+      font-weight: 900;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    .image-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .prompt-box {
+      border: 1px solid rgba(34, 211, 238, 0.24);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: rgba(2, 6, 23, 0.48);
+      color: #cbd5e1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 50;
+      max-width: 360px;
+      transform: translateY(16px);
+      opacity: 0;
+      pointer-events: none;
+      border: 1px solid rgba(34, 211, 238, 0.32);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      background: rgba(2, 6, 23, 0.94);
+      color: #dbeafe;
+      box-shadow: var(--shadow);
+      transition: opacity 180ms ease, transform 180ms ease;
+      font-size: 13px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 1180px) {
+      .shell, .diagnosis-layout, .hero { grid-template-columns: 1fr; }
+      .left, .radar-wrap { position: static; }
+      .ideas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .image-lab { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .app { width: min(100vw - 20px, 1480px); padding-top: 10px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .status-strip { justify-content: flex-start; }
+      .field-row, .insight-grid, .results, .ideas, .planner-top, .metric-grid, .palette-row { grid-template-columns: 1fr; }
+      .visual-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero-copy { padding: 20px; }
+      .score-box { margin: 0 20px 20px; }
+      .brand h1 { font-size: 34px; }
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&family=Space+Mono:wght@400;700&display=swap');
+
+    /* ROD Studio Genius brutal editorial skin */
+    :root {
+      --bg: #0a0a0a;
+      --panel: #111111;
+      --panel-strong: #111111;
+      --line: #1e1e1e;
+      --line-bright: #1e1e1e;
+      --text: #f0ede8;
+      --muted: #555555;
+      --dim: #444444;
+      --cyan: #f0ede8;
+      --green: #f0ede8;
+      --amber: #f0ede8;
+      --rose: #f0ede8;
+      --violet: #f0ede8;
+      --blue: #f0ede8;
+      --shadow: none;
+      --radius: 0;
+      --font: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #f0ede8;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-weight: 300;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image:
+        repeating-radial-gradient(circle at 12% 18%, #fff 0 0.6px, transparent 0.8px 3px),
+        repeating-linear-gradient(0deg, transparent 0 4px, #fff 5px 5.5px);
+      mix-blend-mode: screen;
+    }
+
+    .app {
+      width: min(680px, calc(100vw - 28px));
+      padding-top: 0;
+    }
+
+    .shell,
+    .hero,
+    .diagnosis-layout,
+    .image-lab {
+      grid-template-columns: 1fr;
+    }
+
+    .left,
+    .radar-wrap {
+      position: static;
+    }
+
+    .topbar {
+      min-height: 72px;
+      padding: 14px 0;
+      border-bottom: 1px solid #1e1e1e;
+      background: rgba(10, 10, 10, 0.94);
+    }
+
+    .brand h1,
+    .hero h2,
+    .service-grid h3,
+    .studio-cta h2,
+    .score-value,
+    .metric-card strong,
+    .numbers-strip strong {
+      font-family: "Bebas Neue", Impact, sans-serif;
+      letter-spacing: 2px;
+      color: #f0ede8;
+      font-weight: 400;
+    }
+
+    .brand h1 {
+      font-size: 28px;
+      line-height: 0.95;
+    }
+
+    .brand p,
+    .hero p,
+    .mini-card p,
+    .result-card p,
+    .idea-card p,
+    .hint,
+    .studio-cta p,
+    .studio-footer span {
+      color: #555555;
+      font-size: 13px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .eyebrow,
+    .pill,
+    .tab,
+    .btn,
+    .section-title h2,
+    .section-title h3,
+    .field label,
+    .tag,
+    .mentor-group h4,
+    .score-label,
+    .visual-tool,
+    .studio-footer b,
+    .service-grid span,
+    .service-grid b,
+    .numbers-strip span {
+      font-family: "Space Mono", ui-monospace, monospace;
+      color: #444444;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .mark,
+    .panel,
+    .mini-card,
+    .result-card,
+    .idea-card,
+    .metric-card,
+    .upload-zone,
+    .image-stage,
+    textarea,
+    input,
+    select,
+    .mentor-card,
+    .score-box,
+    .empty,
+    .variation,
+    .prompt-box,
+    .swatch {
+      border-radius: 0;
+      border-color: #1e1e1e;
+      background: #111111;
+      box-shadow: none;
+    }
+
+    .panel {
+      backdrop-filter: none;
+    }
+
+    .brand .mark {
+      width: 92px;
+      height: 58px;
+      background: #111111;
+      color: #f0ede8;
+      border: 1px solid #1e1e1e;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    .brand .logo-mark {
+      background: #0a0a0a;
+      border-color: #1e1e1e;
+      overflow: hidden;
+    }
+
+    .dot,
+    .fixed,
+    .absolute.top-\[-20\%\],
+    .absolute.bottom-\[-20\%\] {
+      display: none;
+    }
+
+    .hero {
+      min-height: 420px;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid #1e1e1e;
+      border-bottom: 1px solid #1e1e1e;
+      background: #0a0a0a;
+    }
+
+    .hero::after,
+    .studio-cta::after,
+    .section::before {
+      content: "";
+      display: block;
+      height: 18px;
+      margin-top: 24px;
+      border-top: 1px solid #1e1e1e;
+      border-bottom: 1px solid #1e1e1e;
+      background:
+        repeating-linear-gradient(90deg, transparent 0 14px, #1e1e1e 15px 16px),
+        #0a0a0a;
+    }
+
+    .hero-copy {
+      min-height: 420px;
+      position: relative;
+      padding: 44px 0;
+      justify-content: center;
+    }
+
+    .hero-ghost,
+    .cta-ghost {
+      position: absolute;
+      left: -8px;
+      top: 48px;
+      z-index: 0;
+      color: #f0ede8;
+      opacity: 0.08;
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 220px;
+      line-height: 0.75;
+      letter-spacing: 2px;
+      pointer-events: none;
+    }
+
+    .hero-copy > *:not(.hero-ghost) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h2 {
+      margin: 18px 0 16px;
+      font-size: clamp(70px, 13vw, 80px);
+      line-height: 0.9;
+      max-width: 680px;
+    }
+
+    .eyebrow {
+      border: 0;
+      background: transparent;
+      padding: 0;
+    }
+
+    .score-box {
+      margin: 0;
+      border-width: 1px 0 0 0;
+      padding: 20px 0;
+      min-height: 170px;
+    }
+
+    .score-value {
+      min-height: 90px;
+      font-size: 80px;
+    }
+
+    .marquee-strip {
+      overflow: hidden;
+      border-top: 1px solid #1e1e1e;
+      border-bottom: 1px solid #1e1e1e;
+      background: #0a0a0a;
+      color: #444444;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      white-space: nowrap;
+      padding: 14px 0;
+      margin: 0 0 0;
+    }
+
+    .marquee-strip div {
+      width: max-content;
+      animation: rodMarquee 28s linear infinite;
+    }
+
+    @keyframes rodMarquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .numbers-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .numbers-strip article {
+      min-height: 148px;
+      padding: 20px 0;
+      border-right: 1px solid #1e1e1e;
+    }
+
+    .numbers-strip article:last-child {
+      border-right: 0;
+    }
+
+    .numbers-strip strong {
+      display: block;
+      font-size: 78px;
+      line-height: 0.86;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin: 28px 0;
+      background: #1e1e1e;
+      border: 1px solid #1e1e1e;
+    }
+
+    .service-grid article {
+      min-height: 190px;
+      position: relative;
+      padding: 18px;
+      background: #111111;
+    }
+
+    .service-grid h3 {
+      margin: 28px 0 8px;
+      font-size: 28px;
+      line-height: 0.95;
+    }
+
+    .service-grid p {
+      margin: 0;
+      color: #555555;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .service-grid b {
+      position: absolute;
+      right: 18px;
+      bottom: 14px;
+      color: #f0ede8;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .tabs {
+      border-top: 1px solid #1e1e1e;
+      border-bottom: 1px solid #1e1e1e;
+      padding: 10px 0;
+      margin: 0 0 18px;
+    }
+
+    .tab,
+    .btn,
+    .btn.secondary,
+    .btn.ghost,
+    .visual-tool {
+      background: #0a0a0a;
+      border: 1px solid #1e1e1e;
+      color: #444444;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .tab.active,
+    .btn:hover,
+    .visual-tool.active {
+      background: #f0ede8;
+      color: #0a0a0a;
+      border-color: #f0ede8;
+      transform: none;
+      filter: none;
+    }
+
+    .section,
+    .planner-top,
+    .result-card,
+    .idea-card,
+    .mini-card,
+    .metric-card {
+      padding: 18px 0;
+    }
+
+    .section-title {
+      border-bottom: 1px solid #1e1e1e;
+      padding-bottom: 14px;
+    }
+
+    textarea,
+    input,
+    select {
+      background: #0a0a0a;
+      color: #f0ede8;
+      border: 1px solid #1e1e1e;
+      font-family: Inter, sans-serif;
+      font-weight: 300;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      border-color: #f0ede8;
+      box-shadow: none;
+    }
+
+    .mentor-card.active,
+    .mentor-card:hover,
+    .idea-card:hover,
+    .result-card:hover {
+      background: #111111;
+      border-color: #f0ede8;
+      transform: none;
+    }
+
+    .avatar {
+      background: #f0ede8 !important;
+      color: #0a0a0a !important;
+      border-radius: 0;
+    }
+
+    .bar span,
+    .h-1,
+    .tag,
+    .check,
+    .swatch {
+      filter: grayscale(1);
+    }
+
+    .results,
+    .ideas,
+    .insight-grid,
+    .metric-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px;
+      background: #1e1e1e;
+      border: 1px solid #1e1e1e;
+    }
+
+    .results > *,
+    .ideas > *,
+    .insight-grid > *,
+    .metric-grid > * {
+      border: 0;
+      background: #111111;
+    }
+
+    .studio-cta {
+      position: relative;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      border-top: 1px solid #1e1e1e;
+      border-bottom: 1px solid #1e1e1e;
+      margin-top: 42px;
+      padding: 42px 0;
+    }
+
+    .studio-cta h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: clamp(58px, 12vw, 80px);
+      line-height: 0.9;
+    }
+
+    .studio-cta p {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      margin: 0;
+    }
+
+    .cta-ghost {
+      top: 70px;
+      left: -12px;
+      font-size: 155px;
+    }
+
+    .studio-footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: #1e1e1e;
+      border: 1px solid #1e1e1e;
+      margin: 24px 0 0;
+    }
+
+    .studio-footer div {
+      min-height: 110px;
+      padding: 16px;
+      background: #111111;
+    }
+
+    .studio-footer b,
+    .studio-footer span {
+      display: block;
+    }
+
+    .studio-footer span {
+      margin-top: 18px;
+    }
+
+    @media (max-width: 760px) {
+      .app { width: min(100vw - 24px, 680px); }
+      .hero h2 { font-size: 64px; }
+      .hero-ghost { font-size: 156px; }
+      .service-grid,
+      .numbers-strip,
+      .studio-footer,
+      .results,
+      .ideas,
+      .insight-grid,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+      .numbers-strip article { border-right: 0; border-bottom: 1px solid #1e1e1e; }
+    }
+
+    /* UX recovery skin: premium cockpit, cleaner than the brutal experiment */
+    :root {
+      --bg: #0f1016;
+      --panel: rgba(15, 23, 42, 0.68);
+      --panel-strong: rgba(15, 23, 42, 0.94);
+      --line: rgba(148, 163, 184, 0.16);
+      --line-bright: rgba(125, 211, 252, 0.28);
+      --text: #eef2ff;
+      --muted: #94a3b8;
+      --dim: #64748b;
+      --cyan: #22d3ee;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --violet: #8b5cf6;
+      --blue: #3b82f6;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+      --radius: 14px;
+      --font: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 18% 0%, rgba(34, 211, 238, 0.14), transparent 34%),
+        radial-gradient(circle at 90% 12%, rgba(139, 92, 246, 0.12), transparent 32%),
+        #0f1016;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body::before {
+      opacity: 0.025;
+    }
+
+    .app {
+      width: min(1400px, calc(100vw - 32px));
+      padding: 18px 0 56px;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 390px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .left {
+      position: sticky;
+      top: 92px;
+    }
+
+    .topbar {
+      min-height: 76px;
+      padding: 12px 0 18px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      background: rgba(15, 16, 22, 0.78);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand .mark,
+    .brand .logo-mark {
+      width: 96px;
+      height: 60px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+    }
+
+    .brand-logo {
+      width: 92px;
+      height: 58px;
+      filter: none;
+      mix-blend-mode: multiply;
+    }
+
+    .brand h1 {
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(30px, 3.6vw, 46px);
+      font-weight: 900;
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+    }
+
+    .brand p,
+    .hero p,
+    .hint,
+    .mini-card p,
+    .result-card p,
+    .idea-card p,
+    .studio-cta p,
+    .studio-footer span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .pill,
+    .tab,
+    .btn,
+    .section-title h2,
+    .section-title h3,
+    .field label,
+    .tag,
+    .mentor-group h4,
+    .score-label,
+    .visual-tool {
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: 0.04em;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .panel,
+    .mini-card,
+    .result-card,
+    .idea-card,
+    .metric-card,
+    .upload-zone,
+    .image-stage,
+    textarea,
+    input,
+    select,
+    .mentor-card,
+    .score-box,
+    .empty,
+    .variation,
+    .prompt-box,
+    .swatch {
+      border-radius: var(--radius);
+      border-color: var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .panel {
+      backdrop-filter: blur(18px);
+    }
+
+    .hero {
+      grid-template-columns: minmax(0, 1fr) 300px;
+      min-height: 310px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background:
+        linear-gradient(110deg, rgba(15, 23, 42, 0.72), rgba(15, 16, 22, 0.92)),
+        radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.16), transparent 32%),
+        radial-gradient(circle at 90% 0%, rgba(139, 92, 246, 0.14), transparent 36%),
+        #111827;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after,
+    .studio-cta::after,
+    .section::before,
+    .marquee-strip,
+    .numbers-strip,
+    .service-grid,
+    .studio-cta,
+    .studio-footer {
+      display: none;
+    }
+
+    .hero-copy {
+      min-height: 310px;
+      padding: 28px;
+    }
+
+    .hero-logo {
+      width: min(240px, 58vw);
+      margin: 0 0 14px;
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.96);
+      filter: none;
+      mix-blend-mode: normal;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
+    }
+
+    .hero-ghost {
+      display: block;
+      color: white;
+      opacity: 0.04;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 210px;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+    }
+
+    .hero h2 {
+      max-width: 780px;
+      margin: 8px 0 12px;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(38px, 5.4vw, 72px);
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      font-weight: 950;
+      color: #ffffff;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      padding: 7px 10px;
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      border-radius: 999px;
+      background: rgba(8, 47, 73, 0.34);
+      color: #a5f3fc;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
+    .score-box {
+      margin: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      background: rgba(2, 6, 23, 0.46);
+      box-shadow: none;
+    }
+
+    .score-value,
+    .metric-card strong {
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 76px;
+      font-weight: 950;
+      color: #ffffff;
+      letter-spacing: -0.06em;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.52);
+      overflow-x: auto;
+    }
+
+    .tab,
+    .btn,
+    .btn.secondary,
+    .btn.ghost,
+    .visual-tool {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.62);
+      color: var(--muted);
+      box-shadow: none;
+      font-weight: 900;
+    }
+
+    .tab.active,
+    .visual-tool.active {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.54), rgba(124, 58, 237, 0.46));
+      border-color: rgba(125, 211, 252, 0.26);
+      color: #ffffff;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #2563eb, #7c3aed 56%, #06b6d4);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 18px 36px rgba(37, 99, 235, 0.22);
+    }
+
+    .btn.secondary,
+    .btn.ghost {
+      background: rgba(15, 23, 42, 0.72);
+      color: #dbeafe;
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .section-title {
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      padding-bottom: 14px;
+    }
+
+    textarea,
+    input,
+    select {
+      background: rgba(2, 6, 23, 0.54);
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      border-color: rgba(34, 211, 238, 0.52);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
+    }
+
+    .mentor-card.active,
+    .mentor-card:hover,
+    .idea-card:hover,
+    .result-card:hover {
+      background: rgba(30, 41, 59, 0.78);
+      border-color: rgba(125, 211, 252, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .avatar {
+      border-radius: 50%;
+      filter: none;
+    }
+
+    .results,
+    .ideas,
+    .insight-grid,
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      background: transparent;
+      border: 0;
+    }
+
+    .results > *,
+    .ideas > *,
+    .insight-grid > *,
+    .metric-grid > * {
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .diagnosis-layout {
+      grid-template-columns: 360px minmax(0, 1fr);
+    }
+
+    .radar-wrap {
+      position: sticky;
+      top: 92px;
+    }
+
+    .image-lab {
+      grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+    }
+
+    .upload-zone {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(139, 92, 246, 0.07));
+      border-style: dashed;
+    }
+
+    .prompt-box {
+      background: rgba(2, 6, 23, 0.52);
+      color: #cbd5e1;
+    }
+
+    .swatch,
+    .tag,
+    .check,
+    .bar span {
+      filter: none;
+    }
+
+    .fixed {
+      display: block;
+    }
+
+    @media (max-width: 1180px) {
+      .shell,
+      .hero,
+      .diagnosis-layout,
+      .image-lab {
+        grid-template-columns: 1fr;
+      }
+      .left,
+      .radar-wrap {
+        position: static;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .app { width: min(100vw - 20px, 1400px); }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .hero h2 { font-size: 42px; }
+      .hero-ghost { font-size: 140px; }
+      .field-row,
+      .insight-grid,
+      .results,
+      .ideas,
+      .planner-top,
+      .metric-grid,
+      .palette-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Dark underground pass */
+    body {
+      background:
+        radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.045), transparent 34%),
+        linear-gradient(180deg, #050505 0%, #0a0a0d 48%, #050505 100%);
+    }
+
+    .topbar {
+      background: rgba(5, 5, 5, 0.88);
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .panel,
+    .mini-card,
+    .result-card,
+    .idea-card,
+    .metric-card,
+    .upload-zone,
+    .image-stage,
+    .empty,
+    .variation,
+    .prompt-box,
+    .score-box,
+    .mentor-card {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+        #0b0b0d;
+      border-color: rgba(255, 255, 255, 0.09);
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.62);
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.06), transparent 34%),
+        linear-gradient(135deg, #0c0c0f, #050505 72%);
+      border-color: rgba(255, 255, 255, 0.09);
+    }
+
+    .tabs,
+    .image-tabs {
+      background: rgba(5, 5, 5, 0.74);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .tab,
+    .visual-tool,
+    .btn.secondary,
+    .btn.ghost {
+      background: #09090a;
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #8b8b92;
+    }
+
+    .tab.active,
+    .visual-tool.active {
+      background: #f0ede8;
+      border-color: #f0ede8;
+      color: #050505;
+    }
+
+    .btn {
+      background: #f0ede8;
+      color: #050505;
+      border-color: #f0ede8;
+      box-shadow: none;
+    }
+
+    .btn:hover {
+      filter: none;
+      background: #ffffff;
+    }
+
+    .brand .mark,
+    .brand .logo-mark,
+    .mini-upload-logo {
+      background: #050505;
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: none;
+    }
+
+    .brand-logo {
+      filter: invert(1) grayscale(1) contrast(1.45);
+      mix-blend-mode: screen;
+    }
+
+    .hero-logo {
+      background: #050505;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      filter: invert(1) grayscale(1) contrast(1.45);
+      mix-blend-mode: screen;
+      box-shadow: none;
+    }
+
+    .upload-zone {
+      min-height: 520px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.055), transparent 34%),
+        #08080a;
+      background-size: 18px 18px, 18px 18px, auto, auto;
+      border-style: solid;
+    }
+
+    .upload-zone h3 {
+      color: #f4f1eb;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.04em;
+    }
+
+    .upload-zone .hint {
+      color: #8b8b92;
+      font-size: 15px;
+    }
+
+    .mini-upload-logo {
+      width: 72px !important;
+      height: 72px !important;
+      padding: 8px;
+    }
+
+    .image-stage {
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        #050505;
+      background-size: 18px 18px;
+    }
+
+    .pre-analysis {
+      width: min(620px, 100%);
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .pre-kicker {
+      display: inline-block;
+      margin-bottom: 14px;
+      color: #777780;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .pre-analysis h3 {
+      margin: 0 0 10px;
+      color: #f4f1eb;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .pre-analysis > p {
+      max-width: 520px;
+      margin: 0 0 22px;
+      color: #8b8b92;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .pre-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .pre-grid article {
+      min-height: 150px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .pre-grid b {
+      display: block;
+      margin-bottom: 10px;
+      color: #f4f1eb;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pre-grid span {
+      color: #777780;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    textarea,
+    input,
+    select {
+      background: #08080a;
+      border-color: rgba(255, 255, 255, 0.11);
+    }
+
+    @media (max-width: 760px) {
+      .pre-grid {
+        grid-template-columns: 1fr;
+      }
+      .upload-zone {
+        min-height: 420px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark logo-mark" aria-hidden="true"><img class="brand-logo" src="assets/rod-logo.png" alt="" /></div>
+        <div>
+          <h1>ROD Studio Genius</h1>
+          <p>Conselho estratégico, diagnóstico criativo e plano tático anual.</p>
+        </div>
+      </div>
+      <div class="status-strip">
+        <span class="pill"><span class="dot"></span><span id="modeLabel">Modo Demo Inteligente</span></span>
+        <span class="pill"><span id="mentorCount">4</span> mentores ativos</span>
+        <span class="pill">v4.0 Turbo</span>
+      </div>
+    </header>
+
+    <main class="shell">
+      <aside class="left">
+        <section class="panel section">
+          <div class="section-title">
+            <h2>Dilema da Marca</h2>
+            <span class="hint">Input principal</span>
+          </div>
+          <textarea id="caseInput" placeholder="Descreva aqui o desafio da marca, produto, serviço ou campanha. Ex: público, diferencial, objeções, concorrentes, objetivo e prazo."></textarea>
+          <div class="field-row">
+            <div class="field">
+              <label for="segmentInput">Segmento</label>
+              <input id="segmentInput" placeholder="Ex: SaaS, varejo, educação" />
+            </div>
+            <div class="field">
+              <label for="toneInput">Tom</label>
+              <select id="toneInput">
+                <option>Premium prático</option>
+                <option>Popular brasileiro</option>
+                <option>Provocativo</option>
+                <option>Educacional</option>
+                <option>Minimalista</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" style="margin-top: 10px;">
+            <label for="apiKeyInput">Chave Gemini opcional</label>
+            <input id="apiKeyInput" type="password" placeholder="Cole uma chave para tentar respostas reais da IA" />
+          </div>
+          <div class="actions">
+            <button class="btn" id="runBtn">Reunir Conselho</button>
+            <button class="btn secondary icon" id="clearBtn" title="Limpar resultados">R</button>
+          </div>
+          <p class="hint" style="margin: 12px 0 0;">Sem chave, o ROD Studio Genius usa um motor local com respostas estruturadas e exportações funcionais.</p>
+        </section>
+
+        <section class="panel section">
+          <div class="section-title">
+            <h3>Mesa de Conselheiros</h3>
+            <div class="mentor-tools">
+              <button class="btn ghost" id="selectAllBtn">Todos</button>
+              <button class="btn ghost" id="selectCoreBtn">Core</button>
+              <button class="btn ghost" id="selectNoneBtn">Zerar</button>
+            </div>
+          </div>
+          <div class="mentor-list" id="mentorList"></div>
+        </section>
+      </aside>
+
+      <section class="main">
+        <section class="panel hero">
+          <div class="hero-copy">
+            <div class="hero-ghost">ROD</div>
+            <div class="eyebrow">RAW STRATEGY STUDIO</div>
+            <img class="hero-logo" src="assets/rod-logo.png" alt="ROD Neuromarketing, Criação e Consultoria" />
+            <h2>ROD STUDIO GENIUS</h2>
+            <p>Um estúdio de estratégia brutalista para transformar dilemas, imagens e campanhas em direção criativa, diagnóstico e plano de execução.</p>
+          </div>
+          <div class="score-box">
+            <div class="score-label">ROD Opportunity Score</div>
+            <div class="score-value" id="rodScore">--</div>
+            <div class="hint" id="scoreHint">Execute uma análise para medir impacto, clareza, urgência e risco.</div>
+          </div>
+        </section>
+
+        <div class="marquee-strip" aria-hidden="true">
+          <div>STRATEGY / HEATMAP / COPY / RITUAL / CALENDAR / POSITIONING / VISUAL SYSTEM / NEURAL SCORE / STRATEGY / HEATMAP / COPY / RITUAL / CALENDAR / POSITIONING / VISUAL SYSTEM / NEURAL SCORE</div>
+        </div>
+
+        <section class="numbers-strip" aria-label="Capacidades do estúdio">
+          <article><strong>19</strong><span>MENTES</span></article>
+          <article><strong>04</strong><span>MOTORES</span></article>
+          <article><strong>12</strong><span>MESES</span></article>
+        </section>
+
+        <section class="service-grid" aria-label="Serviços do ROD Studio Genius">
+          <article><span>01</span><h3>CONSELHO</h3><p>Diagnóstico estratégico por múltiplas escolas de marketing.</p><b>→</b></article>
+          <article><span>02</span><h3>VISÃO</h3><p>Análise brutal de imagem, atenção, paleta e conversão.</p><b>→</b></article>
+          <article><span>03</span><h3>PLANO</h3><p>Calendário tático com variações criativas por canal.</p><b>→</b></article>
+          <article><span>04</span><h3>COPY</h3><p>Promessas, CTA, headlines e hipóteses de teste A/B.</p><b>→</b></article>
+          <article><span>05</span><h3>PROMPT</h3><p>Comandos de redesign e remasterização para IA visual.</p><b>→</b></article>
+          <article><span>06</span><h3>EXPORT</h3><p>Briefing, CSV, JSON e relatório visual para operação.</p><b>→</b></article>
+        </section>
+
+        <nav class="tabs" aria-label="Navegação">
+          <button class="tab active" data-tab="diagnosis">Diagnóstico</button>
+          <button class="tab" data-tab="campaign">Plano Tático</button>
+          <button class="tab" data-tab="image">Análise de Imagem</button>
+          <button class="tab" data-tab="exports">Exportações</button>
+        </nav>
+
+        <div class="workspace">
+          <section id="diagnosisTab">
+            <div id="emptyState" class="empty">
+              <h2 style="margin:0 0 8px;">A sala está pronta.</h2>
+              <p style="margin:0;">Escolha os mentores, ajuste o dilema e clique em Reunir Conselho.</p>
+            </div>
+            <div id="diagnosisContent" class="hidden">
+              <div class="insight-grid" id="executiveGrid"></div>
+              <div class="diagnosis-layout" style="margin-top:16px;">
+                <aside class="panel radar-wrap">
+                  <div class="section-title">
+                    <h3>Radar ROD</h3>
+                    <span class="hint" id="radarHint">0 mentes</span>
+                  </div>
+                  <svg id="radarSvg" viewBox="0 0 340 340" role="img" aria-label="Radar estratégico"></svg>
+                </aside>
+                <div class="results" id="resultsGrid"></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="campaignTab" class="hidden">
+            <div class="panel">
+              <div class="planner-top">
+                <div>
+                  <div class="section-title" style="margin-bottom:6px;">
+                    <h3 id="plannerTitle">Planejamento: Janeiro</h3>
+                    <span class="hint" id="ideaCounter">0 ideias</span>
+                  </div>
+                  <p class="hint" style="margin:0;">Cada dia nasce com headline, canal, formato, descrição visual e 3 caminhos criativos para execução.</p>
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
+                  <button class="btn secondary" id="neuroBtn">Neuro Score</button>
+                  <button class="btn" id="generateCampaignBtn">Gerar Campanha</button>
+                </div>
+              </div>
+              <div class="month-bar" id="monthBar"></div>
+              <div class="filter-row">
+                <div class="filters" id="channelFilters"></div>
+                <button class="btn ghost" id="moreIdeasBtn">Mais 15 Ideias</button>
+              </div>
+              <div id="conceptPanel" class="hidden" style="padding:0 18px 18px;"></div>
+              <div id="neuroPanel" class="hidden" style="padding:0 18px 18px;"></div>
+              <div class="ideas" id="ideasGrid"></div>
+            </div>
+          </section>
+
+          <section id="imageTab" class="hidden">
+            <input id="imageFileInput" type="file" accept="image/*" class="hidden" />
+            <div class="panel section">
+              <div class="section-title">
+                <div>
+                  <h3>ROD Vision Lab</h3>
+                  <p class="hint" style="margin:6px 0 0;">Analise criativos, embalagens, banners, posts e páginas com mapa visual, copy, cores e prompts de redesign.</p>
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
+                  <button class="btn secondary" id="resetImageBtn">Nova Imagem</button>
+                  <button class="btn" id="uploadImageBtn">Enviar Imagem</button>
+                </div>
+              </div>
+
+              <div class="field-row" style="margin-bottom:14px;">
+                <div class="field">
+                  <label for="imageFormatSelect">Plataforma alvo</label>
+                  <select id="imageFormatSelect">
+                    <option value="Automático">Automático</option>
+                    <option value="Post para Redes Sociais">Post para Redes Sociais</option>
+                    <option value="Banner de Site / Web">Banner de Site / Web</option>
+                    <option value="Material Impresso / Folder">Material Impresso / Folder</option>
+                    <option value="Banner Físico / Outdoor / PDV">Banner Físico / Outdoor / PDV</option>
+                    <option value="Embalagem de Produto">Embalagem de Produto</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="imagePreferenceInput">Preferências de redesign</label>
+                  <input id="imagePreferenceInput" placeholder="Ex: premium, minimalista, 3D, varejo popular" />
+                </div>
+              </div>
+
+              <div class="image-lab">
+                <aside>
+                  <div class="visual-tools" id="visualTools">
+                    <button class="visual-tool active" data-visual="areas">Áreas</button>
+                    <button class="visual-tool" data-visual="heat">Mapa</button>
+                    <button class="visual-tool" data-visual="hotspots">Hotspots</button>
+                    <button class="visual-tool" data-visual="sequence">Sequência</button>
+                    <button class="visual-tool" data-visual="elements">Elementos</button>
+                  </div>
+                  <div id="imageUploadZone" class="upload-zone">
+                    <div>
+                      <div class="mark logo-mark mini-upload-logo" style="margin:0 auto;"><img class="brand-logo" src="assets/rod-logo.png" alt="" /></div>
+                      <h3>Decodifique sua imagem</h3>
+                      <p class="hint" style="max-width:520px;margin:0 auto 18px;">Envie uma arte e receba leitura de atenção, psicologia das cores, copy, teste A/B e prompts prontos para melhorar a peça.</p>
+                      <button class="btn" type="button">Selecionar arquivo</button>
+                    </div>
+                  </div>
+                  <div id="imageStageWrap" class="hidden">
+                    <div class="image-stage" id="imageStage">
+                      <img id="uploadedImage" alt="Imagem enviada para análise" />
+                      <div id="imageOverlay"></div>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;">
+                      <span class="hint">Intensidade visual</span>
+                      <input id="imageIntensity" type="range" min="0.15" max="1" value="0.78" step="0.05" style="width:170px;" />
+                    </div>
+                    <button class="btn" id="analyzeImageBtn" style="width:100%;margin-top:12px;">Decodificar Imagem</button>
+                  </div>
+                </aside>
+
+                <section>
+                  <div id="imageEmptyReport" class="empty" style="min-height:420px;">
+                    <div class="pre-analysis">
+                      <span class="pre-kicker">ROD VISION LAB</span>
+                      <h3>Análise visual e melhorias</h3>
+                      <p>Envie uma arte para receber uma leitura prática de atenção, contraste, copy, hierarquia e próximos ajustes.</p>
+                      <div class="pre-grid">
+                        <article>
+                          <b>Análise da imagem</b>
+                          <span>Mapa de olhar, zonas quentes, paleta, contraste e leitura em menos de 3 segundos.</span>
+                        </article>
+                        <article>
+                          <b>Melhorias</b>
+                          <span>Checklist de conversão, hipótese A/B, prompt de redesign e prompt de upscale.</span>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="imageLoadingReport" class="hidden">
+                    <div class="empty" style="min-height:420px;position:relative;overflow:hidden;">
+                      <div class="scan-line"></div>
+                      <h3 style="margin:0 0 8px;color:white;">Processando heurísticas...</h3>
+                      <p style="margin:0;">Analisando pixels, composição, contraste e hierarquia.</p>
+                    </div>
+                  </div>
+                  <div id="imageReport" class="hidden">
+                    <div class="metric-grid" id="imageMetrics"></div>
+                    <div class="image-tabs">
+                      <button class="tab active" data-image-panel="neuro">Neuro & Cores</button>
+                      <button class="tab" data-image-panel="copy">Copy</button>
+                      <button class="tab" data-image-panel="platform">Plataforma</button>
+                      <button class="tab" data-image-panel="improvements">Melhorias & Prompt</button>
+                    </div>
+                    <div id="imagePanelContent"></div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <section id="exportsTab" class="hidden">
+            <div class="insight-grid">
+              <div class="mini-card">
+                <b>CSV do calendário</b>
+                <p>Baixe o plano tático com mês, dia, canal, formato, descrição visual e variações.</p>
+                <button class="btn secondary" id="csvBtn" style="margin-top:14px;width:100%;">Exportar CSV</button>
+              </div>
+              <div class="mini-card">
+                <b>Briefing estratégico</b>
+                <p>Gere um arquivo TXT com síntese executiva, score e diagnósticos dos mentores.</p>
+                <button class="btn secondary" id="briefBtn" style="margin-top:14px;width:100%;">Exportar Briefing</button>
+              </div>
+              <div class="mini-card">
+                <b>JSON operacional</b>
+                <p>Leve dados estruturados para automações, dashboards ou outra ferramenta.</p>
+                <button class="btn secondary" id="jsonBtn" style="margin-top:14px;width:100%;">Exportar JSON</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <section class="studio-cta">
+      <div class="cta-ghost">GENIUS</div>
+      <h2>RAW THINKING. SHARP OUTPUT.</h2>
+      <p>Use as abas acima como bancadas de trabalho: estratégia, calendário, imagem e exportação. Sem verniz. Sem decoração. Só decisão.</p>
+    </section>
+    <footer class="studio-footer">
+      <div><b>ROD STUDIO GENIUS</b><span>Strategic creative operating system.</span></div>
+      <div><b>MODULES</b><span>Council / Vision / Calendar / Export</span></div>
+      <div><b>OUTPUT</b><span>Briefing / CSV / JSON / Visual report</span></div>
+    </footer>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const MONTHS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    const CHANNELS = ["Todos", "Instagram", "LinkedIn", "Email", "Blog"];
+    const MENTORS = [
+      { id: "kotler", name: "Philip Kotler", role: "Academia e 4Ps", category: "Vivos", color: "#22c55e", style: "estrutura valor, segmentação e posicionamento" },
+      { id: "miller", name: "Donald Miller", role: "StoryBrand SB7", category: "Vivos", color: "#fb923c", style: "clareza narrativa, cliente herói e marca guia" },
+      { id: "godin", name: "Seth Godin", role: "Permissão e Tribos", category: "Vivos", color: "#a78bfa", style: "notabilidade, comunidade e escolha voluntária" },
+      { id: "sharp", name: "Byron Sharp", role: "Ciência do Marketing", category: "Vivos", color: "#38bdf8", style: "disponibilidade mental e física, penetração e lembrança" },
+      { id: "garyvee", name: "Gary Vaynerchuk", role: "Atenção e Conteúdo", category: "Vivos", color: "#facc15", style: "volume, cultura social e velocidade de distribuição" },
+      { id: "clow", name: "Lee Clow", role: "Disrupção Cultural", category: "Vivos", color: "#fde68a", style: "cinema, valores humanos e gesto cultural" },
+      { id: "sutherland", name: "Rory Sutherland", role: "Economia Comportamental", category: "Vivos", color: "#f472b6", style: "psicologia, contexto e soluções contraintuitivas" },
+      { id: "lindstrom", name: "Martin Lindstrom", role: "Neuromarketing", category: "Vivos", color: "#e879f9", style: "sentidos, small data e desejo inconsciente" },
+      { id: "jobs", name: "Steve Jobs", role: "Visão e Produto", category: "Lendas", color: "#e5e7eb", style: "simplicidade, experiência e desejo antes da especificação" },
+      { id: "olivetto", name: "W. Olivetto", role: "Criatividade Popular", category: "Lendas", color: "#4ade80", style: "cultura brasileira, humor inteligente e big idea memorável" },
+      { id: "ogilvy", name: "David Ogilvy", role: "Pai da Publicidade", category: "Lendas", color: "#f59e0b", style: "pesquisa, verdade fascinante e copy que vende" },
+      { id: "bernbach", name: "Bill Bernbach", role: "Revolução Criativa", category: "Lendas", color: "#fbbf24", style: "honestidade radical, fraqueza como força e humanidade" },
+      { id: "lois", name: "George Lois", role: "Provocação e Arte", category: "Lendas", color: "#ef4444", style: "choque visual, frase curta e manifesto cultural" },
+      { id: "burnett", name: "Leo Burnett", role: "Arquétipos e Símbolos", category: "Lendas", color: "#fb923c", style: "drama inerente, ícones e simplicidade folclórica" },
+      { id: "hopkins", name: "Claude Hopkins", role: "Publicidade Científica", category: "Lendas", color: "#92400e", style: "teste, prova, oferta e mensuração" },
+      { id: "bencivenga", name: "Gary Bencivenga", role: "Copywriting Direto", category: "Lendas", color: "#b91c1c", style: "credibilidade, mecanismo único e bullets de benefício" },
+      { id: "bernays", name: "Edward Bernays", role: "Relações Públicas", category: "Propaganda", color: "#94a3b8", style: "desejo inconsciente, símbolo social e engenharia de consenso" },
+      { id: "orwell", name: "George Orwell", role: "Verdade e Linguagem", category: "Propaganda", color: "#cbd5e1", style: "ética, linguagem clara e alerta contra distorção" },
+      { id: "lippmann", name: "Walter Lippmann", role: "Opinião Pública", category: "Propaganda", color: "#64748b", style: "pseudoambiente, estereótipos e imagem mental coletiva" }
+    ];
+
+    const state = {
+      selectedMentors: ["kotler", "miller", "ogilvy", "olivetto"],
+      results: [],
+      ideas: [],
+      activeTab: "diagnosis",
+      activeMonth: 0,
+      activeChannel: "Todos",
+      concept: null,
+      neuroText: "",
+      image: {
+        dataUrl: "",
+        name: "",
+        width: 0,
+        height: 0,
+        visualMode: "areas",
+        activePanel: "neuro",
+        intensity: 0.78,
+        analysis: null,
+        isAnalyzing: false
+      }
+    };
+
+    const $ = (id) => document.getElementById(id);
+    window.RODGenius = { state };
+
+    function toast(message) {
+      const el = $("toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
+    }
+
+    function hashText(text) {
+      let h = 2166136261;
+      for (let i = 0; i < text.length; i++) {
+        h ^= text.charCodeAt(i);
+        h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+      }
+      return Math.abs(h >>> 0);
+    }
+
+    function clamp(n, min = 0, max = 100) {
+      return Math.max(min, Math.min(max, n));
+    }
+
+    function metricFor(mentor, caseText, seedOffset) {
+      const h = hashText(mentor.id + caseText + seedOffset);
+      const lengthBonus = Math.min(18, Math.floor(caseText.length / 38));
+      const claritySignal = /não é apenas|ferramenta|produtividade|agilidade|organização|diferencial/i.test(caseText) ? 12 : 3;
+      return {
+        impacto: clamp(58 + (h % 28) + lengthBonus),
+        urgencia: clamp(48 + ((h >>> 5) % 34) + (/desafio|lançamento|vender|crescer/i.test(caseText) ? 10 : 0)),
+        risco: clamp(30 + ((h >>> 9) % 42) + (/commodity|barato|escolar|concorr/i.test(caseText) ? 12 : 0)),
+        clareza: clamp(50 + ((h >>> 13) % 32) + claritySignal)
+      };
+    }
+
+    function localDiagnosis(mentor, caseText, segment, tone) {
+      const metrics = metricFor(mentor, caseText, segment + tone);
+      const product = extractProduct(caseText);
+      const templates = {
+        kotler: `${product} precisa sair da categoria genérica e ocupar uma posição clara: ferramenta de organização visual para quem decide rápido. Separe estudantes intensivos, profissionais operacionais e compradores de presente funcional; cada grupo compra por um motivo diferente. A oferta deve provar valor com embalagem, preço e ponto de venda coerentes com produtividade, não só papelaria.`,
+        miller: `O cliente não quer uma caneta; quer sentir que domina a própria rotina. A marca deve virar guia: "duas cores, uma decisão a menos, mais ritmo para pensar". Corte qualquer explicação técnica que não leve à transformação do herói.`,
+        godin: `A oportunidade está em fazer ${product} virar um pequeno sinal de identidade para pessoas organizadas. Não interrompa com promessa comum; crie um gesto compartilhável, como o método de duas cores para revisar, priorizar e decidir. A tribo não compra tinta, compra o ritual.`,
+        sharp: `Crescimento virá de ser lembrado no momento de anotar, revisar e organizar, não de tentar criar amor profundo pela marca. Faça ativos distintivos simples: corpo duplo, código visual das cores e frase curta repetível. Garanta disponibilidade física onde a compra por impulso acontece.`,
+        garyvee: `O produto tem conteúdo nativo: antes/depois de caderno, rotina de estudo, mesa de trabalho e hacks de organização. Publique volume com microdemonstrações, não comerciais polidos demais. Ganhe atenção provando utilidade em 3 segundos.`,
+        clow: `Transforme a caneta em manifesto contra a bagunça mental. O filme não deve falar de duas pontas; deve mostrar uma pessoa recuperando controle no caos. Visualmente, uma linha divide confusão de clareza.`,
+        sutherland: `A mágica está em reenquadrar conveniência como inteligência. Duas cores no mesmo corpo reduzem fricção, mas o consumidor precisa sentir que isso muda seu status de pessoa preparada. Pequeno objeto, enorme sensação de controle.`,
+        lindstrom: `Explore o clique, a troca de ponta, a cor aparecendo no papel e o alívio visual de uma página organizada. O apelo sensorial precisa ser tátil e auditivo, quase terapêutico. Venda a sensação de clareza antes do benefício racional.`,
+        jobs: `A obsessão deve ser simplicidade: uma ferramenta, duas intenções, zero atrito. Remova linguagem de "material escolar" e apresente ${product} como extensão do pensamento. O design precisa parecer inevitável, não apenas conveniente.`,
+        olivetto: `A big idea brasileira pode ser: "troca a cor, não troca o raciocínio". Dá para criar humor com gente procurando outra caneta no meio da reunião ou da prova. O produto vira personagem quando resolve um drama cotidiano em um segundo.`,
+        ogilvy: `A copy deve vender com uma verdade concreta: alternar cores melhora organização e reduz interrupções. Mostre prova, demonstração e benefício em sequência. Uma boa headline seria específica, não bonita demais: "duas cores para separar ideia, prioridade e revisão sem parar".`,
+        bernbach: `A aparente fraqueza é parecer simples; use isso como força. "Só uma caneta. Até você precisar pensar em duas camadas." Honestidade e demonstração vencem exagero.`,
+        lois: `Pare de tratar como item de estojo. Faça uma imagem impossível de ignorar: uma folha caótica cortada por duas linhas perfeitas. Headline curta: "Organize ou seja engolido."`,
+        burnett: `Encontre o drama inerente: o instante em que uma ideia importante se perde por falta de organização. Crie um símbolo, como a linha dupla que guia o pensamento. O produto deve virar emblema de preparo.`,
+        hopkins: `Teste ofertas e provas: kit para estudos, kit para reunião, cupom por canal e headline orientada a resultado. Meça qual promessa converte melhor: velocidade, clareza ou economia de espaço. Opinião é custo; teste é ativo.`,
+        bencivenga: `O mecanismo único é "dupla codificação instantânea": registrar e classificar sem trocar de ferramenta. Construa bullets com benefícios específicos e prova visual. Credibilidade virá de exemplos reais de uso, não de adjetivos.`,
+        bernays: `Associe ${product} a um novo padrão social: pessoas preparadas usam duas camadas de pensamento. Cuidado com exagero manipulativo, mas símbolos funcionam. A caneta pode representar controle, competência e pertencimento.`,
+        orwell: `Evite linguagem nebulosa como "revolucionária" ou "inovadora" se ela não prova nada. Diga claramente o que muda: menos troca de caneta, mais organização visual, decisões mais rápidas. A verdade forte já é persuasiva.`,
+        lippmann: `O público compra a imagem mental de si mesmo usando o produto. Crie cenas repetidas de pessoas organizadas, rápidas e confiáveis. O pseudoambiente desejado é uma mesa clara, uma prova dominada, uma reunião sob controle.`
+      };
+      return {
+        mentorId: mentor.id,
+        mentorName: mentor.name,
+        role: mentor.role,
+        color: mentor.color,
+        diagnosis: templates[mentor.id] || `Pela ótica de ${mentor.name}, ${product} deve ser posicionado por ${mentor.style}. O foco é transformar atributo em motivo claro de compra e execução visível.`,
+        metrics
+      };
+    }
+
+    function extractProduct(text) {
+      const first = text.split(":")[0].trim();
+      if (first.length > 2 && first.length < 48) return first;
+      const match = text.match(/([A-ZÁÉÍÓÚÂÊÔÃÕ][\wÀ-ÿ\s-]{2,32})/);
+      return match ? match[1].trim() : "a marca";
+    }
+
+    function renderMentors() {
+      const byCategory = MENTORS.reduce((acc, m) => {
+        acc[m.category] = acc[m.category] || [];
+        acc[m.category].push(m);
+        return acc;
+      }, {});
+      $("mentorList").innerHTML = Object.entries(byCategory).map(([category, mentors]) => `
+        <div class="mentor-group">
+          <h4>${category}</h4>
+          ${mentors.map(m => {
+            const active = state.selectedMentors.includes(m.id);
+            return `<button class="mentor-card ${active ? "active" : ""}" data-mentor="${m.id}">
+              <span class="avatar" style="background:${m.color}">${initials(m.name)}</span>
+              <span><strong>${m.name}</strong><span>${m.role}</span></span>
+              <span class="check">${active ? "✓" : ""}</span>
+            </button>`;
+          }).join("")}
+        </div>
+      `).join("");
+      document.querySelectorAll("[data-mentor]").forEach(btn => {
+        btn.addEventListener("click", () => toggleMentor(btn.dataset.mentor));
+      });
+      $("mentorCount").textContent = state.selectedMentors.length;
+    }
+
+    function initials(name) {
+      return name.split(" ").filter(Boolean).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+    }
+
+    function toggleMentor(id) {
+      state.selectedMentors = state.selectedMentors.includes(id)
+        ? state.selectedMentors.filter(x => x !== id)
+        : [...state.selectedMentors, id];
+      renderMentors();
+    }
+
+    async function runCouncil() {
+      const caseText = $("caseInput").value.trim();
+      if (!caseText) return toast("Descreva um dilema antes de reunir o conselho.");
+      if (!state.selectedMentors.length) return toast("Selecione pelo menos um mentor.");
+      $("runBtn").disabled = true;
+      $("runBtn").textContent = "Processando...";
+      const mentors = MENTORS.filter(m => state.selectedMentors.includes(m.id));
+      const apiKey = $("apiKeyInput").value.trim();
+      try {
+        if (apiKey) {
+          $("modeLabel").textContent = "Tentando Gemini";
+          state.results = await runGeminiCouncil(apiKey, mentors, caseText);
+        } else {
+          await wait(550);
+          state.results = mentors.map(m => localDiagnosis(m, caseText, $("segmentInput").value, $("toneInput").value));
+        }
+        state.concept = buildConcept(caseText);
+        renderDiagnosis();
+        setTab("diagnosis");
+        toast("Conselho reunido. Diagnóstico pronto.");
+      } catch (err) {
+        console.error(err);
+        $("modeLabel").textContent = "Modo Demo Inteligente";
+        state.results = mentors.map(m => localDiagnosis(m, caseText, $("segmentInput").value, $("toneInput").value));
+        renderDiagnosis();
+        toast("A API falhou, então usei o motor local do ROD Studio Genius.");
+      } finally {
+        $("runBtn").disabled = false;
+        $("runBtn").textContent = "Reunir Conselho";
+      }
+    }
+
+    async function runGeminiCouncil(apiKey, mentors, caseText) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const system = `Responda como um conselho de marketing em JSON puro. Para cada mentor, dê diagnosis em português e metrics com impacto, urgencia, risco, clareza entre 0 e 100. Mentores: ${mentors.map(m => `${m.id}:${m.name}:${m.style}`).join("; ")}`;
+      const payload = {
+        contents: [{ parts: [{ text: `Dilema: ${caseText}` }] }],
+        systemInstruction: { parts: [{ text: system }] },
+        generationConfig: { responseMimeType: "application/json" }
+      };
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) throw new Error(`Gemini ${response.status}`);
+      const data = await response.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
+      const parsed = JSON.parse(text);
+      const rows = Array.isArray(parsed) ? parsed : parsed.results || parsed.analyses || [];
+      return mentors.map(m => {
+        const row = rows.find(r => r.mentorId === m.id || r.id === m.id || String(r.mentorName || "").includes(m.name)) || {};
+        return {
+          mentorId: m.id,
+          mentorName: m.name,
+          role: m.role,
+          color: m.color,
+          diagnosis: row.diagnosis || row.diagnostico || localDiagnosis(m, caseText, "", "").diagnosis,
+          metrics: normalizeMetrics(row.metrics || row.metricas || metricFor(m, caseText, "api"))
+        };
+      });
+    }
+
+    function normalizeMetrics(m) {
+      return {
+        impacto: clamp(Number(m.impacto ?? 65)),
+        urgencia: clamp(Number(m.urgencia ?? 60)),
+        risco: clamp(Number(m.risco ?? 45)),
+        clareza: clamp(Number(m.clareza ?? 65))
+      };
+    }
+
+    function aggregateMetrics() {
+      if (!state.results.length) return { impacto: 0, urgencia: 0, risco: 0, clareza: 0 };
+      const totals = state.results.reduce((acc, r) => {
+        Object.keys(acc).forEach(k => acc[k] += r.metrics[k]);
+        return acc;
+      }, { impacto: 0, urgencia: 0, risco: 0, clareza: 0 });
+      Object.keys(totals).forEach(k => totals[k] = Math.round(totals[k] / state.results.length));
+      return totals;
+    }
+
+    function rodScore() {
+      const m = aggregateMetrics();
+      return clamp(Math.round(m.impacto * 0.34 + m.clareza * 0.28 + m.urgencia * 0.24 + (100 - m.risco) * 0.14));
+    }
+
+    function renderDiagnosis() {
+      $("emptyState").classList.add("hidden");
+      $("diagnosisContent").classList.remove("hidden");
+      const score = rodScore();
+      $("rodScore").textContent = score;
+      $("scoreHint").textContent = score >= 78 ? "Alta oportunidade: avance com campanha e teste de conversão." : score >= 62 ? "Boa oportunidade: refine prova, mensagem e distribuição." : "Oportunidade moderada: reduza risco e aumente clareza antes de escalar.";
+      renderExecutiveGrid();
+      renderRadar();
+      renderResults();
+    }
+
+    function renderExecutiveGrid() {
+      const m = aggregateMetrics();
+      const caseText = $("caseInput").value.trim();
+      $("executiveGrid").innerHTML = [
+        ["Tese de Posicionamento", `${extractProduct(caseText)} deve ser vendido como alavanca de clareza e velocidade, não como item de papelaria.`],
+        ["Próxima Melhor Ação", `Criar uma demonstração visual simples: caos em uma cor, prioridade na outra. Use isso em embalagem, Reels e landing page.`],
+        ["Risco Estratégico", `Se a comunicação focar só em "duas pontas", o produto vira commodity. O score de risco atual é ${m.risco}/100.`]
+      ].map(([title, body]) => `<article class="mini-card"><b>${title}</b><p>${body}</p></article>`).join("");
+    }
+
+    function renderRadar() {
+      const svg = $("radarSvg");
+      const size = 340, c = 170, radius = 112;
+      const axes = ["Impacto", "Urgência", "Risco", "Clareza"];
+      const avg = aggregateMetrics();
+      const coords = (value, i) => {
+        const angle = Math.PI * 2 * i / 4 - Math.PI / 2;
+        const r = value / 100 * radius;
+        return [c + Math.cos(angle) * r, c + Math.sin(angle) * r];
+      };
+      const poly = [avg.impacto, avg.urgencia, avg.risco, avg.clareza].map((v, i) => coords(v, i).join(",")).join(" ");
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="radarFill" x1="0" x2="1" y1="0" y2="1">
+            <stop stop-color="#22d3ee" stop-opacity=".42"/>
+            <stop offset="1" stop-color="#8b5cf6" stop-opacity=".22"/>
+          </linearGradient>
+        </defs>
+        ${[25, 50, 75, 100].map(v => `<circle cx="${c}" cy="${c}" r="${v / 100 * radius}" fill="none" stroke="rgba(148,163,184,.22)" stroke-dasharray="${v === 100 ? "0" : "4 6"}"/>`).join("")}
+        ${axes.map((a, i) => {
+          const [x, y] = coords(100, i);
+          const [lx, ly] = coords(116, i);
+          return `<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="rgba(148,163,184,.22)"/><text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" fill="#94a3b8" font-size="11" font-weight="800">${a}</text>`;
+        }).join("")}
+        <polygon points="${poly}" fill="url(#radarFill)" stroke="#22d3ee" stroke-width="2"/>
+        ${[avg.impacto, avg.urgencia, avg.risco, avg.clareza].map((v, i) => {
+          const [x, y] = coords(v, i);
+          return `<circle cx="${x}" cy="${y}" r="4" fill="#e0f2fe"/>`;
+        }).join("")}
+        <text x="${c}" y="${c - 5}" text-anchor="middle" fill="#fff" font-size="38" font-weight="950">${rodScore()}</text>
+        <text x="${c}" y="${c + 18}" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="800">ROD SCORE</text>
+      `;
+      $("radarHint").textContent = `${state.results.length} mentes`;
+    }
+
+    function renderResults() {
+      $("resultsGrid").innerHTML = state.results.map(r => `
+        <article class="result-card">
+          <div style="position:absolute;inset:0 auto auto 0;height:3px;width:100%;background:${r.color};"></div>
+          <div class="result-head">
+            <span class="avatar" style="background:${r.color}">${initials(r.mentorName)}</span>
+            <div><h3>${r.mentorName}</h3><small>${r.role}</small></div>
+          </div>
+          <p>${r.diagnosis}</p>
+          <div class="bars">
+            ${Object.entries(r.metrics).map(([k, v]) => `
+              <div class="bar-row"><span>${k}</span><div class="bar"><span style="--w:${v}%;--c:${r.color}"></span></div><span>${v}</span></div>
+            `).join("")}
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function buildConcept(caseText) {
+      const product = extractProduct(caseText);
+      return {
+        audience: "Estudantes de alta performance, concurseiros, universitários, gestores e profissionais que alternam contexto o dia todo.",
+        benefit: "Organizar pensamento, prioridade e revisão sem interromper o fluxo.",
+        differential: `${product} concentra duas cores em um único corpo, reduzindo atrito físico e mental no momento da anotação.`,
+        platform: "Duas cores. Uma mente no controle."
+      };
+    }
+
+    function generateCampaign(reset = true) {
+      if (!state.results.length) {
+        state.results = MENTORS.filter(m => state.selectedMentors.includes(m.id)).map(m => localDiagnosis(m, $("caseInput").value.trim(), $("segmentInput").value, $("toneInput").value));
+        renderDiagnosis();
+      }
+      if (!state.concept) state.concept = buildConcept($("caseInput").value.trim());
+      const month = state.activeMonth;
+      const existing = state.ideas.filter(i => i.monthIndex === month);
+      const start = reset ? 1 : (existing.length ? Math.max(...existing.map(i => i.day)) + 1 : 1);
+      if (reset) state.ideas = state.ideas.filter(i => i.monthIndex !== month);
+      const newIdeas = makeIdeas(month, start, 15);
+      state.ideas = [...state.ideas, ...newIdeas];
+      renderCampaign();
+      toast(reset ? `Campanha de ${MONTHS[month]} gerada.` : `Mais 15 ideias adicionadas em ${MONTHS[month]}.`);
+    }
+
+    function makeIdeas(month, startDay, count) {
+      const caseText = $("caseInput").value.trim();
+      const product = extractProduct(caseText);
+      const verbs = ["Domine", "Separe", "Acelere", "Reveja", "Priorize", "Conecte", "Simplifique", "Transforme", "Destaque", "Resolva"];
+      const contexts = ["provas", "reuniões", "resumos", "planejamentos", "brainstorms", "checklists", "estudos", "atas", "mapas mentais", "rotinas"];
+      const formats = ["Reels", "Carrossel", "Post estático", "Sequência de email", "Artigo curto", "Story interativo"];
+      const channels = ["Instagram", "LinkedIn", "Email", "Blog"];
+      return Array.from({ length: count }, (_, idx) => {
+        const day = startDay + idx;
+        const h = hashText(product + month + day + $("toneInput").value);
+        const channel = channels[h % channels.length];
+        const format = formats[(h >>> 3) % formats.length];
+        const verb = verbs[(h >>> 6) % verbs.length];
+        const context = contexts[(h >>> 10) % contexts.length];
+        return {
+          id: `${month}-${day}-${h}`,
+          monthIndex: month,
+          day,
+          channel,
+          format,
+          title: `${verb} seus ${context} com duas cores e uma decisão a menos`,
+          visualDescription: visualFor(channel, format, product, context, day),
+          creativeVariations: variationsFor(product, context, day)
+        };
+      });
+    }
+
+    function visualFor(channel, format, product, context, day) {
+      const visuals = [
+        `Mesa real em close: ${product} divide uma página bagunçada em prioridade e detalhe, com iluminação limpa e contraste alto.`,
+        `Antes e depois de ${context}: a tela mostra uma anotação monocromática virando um sistema visual de duas cores.`,
+        `Pessoa em ritmo acelerado alterna entre as pontas sem procurar outra caneta; o corte enfatiza economia de tempo.`,
+        `Composição minimalista com duas linhas atravessando o papel e a headline surgindo como se fosse anotada ao vivo.`
+      ];
+      return `${format} para ${channel}. ${visuals[day % visuals.length]}`;
+    }
+
+    function variationsFor(product, context, day) {
+      const sets = [
+        [
+          ["Humor cotidiano", `Mostre a busca frustrada por outra caneta no meio de ${context}, resolvida pelo ${product}.`],
+          ["Prova visual", "Cronometre a troca de cor e compare com o método tradicional."],
+          ["Manifesto", "Use a linha dupla como símbolo de mente organizada."]
+        ],
+        [
+          ["Educacional", "Ensine um método simples: cor A para ideia, cor B para ação."],
+          ["Sensorial", "Explore som, clique, tinta e papel em close cinematográfico."],
+          ["Autoridade", "Conecte organização visual a desempenho, revisão e decisão."]
+        ],
+        [
+          ["Desafio social", "Convide o público a postar sua página organizada em duas cores."],
+          ["Bastidor real", "Mostre profissionais usando o produto em reuniões e estudos."],
+          ["Oferta direta", "Apresente kit por ocasião: prova, escritório e planejamento semanal."]
+        ]
+      ];
+      return sets[day % sets.length].map(([title, description]) => ({ title, description }));
+    }
+
+    function renderCampaign() {
+      $("plannerTitle").textContent = `Planejamento: ${MONTHS[state.activeMonth]}`;
+      renderMonths();
+      renderFilters();
+      renderConcept();
+      renderIdeas();
+    }
+
+    function renderMonths() {
+      $("monthBar").innerHTML = MONTHS.map((m, idx) => `<button class="month ${idx === state.activeMonth ? "active" : ""}" data-month="${idx}">${m}</button>`).join("");
+      document.querySelectorAll("[data-month]").forEach(btn => btn.addEventListener("click", () => {
+        state.activeMonth = Number(btn.dataset.month);
+        state.activeChannel = "Todos";
+        renderCampaign();
+      }));
+    }
+
+    function renderFilters() {
+      $("channelFilters").innerHTML = CHANNELS.map(ch => `<button class="tab ${ch === state.activeChannel ? "active" : ""}" data-channel="${ch}">${ch}</button>`).join("");
+      document.querySelectorAll("[data-channel]").forEach(btn => btn.addEventListener("click", () => {
+        state.activeChannel = btn.dataset.channel;
+        renderCampaign();
+      }));
+    }
+
+    function renderConcept() {
+      if (!state.concept) return $("conceptPanel").classList.add("hidden");
+      $("conceptPanel").classList.remove("hidden");
+      $("conceptPanel").innerHTML = `
+        <div class="insight-grid">
+          <article class="mini-card"><b>Público</b><p>${state.concept.audience}</p></article>
+          <article class="mini-card"><b>Benefício</b><p>${state.concept.benefit}</p></article>
+          <article class="mini-card"><b>Plataforma</b><p>${state.concept.platform}</p></article>
+        </div>
+      `;
+    }
+
+    function visibleIdeas() {
+      return state.ideas
+        .filter(i => i.monthIndex === state.activeMonth)
+        .filter(i => state.activeChannel === "Todos" || i.channel === state.activeChannel)
+        .sort((a, b) => a.day - b.day);
+    }
+
+    function renderIdeas() {
+      const ideas = visibleIdeas();
+      const total = state.ideas.filter(i => i.monthIndex === state.activeMonth).length;
+      $("ideaCounter").textContent = `${ideas.length} visíveis / ${total} no mês`;
+      if (!ideas.length) {
+        $("ideasGrid").innerHTML = `<div class="empty" style="grid-column:1/-1;"><h3 style="margin:0 0 8px;">Nada por aqui ainda.</h3><p style="margin:0;">Gere a campanha do mês ou mude o filtro de canal.</p></div>`;
+        return;
+      }
+      $("ideasGrid").innerHTML = ideas.map(idea => `
+        <article class="idea-card">
+          <div class="idea-meta">
+            <span class="tag">Dia ${idea.day}</span>
+            <span class="tag">${idea.channel}</span>
+          </div>
+          <h3>${idea.title}</h3>
+          <p><strong style="color:#bae6fd;">${idea.format}:</strong> ${idea.visualDescription}</p>
+          <div class="variations">
+            ${idea.creativeVariations.map((v, idx) => `
+              <div class="variation"><i>${idx + 1}</i><span><b>${v.title}</b><span>${v.description}</span></span></div>
+            `).join("")}
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function runNeuro() {
+      const ideas = visibleIdeas();
+      if (!ideas.length) return toast("Gere ideias antes da análise neuro.");
+      const sensory = Math.min(96, 58 + ideas.filter(i => /close|som|papel|visual|linha/i.test(i.visualDescription)).length * 4);
+      const load = Math.max(18, 74 - ideas.filter(i => /método|antes|depois|duas cores/i.test(i.visualDescription)).length * 3);
+      const dopamine = Math.round((sensory + (100 - load) + rodScore()) / 3);
+      state.neuroText = `Apelo sensorial: ${sensory}/100. Os melhores caminhos usam papel, cor, clique e transformação visual rápida.\nCarga cognitiva: ${load}/100. Reduza explicações e repita um método simples de duas cores.\nGatilho emocional: controle. A promessa mais forte é sair da confusão para a decisão.\nVeredito: ${dopamine >= 72 ? "mais dopamina que cortisol; bom para demonstrações curtas e repetíveis." : "ainda há fricção; simplifique a promessa antes de escalar mídia."}`;
+      $("neuroPanel").classList.remove("hidden");
+      $("neuroPanel").innerHTML = `<article class="mini-card" style="min-height:auto;"><b>Neuro Score ROD</b><p style="white-space:pre-line;">${state.neuroText}</p></article>`;
+      toast("Neuro análise criada.");
+    }
+
+    function download(filename, content, type = "text/plain;charset=utf-8") {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportCSV() {
+      if (!state.ideas.length) return toast("Gere uma campanha antes de exportar CSV.");
+      const headers = ["Mes", "Dia", "Canal", "Formato", "Titulo", "Descricao visual", "Variacao 1", "Variacao 2", "Variacao 3"];
+      const esc = value => `"${String(value || "").replace(/"/g, '""')}"`;
+      const rows = state.ideas.sort((a, b) => a.monthIndex - b.monthIndex || a.day - b.day).map(i => [
+        MONTHS[i.monthIndex], i.day, i.channel, i.format, esc(i.title), esc(i.visualDescription),
+        ...i.creativeVariations.map(v => esc(`${v.title}: ${v.description}`))
+      ].join(","));
+      download("rod-genius-plano-tatico.csv", "\uFEFF" + [headers.join(","), ...rows].join("\n"), "text/csv;charset=utf-8");
+    }
+
+    function exportBriefing() {
+      if (!state.results.length) return toast("Rode o conselho antes de exportar briefing.");
+      const m = aggregateMetrics();
+      const content = [
+        "ROD STUDIO GENIUS - BRIEFING ESTRATEGICO",
+        "",
+        `Dilema: ${$("caseInput").value.trim()}`,
+        `Score: ${rodScore()}/100`,
+        `Metricas medias: impacto ${m.impacto}, urgencia ${m.urgencia}, risco ${m.risco}, clareza ${m.clareza}`,
+        "",
+        "Conceito:",
+        state.concept ? `${state.concept.platform}\n${state.concept.benefit}` : "Ainda nao gerado.",
+        "",
+        "Diagnosticos:",
+        ...state.results.map(r => `\n${r.mentorName} (${r.role})\n${r.diagnosis}`)
+      ].join("\n");
+      download("rod-genius-briefing.txt", content);
+    }
+
+    function exportJSON() {
+      const payload = {
+        generatedAt: new Date().toISOString(),
+        case: $("caseInput").value.trim(),
+        score: state.results.length ? rodScore() : null,
+        concept: state.concept,
+        results: state.results,
+        ideas: state.ideas,
+        imageAnalysis: state.image.analysis
+      };
+      download("rod-genius-data.json", JSON.stringify(payload, null, 2), "application/json;charset=utf-8");
+    }
+
+    function handleImageFile(file) {
+      if (!file || !file.type.startsWith("image/")) return toast("Envie um arquivo de imagem.");
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = String(reader.result || "");
+        state.image.dataUrl = dataUrl;
+        state.image.name = file.name;
+        state.image.analysis = null;
+        state.image.activePanel = "neuro";
+        $("uploadedImage").src = dataUrl;
+        $("uploadedImage").onload = () => {
+          state.image.width = $("uploadedImage").naturalWidth;
+          state.image.height = $("uploadedImage").naturalHeight;
+          $("imageUploadZone").classList.add("hidden");
+          $("imageStageWrap").classList.remove("hidden");
+          $("imageEmptyReport").classList.remove("hidden");
+          $("imageReport").classList.add("hidden");
+          renderImageOverlay();
+          toast("Imagem carregada. Clique em Decodificar Imagem.");
+        };
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetImageLab() {
+      state.image = {
+        dataUrl: "",
+        name: "",
+        width: 0,
+        height: 0,
+        visualMode: "areas",
+        activePanel: "neuro",
+        intensity: 0.78,
+        analysis: null,
+        isAnalyzing: false
+      };
+      $("imageFileInput").value = "";
+      $("uploadedImage").removeAttribute("src");
+      $("imageOverlay").innerHTML = "";
+      $("imageUploadZone").classList.remove("hidden");
+      $("imageStageWrap").classList.add("hidden");
+      $("imageEmptyReport").classList.remove("hidden");
+      $("imageLoadingReport").classList.add("hidden");
+      $("imageReport").classList.add("hidden");
+      toast("Vision Lab limpo.");
+    }
+
+    async function analyzeUploadedImage() {
+      if (!state.image.dataUrl) return toast("Envie uma imagem antes de analisar.");
+      state.image.isAnalyzing = true;
+      $("imageEmptyReport").classList.add("hidden");
+      $("imageReport").classList.add("hidden");
+      $("imageLoadingReport").classList.remove("hidden");
+      $("analyzeImageBtn").disabled = true;
+      $("analyzeImageBtn").textContent = "Analisando...";
+      await wait(520);
+      try {
+        const img = $("uploadedImage");
+        const pixels = sampleImage(img);
+        state.image.analysis = buildImageAnalysis(pixels);
+        state.image.activePanel = "neuro";
+        renderImageOverlay();
+        renderImageReport();
+        toast("Analise visual pronta.");
+      } catch (error) {
+        console.error(error);
+        toast("Nao consegui analisar esta imagem. Tente outro arquivo.");
+      } finally {
+        state.image.isAnalyzing = false;
+        $("imageLoadingReport").classList.add("hidden");
+        $("imageReport").classList.toggle("hidden", !state.image.analysis);
+        $("analyzeImageBtn").disabled = false;
+        $("analyzeImageBtn").textContent = "Decodificar Imagem";
+      }
+    }
+
+    function sampleImage(img) {
+      const canvas = document.createElement("canvas");
+      const max = 220;
+      const scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      const samples = [];
+      let brightness = 0;
+      let saturation = 0;
+      let edgeEnergy = 0;
+      const bins = new Map();
+      const hotGrid = Array.from({ length: 6 }, () => Array.from({ length: 6 }, () => 0));
+      for (let y = 0; y < canvas.height; y += 3) {
+        for (let x = 0; x < canvas.width; x += 3) {
+          const idx = (y * canvas.width + x) * 4;
+          const r = data[idx], g = data[idx + 1], b = data[idx + 2];
+          const maxc = Math.max(r, g, b), minc = Math.min(r, g, b);
+          const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          const sat = maxc === 0 ? 0 : (maxc - minc) / maxc;
+          brightness += lum;
+          saturation += sat;
+          samples.push({ r, g, b, lum, sat, x, y });
+          const qr = Math.round(r / 32) * 32;
+          const qg = Math.round(g / 32) * 32;
+          const qb = Math.round(b / 32) * 32;
+          const key = `${qr},${qg},${qb}`;
+          bins.set(key, (bins.get(key) || 0) + 1);
+          const gx = Math.min(5, Math.floor((x / canvas.width) * 6));
+          const gy = Math.min(5, Math.floor((y / canvas.height) * 6));
+          hotGrid[gy][gx] += lum * 0.4 + sat * 180 + (Math.abs(x / canvas.width - 0.5) < 0.23 ? 15 : 0);
+          if (x > 0 && y > 0) {
+            const prev = ((y - 1) * canvas.width + (x - 1)) * 4;
+            edgeEnergy += Math.abs(r - data[prev]) + Math.abs(g - data[prev + 1]) + Math.abs(b - data[prev + 2]);
+          }
+        }
+      }
+      const count = Math.max(1, samples.length);
+      const palette = [...bins.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([key, amount]) => {
+        const [r, g, b] = key.split(",").map(Number);
+        return { hex: rgbToHex(r, g, b), name: colorName(r, g, b), amount };
+      });
+      const points = [];
+      hotGrid.forEach((row, gy) => row.forEach((score, gx) => points.push({
+        score,
+        x: Math.round(((gx + 0.5) / 6) * 100),
+        y: Math.round(((gy + 0.5) / 6) * 100)
+      })));
+      points.sort((a, b) => b.score - a.score);
+      return {
+        width: img.naturalWidth,
+        height: img.naturalHeight,
+        aspect: img.naturalWidth / Math.max(1, img.naturalHeight),
+        brightness: Math.round(brightness / count),
+        saturation: Math.round((saturation / count) * 100),
+        complexity: clamp(Math.round(edgeEnergy / count / 2), 0, 100),
+        palette,
+        heatmapPoints: points.slice(0, 3).map((p, i) => ({ ...p, label: String(i + 1) }))
+      };
+    }
+
+    function buildImageAnalysis(pixels) {
+      const formatChoice = $("imageFormatSelect").value;
+      const inferred = inferImageFormat(pixels);
+      const format = formatChoice === "Automático" ? inferred : formatChoice;
+      const contrast = clamp(Math.round(Math.abs(pixels.brightness - 128) * 0.9 + pixels.saturation * 0.35 + 35));
+      const clarity = clamp(100 - Math.round(pixels.complexity * 0.55) + (format.includes("Outdoor") ? -10 : 5));
+      const persuasion = clamp(Math.round((contrast + pixels.saturation + clarity) / 3));
+      const urgency = clamp(Math.round(42 + pixels.saturation * 0.35 + pixels.complexity * 0.25));
+      const dominant = pixels.palette[0] || { hex: "#22d3ee", name: "Ciano" };
+      const points = pixels.heatmapPoints.length ? pixels.heatmapPoints : [
+        { x: 50, y: 38, label: "1" }, { x: 50, y: 58, label: "2" }, { x: 72, y: 72, label: "3" }
+      ];
+      return {
+        context: {
+          format,
+          reasoning: `Formato ${formatChoice === "Automático" ? "inferido" : "definido"} com proporcao ${pixels.width}x${pixels.height} e leitura visual ${pixels.aspect > 1.35 ? "horizontal" : pixels.aspect < 0.8 ? "vertical" : "quadrada"}.`
+        },
+        scores: { clarity, persuasion, urgency, contrast },
+        heatmapPoints: points,
+        eyeTracking: {
+          hot: "Primeira zona de alto contraste/saturacao. Deve carregar promessa, produto ou rosto.",
+          warm: "Segunda zona de leitura. Boa para beneficio, prova ou detalhe visual.",
+          cold: "Terceira zona. Use para assinatura, CTA ou informacao complementar."
+        },
+        system1: {
+          trigger: pixels.saturation > 42 ? "Contraste cromatico e energia visual" : "Organizacao, sobriedade e baixo ruido",
+          immediate: clarity > 70 ? "A composicao tende a ser entendida rapido." : "A leitura exige simplificacao para caber no primeiro segundo.",
+          emotion: pixels.brightness > 138 ? "leveza e abertura" : "densidade, foco e intensidade"
+        },
+        colorPalette: pixels.palette.map(c => ({ ...c, psychology: colorPsychology(c.name) })),
+        copywriting: {
+          scores: { clarity, persuasion, urgency },
+          headlineReview: clarity > 70 ? "A hierarquia visual favorece leitura rapida. Ainda vale aproximar titulo, prova e CTA para reduzir dispersao." : "Ha sinais de carga cognitiva. Reduza texto, aumente contraste do titulo e deixe uma unica promessa dominar.",
+          toneVoice: persuasion > 72 ? "Direto, confiante e comercial" : "Educacional, claro e mais demonstrativo",
+          betterHeadlines: [
+            "Entenda em 3 segundos por que isso importa",
+            "Menos ruido visual. Mais acao.",
+            "A promessa principal precisa aparecer primeiro"
+          ],
+          ctaCritique: urgency > 68 ? "O material tem energia suficiente para um CTA direto." : "O CTA precisa de mais contraste, verbo de acao e proximidade com o beneficio."
+        },
+        platformSpecific: {
+          tabTitle: format.includes("Social") ? "Social" : format.includes("Embalagem") ? "Pack" : format.includes("Web") ? "Web" : "Plataforma",
+          scoreValue: Math.round((clarity + persuasion + contrast) / 3),
+          scoreLabel: "Visual Performance Score",
+          firstImpressionLabel: "Primeiros 3 segundos",
+          firstImpression: clarity > 70 ? "A primeira impressao tende a ser clara, com boa chance de retencao." : "A primeira impressao pode se dividir entre muitos elementos; escolha um foco dominante.",
+          brandClarityLabel: "Clareza de marca",
+          brandClarity: contrast > 70 ? "Alta" : "Media",
+          keyElementsTitle: "Hierarquia Visual",
+          keyElements: [
+            { element: "Foco principal", status: clarity > 68 ? "Forte" : "Fraco", note: "Precisa comandar o olhar antes dos detalhes." },
+            { element: "Paleta", status: pixels.saturation > 36 ? "Forte" : "Moderada", note: `Cor dominante: ${dominant.name} ${dominant.hex}.` },
+            { element: "CTA", status: urgency > 65 ? "Forte" : "Fraco", note: "Deve ficar em area quente ou proxima da promessa." }
+          ]
+        },
+        biases: [
+          { name: "Fluencia cognitiva", desc: "Quanto mais rapido entender, maior a sensacao de confianca." },
+          { name: "Saliencia", desc: "Contraste e cor devem guiar o primeiro olhar." },
+          { name: "Ancoragem visual", desc: "O elemento mais forte define como o resto sera interpretado." }
+        ],
+        actions: [
+          { title: "Criar um foco visual dominante", priority: "Alta", why: "Sem foco, a atencao fragmenta e a mensagem perde forca.", steps: ["Aumentar contraste do elemento principal", "Remover ou reduzir elementos secundarios", "Posicionar promessa perto do hotspot 1"] },
+          { title: "Aproximar beneficio e CTA", priority: "Alta", why: "O olhar precisa entender e agir sem procurar a proxima informacao.", steps: ["Usar verbo claro no CTA", "Colocar CTA em area de maior contraste", "Reduzir texto de suporte"] },
+          { title: "Rebalancear paleta", priority: "Media", why: "A cor dominante deve ajudar a emocao certa, nao competir com a leitura.", steps: [`Usar ${dominant.hex} como ativo distintivo`, "Aplicar cor complementar no CTA", "Reservar neutros para respiro"] }
+        ],
+        abTest: {
+          hypothesis: "Se a promessa principal e o CTA forem aproximados do primeiro hotspot, a taxa de compreensao e clique deve subir.",
+          variantA: "Layout atual com hierarquia existente.",
+          variantB: "Titulo maior, CTA contrastante e foco visual unico no primeiro terco da arte."
+        },
+        prompts: buildImagePrompts(format, dominant)
+      };
+    }
+
+    function buildImagePrompts(format, dominant) {
+      const prefs = $("imagePreferenceInput").value.trim();
+      const extra = prefs ? `, user preference: ${prefs}` : "";
+      return {
+        redesign: `/imagine prompt: premium commercial redesign for ${format}, clear visual hierarchy, single dominant focal point, stronger headline area, high contrast CTA, refined composition, color accent ${dominant.hex}, professional lighting, conversion-focused layout${extra} --v 6.0 --style raw --q 2`,
+        upscale: `/imagine prompt: high-end commercial remaster of the original image, preserve core product and structure, improve material realism, crisp details, studio-grade lighting, clean shadows, 8k texture quality, polished advertising finish${extra} --v 6.0 --style raw --q 2`
+      };
+    }
+
+    function renderImageOverlay() {
+      const overlay = $("imageOverlay");
+      overlay.innerHTML = "";
+      const a = state.image.analysis;
+      if (!a) return;
+      const points = a.heatmapPoints || [];
+      const opacity = state.image.intensity;
+      if (state.image.visualMode === "sequence" || state.image.visualMode === "elements") {
+        const lines = points.map((p, i) => {
+          if (i === 0) return "";
+          const prev = points[i - 1];
+          return `<line x1="${prev.x}%" y1="${prev.y}%" x2="${p.x}%" y2="${p.y}%" stroke="rgba(255,255,255,.65)" stroke-width="2" stroke-dasharray="6 6"/>`;
+        }).join("");
+        overlay.insertAdjacentHTML("beforeend", `<svg class="path-svg" style="opacity:${opacity}">${lines}</svg>`);
+      }
+      points.forEach((p, idx) => {
+        if (state.image.visualMode === "heat" || state.image.visualMode === "hotspots" || state.image.visualMode === "sequence") {
+          overlay.insertAdjacentHTML("beforeend", `<div class="hotspot heat" style="left:${p.x}%;top:${p.y}%;opacity:${Math.max(0.12, opacity - idx * 0.16)}"></div>`);
+        }
+        if (state.image.visualMode === "areas" || state.image.visualMode === "elements") {
+          overlay.insertAdjacentHTML("beforeend", `<div class="hotspot area" data-label="Area ${idx + 1}" style="left:${p.x}%;top:${p.y}%;opacity:${opacity};${idx === 0 ? "width:32%;height:24%;" : ""}"></div>`);
+        }
+        if (state.image.visualMode === "sequence" || state.image.visualMode === "heat" || state.image.visualMode === "elements" || state.image.visualMode === "hotspots") {
+          overlay.insertAdjacentHTML("beforeend", `<div class="hotspot pin" style="left:${p.x}%;top:${p.y}%;opacity:${opacity}">${idx + 1}</div>`);
+        }
+      });
+    }
+
+    function renderImageReport() {
+      const a = state.image.analysis;
+      if (!a) return;
+      $("imageEmptyReport").classList.add("hidden");
+      $("imageReport").classList.remove("hidden");
+      $("imageMetrics").innerHTML = [
+        ["Clareza", a.scores.clarity, "Leitura e hierarquia"],
+        ["Persuasao", a.scores.persuasion, "Forca do gancho"],
+        ["Contraste", a.scores.contrast, "Saliencia visual"]
+      ].map(([label, value, desc]) => `<article class="metric-card"><strong>${value}</strong><span class="hint">${label}</span><p class="hint" style="margin:8px 0 0;">${desc}</p></article>`).join("");
+      document.querySelectorAll("[data-image-panel]").forEach(btn => btn.classList.toggle("active", btn.dataset.imagePanel === state.image.activePanel));
+      renderImagePanel();
+    }
+
+    function renderImagePanel() {
+      const a = state.image.analysis;
+      if (!a) return;
+      const panel = $("imagePanelContent");
+      if (state.image.activePanel === "neuro") {
+        panel.innerHTML = `
+          <div class="insight-grid">
+            <article class="mini-card"><b>Formato Validado</b><p>${a.context.format}<br><span class="hint">${a.context.reasoning}</span></p></article>
+            <article class="mini-card"><b>Sistema 1</b><p>${a.system1.trigger}. ${a.system1.immediate}</p></article>
+            <article class="mini-card"><b>Emocao</b><p>${a.system1.emotion}</p></article>
+          </div>
+          <div class="mini-card" style="margin-top:14px;"><b>Paleta & Psicologia</b><div class="palette-row">${a.colorPalette.map(c => `<div class="swatch" style="background:${c.hex}">${c.hex}<br>${c.name}</div>`).join("")}</div><p style="margin:12px 0 0;" class="hint">${a.colorPalette.map(c => `${c.name}: ${c.psychology}`).join(" | ")}</p></div>
+        `;
+      }
+      if (state.image.activePanel === "copy") {
+        panel.innerHTML = `
+          <div class="metric-grid">
+            ${Object.entries(a.copywriting.scores).map(([k, v]) => `<article class="metric-card"><strong>${v}</strong><span class="hint">${k}</span></article>`).join("")}
+          </div>
+          <article class="mini-card" style="margin-top:14px;"><b>Diagnostico de copy</b><p>${a.copywriting.headlineReview}</p><p class="hint" style="margin-top:10px;">CTA: ${a.copywriting.ctaCritique}</p></article>
+          <div class="mini-card" style="margin-top:14px;"><b>Headlines melhores</b>${a.copywriting.betterHeadlines.map((h, i) => `<p style="margin:8px 0 0;">${String.fromCharCode(65 + i)}. ${h}</p>`).join("")}</div>
+        `;
+      }
+      if (state.image.activePanel === "platform") {
+        panel.innerHTML = `
+          <div class="mini-card"><b>${a.platformSpecific.scoreLabel}: ${a.platformSpecific.scoreValue}/100</b><p>${a.platformSpecific.firstImpression}</p></div>
+          <div class="insight-grid" style="margin-top:14px;">${a.platformSpecific.keyElements.map(e => `<article class="mini-card"><b>${e.element}: ${e.status}</b><p>${e.note}</p></article>`).join("")}</div>
+          <article class="mini-card" style="margin-top:14px;"><b>Teste A/B</b><p>${a.abTest.hypothesis}</p><p class="hint">A: ${a.abTest.variantA}<br>B: ${a.abTest.variantB}</p></article>
+        `;
+      }
+      if (state.image.activePanel === "improvements") {
+        panel.innerHTML = `
+          <div class="ideas" style="padding:0;">${a.actions.map((act, i) => `<article class="idea-card"><div class="idea-meta"><span class="tag">Ação ${i + 1}</span><span class="tag">${act.priority}</span></div><h3>${act.title}</h3><p>${act.why}</p><div class="variations">${act.steps.map((s, idx) => `<div class="variation"><i>${idx + 1}</i><span><b>Passo</b><span>${s}</span></span></div>`).join("")}</div></article>`).join("")}</div>
+          <div class="mini-card" style="margin-top:14px;"><b>Prompt de Redesign</b><div class="prompt-box">${a.prompts.redesign}</div><button class="btn secondary" data-copy-prompt="redesign" style="margin-top:10px;">Copiar Prompt</button></div>
+          <div class="mini-card" style="margin-top:14px;"><b>Prompt de Upscale</b><div class="prompt-box">${a.prompts.upscale}</div><button class="btn secondary" data-copy-prompt="upscale" style="margin-top:10px;">Copiar Prompt</button></div>
+          <button class="btn" id="downloadImageReportBtn" style="width:100%;margin-top:14px;">Exportar Relatório Visual</button>
+        `;
+        document.querySelectorAll("[data-copy-prompt]").forEach(btn => btn.addEventListener("click", () => {
+          const prompt = a.prompts[btn.dataset.copyPrompt];
+          navigator.clipboard?.writeText(prompt);
+          toast("Prompt copiado.");
+        }));
+        $("downloadImageReportBtn").addEventListener("click", exportImageReport);
+      }
+    }
+
+    function exportImageReport() {
+      const a = state.image.analysis;
+      if (!a) return toast("Analise uma imagem antes de exportar.");
+      const report = [
+        "ROD VISION LAB - RELATORIO DE ANALISE DE IMAGEM",
+        "",
+        `Arquivo: ${state.image.name || "imagem"}`,
+        `Formato: ${a.context.format}`,
+        `Score: ${a.platformSpecific.scoreValue}/100`,
+        "",
+        "Eye Tracking:",
+        `1. ${a.eyeTracking.hot}`,
+        `2. ${a.eyeTracking.warm}`,
+        `3. ${a.eyeTracking.cold}`,
+        "",
+        "Copy:",
+        a.copywriting.headlineReview,
+        "",
+        "Acoes:",
+        ...a.actions.map((act, i) => `${i + 1}. ${act.title} (${act.priority}) - ${act.why}`),
+        "",
+        "Prompt redesign:",
+        a.prompts.redesign,
+        "",
+        "Prompt upscale:",
+        a.prompts.upscale
+      ].join("\n");
+      download("rod-vision-lab-relatorio.txt", report);
+    }
+
+    function inferImageFormat(pixels) {
+      if (pixels.aspect > 2.2) return "Banner Físico / Outdoor / PDV";
+      if (pixels.aspect > 1.35) return "Banner de Site / Web";
+      if (pixels.aspect < 0.72) return "Post para Redes Sociais";
+      if (pixels.complexity > 62 && pixels.saturation > 34) return "Embalagem de Produto";
+      return "Post para Redes Sociais";
+    }
+
+    function rgbToHex(r, g, b) {
+      return "#" + [r, g, b].map(v => clamp(v, 0, 255).toString(16).padStart(2, "0")).join("").toUpperCase();
+    }
+
+    function colorName(r, g, b) {
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      if (max - min < 24) return max > 190 ? "Branco/Claro" : max < 70 ? "Preto/Escuro" : "Cinza";
+      if (r >= max && g > 130) return "Amarelo/Laranja";
+      if (r >= max) return "Vermelho/Rosa";
+      if (g >= max) return "Verde";
+      if (b >= max && r > 110) return "Roxo/Violeta";
+      return "Azul/Ciano";
+    }
+
+    function colorPsychology(name) {
+      if (name.includes("Vermelho")) return "energia, alerta, urgencia e apetite de acao";
+      if (name.includes("Amarelo")) return "otimismo, preco, atencao e calor comercial";
+      if (name.includes("Verde")) return "seguranca, naturalidade, crescimento e permissao";
+      if (name.includes("Azul")) return "confianca, tecnologia, clareza e estabilidade";
+      if (name.includes("Roxo")) return "sofisticacao, imaginacao e diferenciacao";
+      if (name.includes("Preto")) return "premium, foco, contraste e intensidade";
+      if (name.includes("Branco")) return "limpeza, simplicidade, respiro e legibilidade";
+      return "neutralidade, apoio e organizacao visual";
+    }
+
+    function setTab(tab) {
+      state.activeTab = tab;
+      document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tab));
+      $("diagnosisTab").classList.toggle("hidden", tab !== "diagnosis");
+      $("campaignTab").classList.toggle("hidden", tab !== "campaign");
+      $("imageTab").classList.toggle("hidden", tab !== "image");
+      $("exportsTab").classList.toggle("hidden", tab !== "exports");
+      if (tab === "campaign") renderCampaign();
+    }
+
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function boot() {
+      renderMentors();
+      renderMonths();
+      renderFilters();
+      $("runBtn").addEventListener("click", runCouncil);
+      $("clearBtn").addEventListener("click", () => {
+        state.results = [];
+        state.ideas = [];
+        state.concept = null;
+        state.neuroText = "";
+        $("rodScore").textContent = "--";
+        $("scoreHint").textContent = "Execute uma análise para medir impacto, clareza, urgência e risco.";
+        $("emptyState").classList.remove("hidden");
+        $("diagnosisContent").classList.add("hidden");
+        $("ideasGrid").innerHTML = "";
+        $("conceptPanel").classList.add("hidden");
+        $("neuroPanel").classList.add("hidden");
+        toast("Resultados limpos.");
+      });
+      $("selectAllBtn").addEventListener("click", () => { state.selectedMentors = MENTORS.map(m => m.id); renderMentors(); });
+      $("selectCoreBtn").addEventListener("click", () => { state.selectedMentors = ["kotler", "miller", "sharp", "jobs", "ogilvy", "olivetto"]; renderMentors(); });
+      $("selectNoneBtn").addEventListener("click", () => { state.selectedMentors = []; renderMentors(); });
+      document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.addEventListener("click", () => setTab(btn.dataset.tab)));
+      $("generateCampaignBtn").addEventListener("click", () => generateCampaign(true));
+      $("moreIdeasBtn").addEventListener("click", () => generateCampaign(false));
+      $("neuroBtn").addEventListener("click", runNeuro);
+      $("csvBtn").addEventListener("click", exportCSV);
+      $("briefBtn").addEventListener("click", exportBriefing);
+      $("jsonBtn").addEventListener("click", exportJSON);
+      $("uploadImageBtn").addEventListener("click", () => $("imageFileInput").click());
+      $("imageUploadZone").addEventListener("click", () => $("imageFileInput").click());
+      $("imageFileInput").addEventListener("change", event => handleImageFile(event.target.files?.[0]));
+      $("resetImageBtn").addEventListener("click", resetImageLab);
+      $("analyzeImageBtn").addEventListener("click", analyzeUploadedImage);
+      $("imageIntensity").addEventListener("input", event => {
+        state.image.intensity = Number(event.target.value);
+        renderImageOverlay();
+      });
+      document.querySelectorAll("[data-visual]").forEach(btn => btn.addEventListener("click", () => {
+        state.image.visualMode = btn.dataset.visual;
+        document.querySelectorAll("[data-visual]").forEach(item => item.classList.toggle("active", item.dataset.visual === state.image.visualMode));
+        renderImageOverlay();
+      }));
+      document.querySelectorAll("[data-image-panel]").forEach(btn => btn.addEventListener("click", () => {
+        state.image.activePanel = btn.dataset.imagePanel;
+        renderImageReport();
+      }));
+      $("apiKeyInput").addEventListener("input", () => {
+        $("modeLabel").textContent = $("apiKeyInput").value.trim() ? "Gemini opcional" : "Modo Demo Inteligente";
+      });
+    }
+
+    boot();
+  </script>
+</body>
+</html>
