@@ -1814,26 +1814,25 @@
       letter-spacing: -0.06em;
     }
 
-    .score-box:not(.has-score) .score-value {
-      min-height: auto;
-      font-size: 42px;
-      letter-spacing: 0;
-      opacity: 0.8;
+    .dopamine-panel {
+      min-height: 390px;
+      justify-content: space-between;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.06), transparent 45%),
+        rgba(2, 6, 23, 0.5);
+      background-size: 16px 16px, 16px 16px, auto, auto;
     }
 
-    .score-box:not(.has-score) .score-ready {
-      display: none;
-    }
-
-    .score-empty-guide {
+    .dopamine-head {
       display: flex;
-      min-height: 100%;
-      flex-direction: column;
-      justify-content: center;
+      align-items: center;
+      justify-content: space-between;
       gap: 12px;
     }
 
-    .score-kicker {
+    .dopamine-head span {
       color: #8b8b92;
       font-size: 10px;
       font-weight: 900;
@@ -1841,35 +1840,60 @@
       text-transform: uppercase;
     }
 
-    .score-empty-guide h3 {
-      margin: 0;
+    .dopamine-head strong {
       color: #f4f1eb;
-      font-size: clamp(24px, 3vw, 34px);
+      font-size: 18px;
       line-height: 1;
-      letter-spacing: -0.055em;
     }
 
-    .score-empty-guide p {
-      margin: 0;
-      color: #8b8b92;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .score-deliverables {
+    .dopamine-ring {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      margin: 2px auto;
       display: grid;
-      gap: 8px;
-      margin: 4px 0;
+      place-items: center;
     }
 
-    .score-deliverables span {
-      display: flex;
-      min-height: 32px;
-      align-items: center;
-      padding: 0 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.025);
+    .dopamine-ring svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .dopamine-ring circle {
+      fill: none;
+      stroke-width: 9;
+      stroke: rgba(255, 255, 255, 0.08);
+    }
+
+    #dopamineRing {
+      stroke: #f0ede8;
+      stroke-linecap: round;
+      stroke-dasharray: 302;
+      stroke-dashoffset: 302;
+      transition: stroke-dashoffset 700ms ease;
+    }
+
+    .dopamine-ring div {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 3px;
+      text-align: center;
+    }
+
+    .dopamine-ring b {
+      color: #f4f1eb;
+      font-size: 44px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .dopamine-ring small {
+      max-width: 105px;
       color: #8b8b92;
       font-size: 10px;
       font-weight: 800;
@@ -1877,8 +1901,90 @@
       text-transform: uppercase;
     }
 
-    .score-box.has-score .score-empty-guide {
-      display: none;
+    .mission-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mission-item {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      min-height: 54px;
+      padding: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.025);
+      color: inherit;
+      text-align: left;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .mission-item:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-1px);
+    }
+
+    .mission-item span {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f4f1eb;
+      font-size: 11px;
+      font-weight: 950;
+    }
+
+    .mission-item.done span {
+      background: #f0ede8;
+      color: #050505;
+    }
+
+    .mission-item b,
+    .mission-item small {
+      grid-column: 2;
+    }
+
+    .mission-item b {
+      color: #f4f1eb;
+      font-size: 12px;
+      line-height: 1.15;
+    }
+
+    .mission-item small {
+      color: #777780;
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    .reward-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .reward-strip span {
+      min-height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      color: #8b8b92;
+      background: rgba(255, 255, 255, 0.025);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .dopamine-panel.has-score .reward-strip span {
+      color: #050505;
+      background: #f0ede8;
+      border-color: #f0ede8;
     }
 
     .tabs {
@@ -2456,22 +2562,42 @@
               <button class="btn secondary" data-jump-tab="campaign">Criar calendário</button>
             </div>
           </div>
-          <div class="score-box">
-            <div class="score-ready" id="scoreReady">
-              <div class="score-label">ROD Opportunity Score</div>
-              <div class="score-value" id="rodScore">--</div>
-              <div class="hint" id="scoreHint">Execute uma análise para medir impacto, clareza, urgência e risco.</div>
+          <div class="score-box dopamine-panel">
+            <div class="dopamine-head">
+              <span>Strategy Dopamine Meter</span>
+              <strong id="dopaminePercent">0%</strong>
             </div>
-            <div class="score-empty-guide" id="scoreEmptyGuide">
-              <span class="score-kicker">Antes de começar</span>
-              <h3>Seu diagnóstico sai em 3 camadas.</h3>
-              <p>Descreva o desafio e o sistema transforma contexto bruto em direção estratégica, plano de ação e próximos testes.</p>
-              <div class="score-deliverables">
-                <span>Radar de oportunidade</span>
-                <span>Conselho de mentores</span>
-                <span>Plano acionável</span>
+            <div class="dopamine-ring" aria-label="Progresso do projeto">
+              <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="48"></circle>
+                <circle id="dopamineRing" cx="60" cy="60" r="48"></circle>
+              </svg>
+              <div>
+                <b id="rodScore">--</b>
+                <small id="scoreHint">Comece uma missão</small>
               </div>
-              <button class="btn secondary" data-jump-tab="diagnosis" type="button">Preencher desafio</button>
+            </div>
+            <div class="mission-list" id="missionList">
+              <button class="mission-item" data-jump-tab="diagnosis" type="button">
+                <span>01</span>
+                <b>Clareza estratégica</b>
+                <small>Diagnóstico e radar</small>
+              </button>
+              <button class="mission-item" data-jump-tab="image" type="button">
+                <span>02</span>
+                <b>Estímulo visual</b>
+                <small>Heatmap e melhorias</small>
+              </button>
+              <button class="mission-item" data-jump-tab="campaign" type="button">
+                <span>03</span>
+                <b>Plano de ação</b>
+                <small>Calendário e ideias</small>
+              </button>
+            </div>
+            <div class="reward-strip" id="rewardStrip">
+              <span>+ Foco</span>
+              <span>+ Prova</span>
+              <span>+ Ação</span>
             </div>
           </div>
         </section>
@@ -3021,12 +3147,31 @@
       return clamp(Math.round(m.impacto * 0.34 + m.clareza * 0.28 + m.urgencia * 0.24 + (100 - m.risco) * 0.14));
     }
 
+    function updateDopaminePanel() {
+      const hasDiagnosis = state.results.length > 0;
+      const hasImage = !!state.image.analysis;
+      const hasCampaign = state.ideas.length > 0;
+      const progress = (hasDiagnosis ? 34 : 0) + (hasImage ? 33 : 0) + (hasCampaign ? 33 : 0);
+      const percent = Math.min(100, progress);
+      const ring = $("dopamineRing");
+      if (ring) ring.style.strokeDashoffset = String(302 - (302 * percent) / 100);
+      if ($("dopaminePercent")) $("dopaminePercent").textContent = `${percent}%`;
+      if (!hasDiagnosis && $("rodScore")) $("rodScore").textContent = `${percent}`;
+      if (!hasDiagnosis && $("scoreHint")) $("scoreHint").textContent = percent ? "missões ativas" : "comece uma missão";
+      document.querySelectorAll(".mission-item").forEach(item => {
+        const tab = item.dataset.jumpTab;
+        const done = (tab === "diagnosis" && hasDiagnosis) || (tab === "image" && hasImage) || (tab === "campaign" && hasCampaign);
+        item.classList.toggle("done", done);
+      });
+    }
+
     function renderDiagnosis() {
       $("emptyState").classList.add("hidden");
       $("diagnosisContent").classList.remove("hidden");
       const score = rodScore();
       $("rodScore").textContent = score;
       document.querySelector(".score-box")?.classList.add("has-score");
+      updateDopaminePanel();
       $("scoreHint").textContent = score >= 78 ? "Alta oportunidade: avance com campanha e teste de conversão." : score >= 62 ? "Boa oportunidade: refine prova, mensagem e distribuição." : "Oportunidade moderada: reduza risco e aumente clareza antes de escalar.";
       renderExecutiveGrid();
       renderRadar();
@@ -3119,6 +3264,7 @@
       const newIdeas = makeIdeas(month, start, 15);
       state.ideas = [...state.ideas, ...newIdeas];
       renderCampaign();
+      updateDopaminePanel();
       toast(reset ? `Campanha de ${MONTHS[month]} gerada.` : `Mais 15 ideias adicionadas em ${MONTHS[month]}.`);
     }
 
@@ -3360,6 +3506,7 @@
       $("imageEmptyReport").classList.remove("hidden");
       $("imageLoadingReport").classList.add("hidden");
       $("imageReport").classList.add("hidden");
+      updateDopaminePanel();
       toast("Vision Lab limpo.");
     }
 
@@ -3379,6 +3526,7 @@
         state.image.activePanel = "neuro";
         renderImageOverlay();
         renderImageReport();
+        updateDopaminePanel();
         toast("Analise visual pronta.");
       } catch (error) {
         console.error(error);
@@ -3718,6 +3866,7 @@
       loadMentorPhotos();
       renderMonths();
       renderFilters();
+      updateDopaminePanel();
       $("runBtn").addEventListener("click", runCouncil);
       $("exampleBtn").addEventListener("click", fillExampleChallenge);
       $("emptyExampleBtn").addEventListener("click", fillExampleChallenge);
@@ -3733,6 +3882,7 @@
         $("rodScore").textContent = "--";
         document.querySelector(".score-box")?.classList.remove("has-score");
         $("scoreHint").textContent = "Execute uma análise para medir impacto, clareza, urgência e risco.";
+        updateDopaminePanel();
         $("emptyState").classList.remove("hidden");
         $("diagnosisContent").classList.add("hidden");
         $("ideasGrid").innerHTML = "";
