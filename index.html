@@ -1774,6 +1774,13 @@
       color: #ffffff;
     }
 
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
     .eyebrow {
       width: fit-content;
       padding: 7px 10px;
@@ -1852,6 +1859,32 @@
       overflow-x: auto;
     }
 
+    .tabs .tab {
+      min-width: 150px;
+      min-height: 56px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+      text-align: left;
+    }
+
+    .tabs .tab strong {
+      display: block;
+      color: inherit;
+      font-size: 12px;
+      line-height: 1.1;
+    }
+
+    .tabs .tab span {
+      display: block;
+      color: currentColor;
+      opacity: 0.68;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
     .tab,
     .btn,
     .btn.secondary,
@@ -1895,6 +1928,89 @@
 
     .section {
       padding: 18px;
+    }
+
+    .quick-start {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      margin: 14px 0 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+    }
+
+    .quick-step {
+      padding: 16px;
+      background: rgba(8, 8, 10, 0.76);
+    }
+
+    .quick-step span,
+    .empty-guide span {
+      display: inline-flex;
+      margin-bottom: 10px;
+      color: #8b8b92;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .quick-step b {
+      display: block;
+      color: #f4f1eb;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .quick-step p {
+      margin: 0;
+      color: #8b8b92;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .input-help {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .input-help span {
+      color: #8b8b92;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .empty-guide {
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .empty-guide h2 {
+      margin: 0 0 10px;
+      color: #f4f1eb;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .empty-guide p {
+      margin: 0 0 18px;
+      color: #8b8b92;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .empty-guide b {
+      color: #f4f1eb;
     }
 
     .section-title {
@@ -2004,11 +2120,15 @@
       .hero-ghost { font-size: 140px; }
       .field-row,
       .insight-grid,
+      .quick-start,
       .results,
       .ideas,
       .planner-top,
       .metric-grid,
       .palette-row {
+        grid-template-columns: 1fr;
+      }
+      .input-help {
         grid-template-columns: 1fr;
       }
     }
@@ -2241,8 +2361,8 @@
       <aside class="left">
         <section class="panel section">
           <div class="section-title">
-            <h2>Dilema da Marca</h2>
-            <span class="hint">Input principal</span>
+            <h2>1. Descreva o desafio</h2>
+            <span class="hint">Comece aqui</span>
           </div>
           <textarea id="caseInput" placeholder="Descreva aqui o desafio da marca, produto, serviço ou campanha. Ex: público, diferencial, objeções, concorrentes, objetivo e prazo."></textarea>
           <div class="field-row">
@@ -2269,12 +2389,16 @@
             <button class="btn" id="runBtn">Reunir Conselho</button>
             <button class="btn secondary icon" id="clearBtn" title="Limpar resultados">R</button>
           </div>
+          <div class="input-help">
+            <button class="btn ghost" id="exampleBtn" type="button">Usar exemplo</button>
+            <span>Explique produto, público, objetivo e obstáculo. Quanto mais contexto, melhor a resposta.</span>
+          </div>
           <p class="hint" style="margin: 12px 0 0;">Sem chave, o ROD Studio Genius usa um motor local com respostas estruturadas e exportações funcionais.</p>
         </section>
 
         <section class="panel section">
           <div class="section-title">
-            <h3>Mesa de Conselheiros</h3>
+            <h3>2. Escolha os mentores</h3>
             <div class="mentor-tools">
               <button class="btn ghost" id="selectAllBtn">Todos</button>
               <button class="btn ghost" id="selectCoreBtn">Core</button>
@@ -2292,7 +2416,12 @@
             <div class="eyebrow">RAW STRATEGY STUDIO</div>
             <img class="hero-logo" src="assets/rod-logo.png" alt="ROD Neuromarketing, Criação e Consultoria" />
             <h2>ROD STUDIO GENIUS</h2>
-            <p>Um estúdio de estratégia brutalista para transformar dilemas, imagens e campanhas em direção criativa, diagnóstico e plano de execução.</p>
+            <p>Escolha uma ferramenta, insira seu contexto e receba diagnóstico, ideias de campanha ou análise visual sem precisar entender marketing técnico.</p>
+            <div class="hero-actions">
+              <button class="btn" data-jump-tab="diagnosis">Começar diagnóstico</button>
+              <button class="btn secondary" data-jump-tab="image">Analisar imagem</button>
+              <button class="btn secondary" data-jump-tab="campaign">Criar calendário</button>
+            </div>
           </div>
           <div class="score-box">
             <div class="score-label">ROD Opportunity Score</div>
@@ -2303,6 +2432,24 @@
               <span>02 / Escolha os mentores</span>
               <span>03 / Reuna o conselho</span>
             </div>
+          </div>
+        </section>
+
+        <section class="quick-start panel" aria-label="Como usar">
+          <div class="quick-step">
+            <span>01</span>
+            <b>Escreva o problema</b>
+            <p>Descreva o que você quer vender, para quem e qual é a dificuldade.</p>
+          </div>
+          <div class="quick-step">
+            <span>02</span>
+            <b>Escolha a ferramenta</b>
+            <p>Use Diagnóstico para estratégia, Plano para calendário ou Imagem para criativos.</p>
+          </div>
+          <div class="quick-step">
+            <span>03</span>
+            <b>Execute e exporte</b>
+            <p>Gere respostas, refine ideias e baixe CSV, briefing, JSON ou relatório visual.</p>
           </div>
         </section>
 
@@ -2326,17 +2473,21 @@
         </section>
 
         <nav class="tabs" aria-label="Navegação">
-          <button class="tab active" data-tab="diagnosis">Diagnóstico</button>
-          <button class="tab" data-tab="campaign">Plano Tático</button>
-          <button class="tab" data-tab="image">Análise de Imagem</button>
-          <button class="tab" data-tab="exports">Exportações</button>
+          <button class="tab active" data-tab="diagnosis"><strong>Estratégia</strong><span>Conselho e radar</span></button>
+          <button class="tab" data-tab="campaign"><strong>Calendário</strong><span>Ideias por mês</span></button>
+          <button class="tab" data-tab="image"><strong>Imagem</strong><span>Heatmap e melhorias</span></button>
+          <button class="tab" data-tab="exports"><strong>Arquivos</strong><span>Baixar materiais</span></button>
         </nav>
 
         <div class="workspace">
           <section id="diagnosisTab">
             <div id="emptyState" class="empty">
-              <h2 style="margin:0 0 8px;">A sala está pronta.</h2>
-              <p style="margin:0;">Escolha os mentores, ajuste o dilema e clique em Reunir Conselho.</p>
+              <div class="empty-guide">
+                <span>Próximo passo</span>
+                <h2>Gere seu primeiro diagnóstico estratégico.</h2>
+                <p>Preencha o desafio no painel da esquerda, deixe o grupo Core selecionado e clique em <b>Reunir Conselho</b>. O resultado aparecerá aqui com resumo, radar e recomendações por mentor.</p>
+                <button class="btn" id="emptyExampleBtn" type="button">Preencher exemplo</button>
+              </div>
             </div>
             <div id="diagnosisContent" class="hidden">
               <div class="insight-grid" id="executiveGrid"></div>
@@ -2384,8 +2535,8 @@
             <div class="panel section">
               <div class="section-title">
                 <div>
-                  <h3>ROD Vision Lab</h3>
-                  <p class="hint" style="margin:6px 0 0;">Analise criativos, embalagens, banners, posts e páginas com mapa visual, copy, cores e prompts de redesign.</p>
+                  <h3>Analisar imagem ou criativo</h3>
+                  <p class="hint" style="margin:6px 0 0;">Envie uma arte, post, banner ou embalagem para receber leitura de atenção, copy e melhorias práticas.</p>
                 </div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
                   <button class="btn secondary" id="resetImageBtn">Nova Imagem</button>
@@ -2444,7 +2595,7 @@
                 <section>
                   <div id="imageEmptyReport" class="empty" style="min-height:420px;">
                     <div class="pre-analysis">
-                      <span class="pre-kicker">ROD VISION LAB</span>
+                      <span class="pre-kicker">Como funciona</span>
                       <h3>Análise visual e melhorias</h3>
                       <p>Envie uma arte para receber uma leitura prática de atenção, contraste, copy, hierarquia e próximos ajustes.</p>
                       <div class="pre-grid">
@@ -3512,12 +3663,27 @@
       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    function fillExampleChallenge() {
+      $("caseInput").value = "Produto ou serviço: uma solução nova que ainda parece difícil de explicar. Público: pessoas que precisam ganhar tempo e tomar decisões melhores. Objetivo: transformar a mensagem em algo simples, memorável e vendável. Obstáculo: o público não entende rapidamente o diferencial e compara apenas por preço.";
+      $("segmentInput").value = "Consultoria, produto digital ou varejo";
+      $("toneInput").value = "Premium prático";
+      state.selectedMentors = ["kotler", "miller", "sharp", "jobs", "ogilvy", "olivetto"];
+      renderMentors();
+      toast("Exemplo preenchido. Agora clique em Reunir Conselho.");
+    }
+
     function boot() {
       renderMentors();
       loadMentorPhotos();
       renderMonths();
       renderFilters();
       $("runBtn").addEventListener("click", runCouncil);
+      $("exampleBtn").addEventListener("click", fillExampleChallenge);
+      $("emptyExampleBtn").addEventListener("click", fillExampleChallenge);
+      document.querySelectorAll("[data-jump-tab]").forEach(btn => btn.addEventListener("click", () => {
+        setTab(btn.dataset.jumpTab);
+        document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }));
       $("clearBtn").addEventListener("click", () => {
         state.results = [];
         state.ideas = [];
