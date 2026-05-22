@@ -1768,6 +1768,10 @@
       border-radius: 18px;
       background: rgba(2, 6, 23, 0.46);
       box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
     }
 
     .score-value,
@@ -1777,6 +1781,40 @@
       font-weight: 950;
       color: #ffffff;
       letter-spacing: -0.06em;
+    }
+
+    .score-box:not(.has-score) .score-value {
+      min-height: auto;
+      font-size: 42px;
+      letter-spacing: 0;
+      opacity: 0.8;
+    }
+
+    .score-empty-guide {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .score-empty-guide span {
+      display: flex;
+      min-height: 32px;
+      align-items: center;
+      padding: 0 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.025);
+      color: #8b8b92;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .score-box.has-score .score-empty-guide {
+      display: none;
     }
 
     .tabs {
@@ -2236,6 +2274,11 @@
             <div class="score-label">ROD Opportunity Score</div>
             <div class="score-value" id="rodScore">--</div>
             <div class="hint" id="scoreHint">Execute uma análise para medir impacto, clareza, urgência e risco.</div>
+            <div class="score-empty-guide" id="scoreEmptyGuide">
+              <span>01 / Descreva o dilema</span>
+              <span>02 / Escolha os mentores</span>
+              <span>03 / Reuna o conselho</span>
+            </div>
           </div>
         </section>
 
@@ -2701,6 +2744,7 @@
       $("diagnosisContent").classList.remove("hidden");
       const score = rodScore();
       $("rodScore").textContent = score;
+      document.querySelector(".score-box")?.classList.add("has-score");
       $("scoreHint").textContent = score >= 78 ? "Alta oportunidade: avance com campanha e teste de conversão." : score >= 62 ? "Boa oportunidade: refine prova, mensagem e distribuição." : "Oportunidade moderada: reduza risco e aumente clareza antes de escalar.";
       renderExecutiveGrid();
       renderRadar();
@@ -3389,6 +3433,7 @@
         state.concept = null;
         state.neuroText = "";
         $("rodScore").textContent = "--";
+        document.querySelector(".score-box")?.classList.remove("has-score");
         $("scoreHint").textContent = "Execute uma análise para medir impacto, clareza, urgência e risco.";
         $("emptyState").classList.remove("hidden");
         $("diagnosisContent").classList.add("hidden");
