@@ -3087,6 +3087,559 @@
         grid-template-columns: 1fr;
       }
     }
+    /* Reference-inspired tactical dashboard skin */
+    :root {
+      --acid: #b7ff00;
+      --acid-soft: rgba(183, 255, 0, 0.18);
+      --blood: #ff3232;
+      --ink: #050505;
+      --grid-line: rgba(255, 255, 255, 0.045);
+    }
+
+    body {
+      background:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        radial-gradient(circle at 26% 0%, rgba(255, 255, 255, 0.055), transparent 30%),
+        #050505;
+      background-size: 32px 32px, 32px 32px, auto, auto;
+    }
+
+    body::before {
+      opacity: .09;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.18) 0 1px, transparent 1px 4px),
+        radial-gradient(circle, rgba(255,255,255,.24) 0 1px, transparent 1px);
+      background-size: auto, 4px 4px;
+    }
+
+    .app {
+      width: min(1920px, 100vw);
+      padding: 0 40px 34px;
+    }
+
+    .topbar {
+      min-height: 92px;
+      padding: 0;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      background: rgba(5,5,5,.92);
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr) 300px;
+      align-items: center;
+    }
+
+    .brand .mark {
+      width: 112px;
+      height: 58px;
+      border: 0;
+      background: transparent;
+    }
+
+    .brand-logo {
+      width: 108px;
+      height: 58px;
+      filter: invert(1) grayscale(1) contrast(1.12);
+    }
+
+    .brand h1 {
+      color: #f0ede8;
+      font-size: 13px;
+      line-height: 1;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+    }
+
+    .brand p,
+    .status-strip {
+      display: none;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(18px, 3vw, 48px);
+      min-width: 0;
+    }
+
+    .top-nav button {
+      position: relative;
+      border: 0;
+      background: transparent;
+      color: #f0ede8;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .top-nav button::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -18px;
+      height: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: var(--acid);
+      transition: transform 160ms ease;
+    }
+
+    .top-nav button:hover::after,
+    .top-nav button.active::after {
+      transform: scaleX(1);
+    }
+
+    .top-cta {
+      justify-self: end;
+      min-width: 250px;
+      min-height: 42px;
+      border: 1px solid var(--acid);
+      border-radius: 4px;
+      background: var(--acid);
+      color: #050505;
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .shell {
+      grid-template-columns: 390px minmax(0, 1fr);
+      gap: 28px;
+      padding-top: 32px;
+    }
+
+    .panel,
+    .mini-card,
+    .result-card,
+    .idea-card,
+    .metric-card,
+    .upload-zone,
+    .image-stage,
+    .empty,
+    .variation,
+    .prompt-box,
+    .score-box,
+    .mentor-card,
+    .quick-start,
+    .service-grid,
+    .numbers-strip,
+    .studio-cta,
+    .studio-footer {
+      border-radius: 3px !important;
+      background:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        rgba(12, 12, 12, .9) !important;
+      background-size: 22px 22px, 22px 22px, auto !important;
+      border-color: rgba(255,255,255,.12) !important;
+      box-shadow: none !important;
+    }
+
+    .section-title h2,
+    .section-title h3,
+    .mini-card b,
+    .result-card h3,
+    .idea-card h3,
+    .planner-top h3,
+    .guide-main h3,
+    .brief-hero h2 {
+      color: #f0ede8;
+    }
+
+    .hint,
+    .mini-card p,
+    .result-card p,
+    .idea-card p,
+    .quick-step p,
+    .service-grid p,
+    .brief-hero p {
+      color: #a4a4a4;
+    }
+
+    .btn,
+    .tab.active,
+    .visual-tool.active,
+    .month.active,
+    .step-row.done .step-status {
+      background: var(--acid) !important;
+      border-color: var(--acid) !important;
+      color: #050505 !important;
+      box-shadow: none !important;
+    }
+
+    .btn.secondary,
+    .btn.ghost,
+    .tab,
+    .visual-tool,
+    .month,
+    .pack-btn {
+      background: rgba(10, 10, 10, .82) !important;
+      border-color: rgba(255,255,255,.16) !important;
+      color: #d8d8d8 !important;
+    }
+
+    .btn.secondary:hover,
+    .btn.ghost:hover,
+    .tab:hover,
+    .visual-tool:hover,
+    .pack-btn:hover {
+      border-color: var(--acid) !important;
+      color: #f0ede8 !important;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 520px;
+      grid-template-columns: minmax(0, 1fr) minmax(420px, .86fr);
+      gap: 28px;
+      border: 0 !important;
+      background:
+        radial-gradient(circle at 70% 35%, rgba(183,255,0,.075), transparent 26%),
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        #050505 !important;
+      background-size: auto, 32px 32px, 32px 32px, auto !important;
+      overflow: visible;
+    }
+
+    .hero::before {
+      content: "01";
+      position: absolute;
+      left: -8px;
+      top: 64px;
+      color: #777;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+    }
+
+    .hero-copy {
+      padding: 34px 20px 34px 26px;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      border-color: var(--acid);
+      color: var(--acid);
+      background: transparent;
+      border-radius: 0;
+      letter-spacing: .22em;
+    }
+
+    .hero-logo {
+      display: none;
+    }
+
+    .hero-ghost {
+      left: -10px;
+      top: 34px;
+      color: rgba(255,255,255,.045);
+      font-size: clamp(170px, 20vw, 360px);
+      letter-spacing: -.08em;
+    }
+
+    .hero h2 {
+      max-width: 740px;
+      margin: 26px 0 18px;
+      color: #f0ede8;
+      font-size: clamp(56px, 7.2vw, 106px);
+      line-height: .86;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .hero h2 .acid {
+      color: var(--acid);
+      display: block;
+    }
+
+    .hero p {
+      max-width: 600px;
+      color: #f0ede8;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .hero p strong {
+      color: var(--acid);
+    }
+
+    .hero-actions {
+      margin-top: 26px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-actions .btn {
+      min-width: 235px;
+    }
+
+    .dopamine-panel {
+      align-self: center;
+      min-height: 480px;
+      margin: 0 0 0 auto;
+      padding: 0;
+      grid-template-rows: 46px 1fr auto auto;
+      width: min(100%, 650px);
+      background:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        rgba(10,10,10,.92) !important;
+      background-size: 24px 24px, 24px 24px, auto !important;
+    }
+
+    .dopamine-head {
+      border-bottom: 1px solid rgba(255,255,255,.14);
+      padding: 0 22px;
+      min-height: 46px;
+    }
+
+    .dopamine-head span {
+      color: #f0ede8;
+    }
+
+    .dopamine-head strong,
+    .dopamine-ring small,
+    .mission-item span,
+    .reward-strip span,
+    .quick-step span,
+    .service-grid span,
+    .service-grid b,
+    .numbers-strip span {
+      color: var(--acid);
+    }
+
+    .dopamine-ring {
+      width: 245px;
+      height: 245px;
+      margin: 28px auto 12px;
+    }
+
+    .dopamine-ring circle:first-child {
+      stroke: rgba(255,255,255,.12);
+    }
+
+    #dopamineRing {
+      stroke: var(--acid);
+      filter: none;
+    }
+
+    .dopamine-ring b {
+      color: #f0ede8;
+      font-size: 54px;
+    }
+
+    .mission-list {
+      padding: 0 28px 20px;
+      gap: 10px;
+    }
+
+    .mission-item {
+      min-height: 62px;
+      border-radius: 0;
+      background: rgba(255,255,255,.018);
+      border-color: rgba(255,255,255,.12);
+    }
+
+    .mission-item.done {
+      border-color: var(--acid);
+      background: rgba(183,255,0,.055);
+    }
+
+    .reward-strip {
+      border-top: 1px solid rgba(255,255,255,.12);
+      padding: 10px 22px;
+    }
+
+    .quick-start {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid rgba(255,255,255,.12);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      margin-top: -4px;
+    }
+
+    .quick-step b,
+    .service-grid h3 {
+      color: #f0ede8;
+    }
+
+    .service-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .service-grid article {
+      min-height: 190px;
+      border: 0;
+      border-right: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.012);
+    }
+
+    .service-grid article:last-child {
+      border-right: 0;
+    }
+
+    .tabs[aria-label] {
+      position: sticky;
+      top: 92px;
+      z-index: 18;
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 8px;
+      background: rgba(5,5,5,.88) !important;
+      backdrop-filter: blur(18px);
+    }
+
+    .tabs[aria-label] .tab.active {
+      color: #050505 !important;
+    }
+
+    textarea,
+    input,
+    select {
+      background: rgba(3,3,3,.8) !important;
+      border-color: rgba(255,255,255,.16) !important;
+      color: #f0ede8;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      border-color: var(--acid) !important;
+      box-shadow: 0 0 0 2px rgba(183,255,0,.08) !important;
+    }
+
+    .mentor-card.active,
+    .result-card:hover,
+    .idea-card:hover {
+      border-color: var(--acid) !important;
+      background: rgba(183,255,0,.045) !important;
+    }
+
+    .check {
+      color: var(--acid);
+      border-color: rgba(183,255,0,.35);
+    }
+
+    .bar span {
+      background: var(--acid) !important;
+    }
+
+    .swatch,
+    .tag {
+      border-radius: 2px;
+    }
+
+    .studio-cta {
+      background:
+        linear-gradient(90deg, rgba(183,255,0,.08), transparent 62%),
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        #080808 !important;
+      background-size: auto, 28px 28px, 28px 28px, auto !important;
+    }
+
+    .studio-cta h2 {
+      color: #f0ede8;
+    }
+
+    .studio-cta h2::after {
+      content: " PRECISA DE UM SISTEMA DE DECISAO.";
+      color: var(--acid);
+    }
+
+    @media (max-width: 1180px) {
+      .topbar {
+        grid-template-columns: 240px minmax(0, 1fr);
+      }
+      .top-cta {
+        display: none;
+      }
+      .shell,
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .dopamine-panel {
+        width: 100%;
+      }
+      .service-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .service-grid article:nth-child(3n) {
+        border-right: 0;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .app {
+        width: 100%;
+        padding: 0 10px 80px;
+      }
+      .topbar {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 10px 0;
+        gap: 10px;
+      }
+      .top-nav {
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .top-nav button {
+        min-width: max-content;
+        padding: 8px 10px;
+        border: 1px solid rgba(255,255,255,.12);
+      }
+      .top-nav button::after {
+        bottom: 0;
+      }
+      .brand .mark {
+        width: 86px;
+        height: 44px;
+      }
+      .brand-logo {
+        width: 84px;
+        height: 44px;
+      }
+      .hero {
+        min-height: auto;
+        gap: 14px;
+      }
+      .hero-copy {
+        padding: 24px 10px;
+      }
+      .hero h2 {
+        font-size: clamp(48px, 14.5vw, 72px);
+      }
+      .hero p {
+        font-size: 15px;
+      }
+      .dopamine-panel {
+        min-height: auto;
+        margin: 0;
+      }
+      .dopamine-ring {
+        width: 178px;
+        height: 178px;
+      }
+      .service-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .service-grid article {
+        border-right: 1px solid rgba(255,255,255,.1);
+      }
+      .service-grid article:nth-child(2n) {
+        border-right: 0;
+      }
+      .tabs[aria-label] {
+        top: 92px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -3099,6 +3652,14 @@
           <p>Conselho estratégico, diagnóstico criativo e plano tático anual.</p>
         </div>
       </div>
+      <nav class="top-nav" aria-label="Navegacao principal">
+        <button class="active" data-jump-tab="diagnosis" type="button">Inicio</button>
+        <button data-scroll-target=".quick-start" type="button">Metodo</button>
+        <button data-scroll-target=".service-grid" type="button">Ferramentas</button>
+        <button data-jump-tab="image" type="button">Criativos</button>
+        <button data-jump-tab="briefing" type="button">Briefing</button>
+      </nav>
+      <button class="top-cta" data-jump-tab="diagnosis" type="button">Iniciar diagnostico -></button>
       <div class="status-strip">
         <span class="pill"><span class="dot"></span><span id="modeLabel">Modo Demo Inteligente</span></span>
         <span class="pill"><span id="mentorCount">4</span> mentores ativos</span>
@@ -3170,12 +3731,12 @@
             <div class="hero-ghost">ROD</div>
             <div class="eyebrow">RAW STRATEGY STUDIO</div>
             <img class="hero-logo" src="assets/rod-logo.png" alt="ROD Neuromarketing, Criação e Consultoria" />
-            <h2>ROD STUDIO GENIUS</h2>
-            <p>Escolha uma ferramenta, insira seu contexto e receba diagnóstico, ideias de campanha ou análise visual sem precisar entender marketing técnico.</p>
+            <h2>Entre com um problema. <span class="acid">Saia com uma decisao.</span></h2>
+            <p>O sistema estrategico da ROD transforma desafios de marca em diagnostico, campanha, copy, calendario e plano de acao. Nao e gerador de ideias. E uma <strong>maquina de decisao criativa.</strong></p>
             <div class="hero-actions">
-              <button class="btn" data-jump-tab="diagnosis">Começar diagnóstico</button>
-              <button class="btn secondary" data-jump-tab="image">Analisar imagem</button>
-              <button class="btn secondary" data-jump-tab="campaign">Criar calendário</button>
+              <button class="btn" data-jump-tab="diagnosis">Iniciar diagnostico -></button>
+              <button class="btn secondary" data-jump-tab="image">Analisar criativo</button>
+              <button class="btn ghost" data-scroll-target=".quick-start">Ver como funciona</button>
             </div>
           </div>
           <div class="score-box dopamine-panel">
@@ -4737,6 +5298,9 @@
       document.querySelectorAll("[data-jump-tab]").forEach(btn => btn.addEventListener("click", () => {
         setTab(btn.dataset.jumpTab);
         document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }));
+      document.querySelectorAll("[data-scroll-target]").forEach(btn => btn.addEventListener("click", () => {
+        document.querySelector(btn.dataset.scrollTarget)?.scrollIntoView({ behavior: "smooth", block: "start" });
       }));
       $("nextActionBtn").addEventListener("click", () => {
         const tab = $("nextActionBtn").dataset.jumpTab || getNextAction().tab;
