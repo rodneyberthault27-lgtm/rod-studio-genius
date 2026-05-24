@@ -336,6 +336,94 @@
       line-height: 1.35;
     }
 
+    .self-service {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .self-service-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .self-service-head b {
+      color: #f0ede8;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .self-service-head span {
+      color: #777;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .objective-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .objective-btn {
+      min-height: 72px;
+      padding: 11px;
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.018);
+      color: inherit;
+      text-align: left;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .objective-btn:hover,
+    .objective-btn.active {
+      transform: translateY(-1px);
+      border-color: var(--acid);
+      background: rgba(139,92,246,.08);
+    }
+
+    .objective-btn strong {
+      display: block;
+      color: #f0ede8;
+      font-size: 12px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .objective-btn small {
+      display: block;
+      margin-top: 6px;
+      color: #8b8b92;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .deliverable-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .deliverable-strip span {
+      min-height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(139,92,246,.3);
+      color: #cfc5ff;
+      background: rgba(139,92,246,.065);
+      font-size: 9px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
     .mentor-list {
       max-height: 470px;
       overflow: auto;
@@ -3845,6 +3933,10 @@
       .badge-vault {
         grid-template-columns: 1fr 1fr;
       }
+      .objective-grid,
+      .deliverable-strip {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -3879,6 +3971,23 @@
           <div class="section-title">
             <h2>1. Descreva o desafio</h2>
             <span class="hint">Comece aqui</span>
+          </div>
+          <div class="self-service" aria-label="Autoatendimento guiado">
+            <div class="self-service-head">
+              <b>Escolha seu objetivo</b>
+              <span>preenche sozinho</span>
+            </div>
+            <div class="objective-grid">
+              <button class="objective-btn" data-objective="positioning" type="button"><strong>Posicionar marca</strong><small>Clareza, diferenciaÃ§Ã£o e promessa.</small></button>
+              <button class="objective-btn" data-objective="launch" type="button"><strong>LanÃ§ar oferta</strong><small>Campanha, prova e urgÃªncia.</small></button>
+              <button class="objective-btn" data-objective="content" type="button"><strong>Criar conteÃºdo</strong><small>CalendÃ¡rio e ideias por canal.</small></button>
+              <button class="objective-btn" data-objective="visual" type="button"><strong>Melhorar arte</strong><small>Use depois de criar a primeira peÃ§a.</small></button>
+            </div>
+            <div class="deliverable-strip">
+              <span>1 clique inicial</span>
+              <span>menos dÃºvida</span>
+              <span>saÃ­da pronta</span>
+            </div>
           </div>
           <textarea id="caseInput" placeholder="Descreva aqui o desafio da marca, produto, serviço ou campanha. Ex: público, diferencial, objeções, concorrentes, objetivo e prazo."></textarea>
           <div class="field-row">
@@ -4054,7 +4163,7 @@
           <div class="guide-main">
             <span class="guide-kicker">ROD Flow</span>
             <h3 id="nextActionTitle">Comece descrevendo o desafio.</h3>
-            <p id="nextActionText">O sistema fica melhor quando entende produto, publico, objetivo e obstaculo. Depois disso, escolha um pack de mentores e rode o conselho.</p>
+            <p id="nextActionText">Escolha um objetivo pronto para reduzir esforÃ§o mental. O sistema monta o briefing base, seleciona mentores e mostra a prÃ³xima aÃ§Ã£o com recompensa clara.</p>
           </div>
           <div class="step-ladder">
             <div class="step-row" data-step="diagnosis"><span class="step-chip">01</span><div><strong>Diagnostico da marca</strong><small>Radar, risco, clareza e conselho</small></div><i class="step-status">--</i></div>
@@ -4314,6 +4423,33 @@
       brand: ["jobs", "godin", "clow", "lois", "burnett", "olivetto"]
     };
 
+    const OBJECTIVE_TEMPLATES = {
+      positioning: {
+        pack: "brand",
+        segment: "Marca, serviÃ§o ou produto",
+        tone: "Premium prÃ¡tico",
+        text: "Objetivo: posicionar uma marca/produto de forma mais clara e memorÃ¡vel. PÃºblico: pessoas que ainda nÃ£o entendem rapidamente o diferencial. Oferta: descreva aqui o que vocÃª vende. ObstÃ¡culo: a comunicaÃ§Ã£o parece genÃ©rica, comparÃ¡vel por preÃ§o ou difÃ­cil de explicar. Resultado desejado: uma promessa simples, uma tese de posicionamento e direÃ§Ã£o criativa para conteÃºdo."
+      },
+      launch: {
+        pack: "copy",
+        segment: "LanÃ§amento, campanha ou oferta",
+        tone: "Provocativo",
+        text: "Objetivo: lanÃ§ar ou vender uma oferta com mais forÃ§a. PÃºblico: pessoas com uma dor clara, mas que ainda precisam de prova e urgÃªncia para agir. Oferta: descreva aqui produto, serviÃ§o, preÃ§o ou condiÃ§Ã£o. ObstÃ¡culo: baixa percepÃ§Ã£o de valor, objeÃ§Ãµes, concorrÃªncia ou falta de diferenciaÃ§Ã£o. Resultado desejado: campanha, headline, CTA, prova e plano de conteÃºdo."
+      },
+      content: {
+        pack: "core",
+        segment: "ConteÃºdo e redes sociais",
+        tone: "Educacional",
+        text: "Objetivo: transformar uma ideia, marca ou serviÃ§o em conteÃºdo constante. PÃºblico: seguidores, leads ou clientes que precisam entender o valor antes de comprar. Oferta: descreva aqui o tema central. ObstÃ¡culo: falta de ideias, baixo engajamento ou dificuldade de organizar posts por canal. Resultado desejado: calendÃ¡rio, temas, formatos, variaÃ§Ãµes criativas e recomendaÃ§Ã£o de execuÃ§Ã£o."
+      },
+      visual: {
+        pack: "neuro",
+        segment: "Criativo, post, embalagem ou landing page",
+        tone: "Minimalista",
+        text: "Objetivo: melhorar uma peÃ§a visual depois que o conteÃºdo jÃ¡ estiver criado. PÃºblico: pessoas que precisam entender a mensagem em poucos segundos. PeÃ§a: descreva aqui o post, banner, embalagem ou pÃ¡gina. ObstÃ¡culo: baixa atenÃ§Ã£o, pouco contraste, excesso de informaÃ§Ã£o ou CTA fraco. Resultado desejado: direÃ§Ã£o de melhoria visual, hierarquia, copy e prompt de redesign."
+      }
+    };
+
     const $ = (id) => document.getElementById(id);
     window.RODGenius = { state };
 
@@ -4505,6 +4641,27 @@
       toast(labels[pack] || "Pack selecionado.");
     }
 
+    function applyObjective(objective) {
+      const preset = OBJECTIVE_TEMPLATES[objective];
+      if (!preset) return;
+      $("caseInput").value = preset.text;
+      $("segmentInput").value = preset.segment;
+      $("toneInput").value = preset.tone;
+      state.selectedMentors = [...(MENTOR_PACKS[preset.pack] || MENTOR_PACKS.core)];
+      document.querySelectorAll("[data-objective]").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.objective === objective);
+      });
+      renderMentors();
+      updateDopaminePanel();
+      const labels = {
+        positioning: "Objetivo aplicado: posicionar marca.",
+        launch: "Objetivo aplicado: lancar oferta.",
+        content: "Objetivo aplicado: criar conteudo.",
+        visual: "Objetivo aplicado: melhorar arte."
+      };
+      toast(labels[objective] || "Objetivo aplicado.");
+    }
+
     async function runCouncil() {
       const caseText = $("caseInput").value.trim();
       if (!caseText) return toast("Descreva um dilema antes de reunir o conselho.");
@@ -4671,8 +4828,8 @@
       if (!state.results.length) {
         return {
           tab: "diagnosis",
-          title: "Comece pelo diagnostico da marca.",
-          text: "Descreva o desafio, escolha um pack de mentores e clique em Reunir Conselho. Esse primeiro passo cria o score, a tese e o radar."
+          title: "Escolha um objetivo e rode o radar.",
+          text: "Use um dos botÃµes de autoatendimento para preencher o briefing em segundos. Depois clique em Reunir Conselho para liberar score, tese e direÃ§Ã£o."
         };
       }
       if (!state.ideas.length) {
@@ -5566,6 +5723,7 @@
       $("runBtn").addEventListener("click", runCouncil);
       $("exampleBtn").addEventListener("click", fillExampleChallenge);
       $("emptyExampleBtn").addEventListener("click", fillExampleChallenge);
+      document.querySelectorAll("[data-objective]").forEach(btn => btn.addEventListener("click", () => applyObjective(btn.dataset.objective)));
       document.querySelectorAll("[data-jump-tab]").forEach(btn => btn.addEventListener("click", () => {
         setTab(btn.dataset.jumpTab);
         document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
