@@ -3905,15 +3905,15 @@
                 <b>Clareza estratégica</b>
                 <small>Diagnóstico e radar</small>
               </button>
-              <button class="mission-item" data-jump-tab="image" type="button">
-                <span>02</span>
-                <b>Estímulo visual</b>
-                <small>Heatmap e melhorias</small>
-              </button>
               <button class="mission-item" data-jump-tab="campaign" type="button">
-                <span>03</span>
+                <span>02</span>
                 <b>Plano de ação</b>
                 <small>Calendário e ideias</small>
+              </button>
+              <button class="mission-item" data-jump-tab="image" type="button">
+                <span>03</span>
+                <b>Bônus visual</b>
+                <small>Opcional após criar</small>
               </button>
             </div>
             <div class="combo-row">
@@ -3923,8 +3923,8 @@
             </div>
             <div class="badge-vault" id="badgeVault">
               <div class="badge" data-badge="diagnosis">Radar<br>Aberto</div>
-              <div class="badge" data-badge="image">Olho<br>Ativo</div>
               <div class="badge" data-badge="campaign">Plano<br>Vivo</div>
+              <div class="badge" data-badge="image">Olho<br>Ativo</div>
               <div class="badge" data-badge="briefing">Sistema<br>Completo</div>
             </div>
             <div class="next-reward" id="nextReward"><b>Proxima recompensa:</b> rode o diagnostico para liberar o radar estrategico.</div>
@@ -3966,8 +3966,8 @@
 
         <section class="service-grid" aria-label="Serviços do ROD Studio Genius">
           <article><span>01</span><h3>CONSELHO</h3><p>Diagnóstico estratégico por múltiplas escolas de marketing.</p><b>→</b></article>
-          <article><span>02</span><h3>VISÃO</h3><p>Análise brutal de imagem, atenção, paleta e conversão.</p><b>→</b></article>
-          <article><span>03</span><h3>PLANO</h3><p>Calendário tático com variações criativas por canal.</p><b>→</b></article>
+          <article><span>02</span><h3>PLANO</h3><p>Calendário tático com variações criativas por canal.</p><b>→</b></article>
+          <article><span>03</span><h3>VISÃO</h3><p>Análise opcional de imagem, atenção, paleta e conversão.</p><b>→</b></article>
           <article><span>04</span><h3>COPY</h3><p>Promessas, CTA, headlines e hipóteses de teste A/B.</p><b>→</b></article>
           <article><span>05</span><h3>PROMPT</h3><p>Comandos de redesign e remasterização para IA visual.</p><b>→</b></article>
           <article><span>06</span><h3>EXPORT</h3><p>Briefing, CSV, JSON e relatório visual para operação.</p><b>→</b></article>
@@ -3976,7 +3976,7 @@
         <nav class="tabs" aria-label="Navegação">
           <button class="tab active" data-tab="diagnosis"><strong>Estratégia</strong><span>Conselho e radar</span></button>
           <button class="tab" data-tab="campaign"><strong>Calendário</strong><span>Ideias por mês</span></button>
-          <button class="tab" data-tab="image"><strong>Imagem</strong><span>Heatmap e melhorias</span></button>
+          <button class="tab" data-tab="image"><strong>Imagem</strong><span>Opcional após criar</span></button>
           <button class="tab" data-tab="briefing"><strong>Briefing</strong><span>Plano final</span></button>
           <button class="tab" data-tab="exports"><strong>Arquivos</strong><span>Baixar materiais</span></button>
         </nav>
@@ -3989,8 +3989,8 @@
           </div>
           <div class="step-ladder">
             <div class="step-row" data-step="diagnosis"><span class="step-chip">01</span><div><strong>Diagnostico da marca</strong><small>Radar, risco, clareza e conselho</small></div><i class="step-status">--</i></div>
-            <div class="step-row" data-step="image"><span class="step-chip">02</span><div><strong>Analise visual</strong><small>Dopamina, contraste e melhorias</small></div><i class="step-status">--</i></div>
-            <div class="step-row" data-step="campaign"><span class="step-chip">03</span><div><strong>Plano de acao</strong><small>Calendario, canais e execucao</small></div><i class="step-status">--</i></div>
+            <div class="step-row" data-step="campaign"><span class="step-chip">02</span><div><strong>Plano de acao</strong><small>Calendario, canais e execucao</small></div><i class="step-status">--</i></div>
+            <div class="step-row" data-step="image"><span class="step-chip">03</span><div><strong>Otimizacao visual</strong><small>Opcional depois do conteudo</small></div><i class="step-status">--</i></div>
             <div class="guide-actions">
               <button class="btn secondary" id="nextActionBtn" type="button">Ir para proxima acao</button>
               <button class="btn ghost" data-jump-tab="briefing" type="button">Ver briefing final</button>
@@ -4527,22 +4527,22 @@
       const hasDiagnosis = state.results.length > 0;
       const hasImage = !!state.image.analysis;
       const hasCampaign = state.ideas.length > 0;
-      const hasBriefing = hasDiagnosis && hasImage && hasCampaign;
+      const hasBriefing = hasDiagnosis && hasCampaign;
       const diagnosisXP = hasDiagnosis ? 90 + Math.round(rodScore() * 0.35) : 0;
-      const imageXP = hasImage ? 85 + Math.round((state.image.analysis.platformSpecific.scoreValue || 0) * 0.32) : 0;
+      const imageXP = hasImage ? 55 + Math.round((state.image.analysis.platformSpecific.scoreValue || 0) * 0.24) : 0;
       const campaignXP = hasCampaign ? Math.min(130, 55 + state.ideas.length * 3) : 0;
       const briefingXP = hasBriefing ? 70 : 0;
       const xp = Math.min(300, diagnosisXP + imageXP + campaignXP + briefingXP);
-      const completed = [hasDiagnosis, hasImage, hasCampaign, hasBriefing].filter(Boolean).length;
+      const completed = [hasDiagnosis, hasCampaign, hasBriefing, hasImage].filter(Boolean).length;
       const level = xp >= 260 ? "Sistema de Decisao" : xp >= 185 ? "Operador Criativo" : xp >= 95 ? "Estrategista em Campo" : "Briefing Zero";
       const ritual = completed >= 4 ? "Full" : completed >= 2 ? "Quente" : completed === 1 ? "Ativo" : "Idle";
       const nextReward = !hasDiagnosis
         ? "rode o diagnostico para liberar o radar estrategico."
-        : !hasImage
-          ? "analise um criativo para liberar o badge Olho Ativo."
-          : !hasCampaign
-            ? "gere o calendario para completar o plano de acao."
-            : "abra o briefing final e exporte os materiais da missao.";
+        : !hasCampaign
+          ? "gere o calendario para completar o plano de acao."
+          : !hasImage
+            ? "briefing pronto. Opcional: analise um criativo para ganhar XP bonus e refinar a arte."
+            : "sistema completo. Exporte os materiais da missao.";
       return { xp, completed, level, ritual, nextReward, hasDiagnosis, hasImage, hasCampaign, hasBriefing };
     }
 
@@ -4571,7 +4571,7 @@
       const hasDiagnosis = state.results.length > 0;
       const hasImage = !!state.image.analysis;
       const hasCampaign = state.ideas.length > 0;
-      const progress = (hasDiagnosis ? 34 : 0) + (hasImage ? 33 : 0) + (hasCampaign ? 33 : 0);
+      const progress = (hasDiagnosis ? 50 : 0) + (hasCampaign ? 50 : 0) + (hasImage && !hasCampaign ? 10 : 0);
       const percent = Math.min(100, progress);
       const ring = $("dopamineRing");
       if (ring) ring.style.strokeDashoffset = String(302 - (302 * percent) / 100);
@@ -4606,24 +4606,24 @@
           text: "Descreva o desafio, escolha um pack de mentores e clique em Reunir Conselho. Esse primeiro passo cria o score, a tese e o radar."
         };
       }
-      if (!state.image.analysis) {
-        return {
-          tab: "image",
-          title: "Agora valide a arte visual.",
-          text: "Envie um post, banner, embalagem ou pagina. O Vision Lab calcula dopamina, cortisol, contraste, carga cognitiva e melhorias praticas."
-        };
-      }
       if (!state.ideas.length) {
         return {
           tab: "campaign",
-          title: "Transforme o diagnostico em execucao.",
+          title: "Transforme o diagnostico em conteudo.",
           text: "Gere o calendario tatico para criar ideias por canal, formatos e caminhos criativos de campanha."
+        };
+      }
+      if (!state.image.analysis) {
+        return {
+          tab: "briefing",
+          title: "Briefing pronto. Imagem e opcional.",
+          text: "Voce ja pode exportar o plano final. Quando tiver uma arte criada, use a aba Imagem para refinar contraste, foco, dopamina visual e CTA."
         };
       }
       return {
         tab: "briefing",
         title: "Briefing final pronto para decisao.",
-        text: "Voce ja tem estrategia, leitura visual e plano tatico. Revise o briefing final e exporte os materiais para executar."
+        text: "Voce ja tem estrategia, plano tatico e leitura visual. Revise o briefing final e exporte os materiais para executar."
       };
     }
 
@@ -5382,7 +5382,7 @@
       if (hasImage) {
         topActions.push(...state.image.analysis.actions.slice(0, 2).map(a => a.title));
       } else {
-        topActions.push("Analisar uma arte real para validar contraste, foco, dopamina visual e carga cognitiva.");
+        topActions.push("Opcional: depois que a primeira arte estiver criada, analisar contraste, foco, dopamina visual e carga cognitiva.");
       }
       if (hasCampaign) {
         topActions.push(`Executar as ${state.ideas.length} ideias geradas, priorizando os canais com maior aderencia ao publico.`);
@@ -5394,11 +5394,11 @@
         <section class="panel brief-hero">
           <span class="guide-kicker">Briefing final</span>
           <h2>${hasDiagnosis || hasImage || hasCampaign ? "Plano de execucao ROD" : "Seu plano final aparecera aqui"}</h2>
-          <p>${hasDiagnosis || hasImage || hasCampaign ? `Resumo operacional para ${product}: use a estrategia, a leitura visual e o calendario como um roteiro de acao.` : "Rode pelo menos uma missao para gerar um briefing acionavel com score, prioridade e proximos passos."}</p>
+          <p>${hasDiagnosis || hasImage || hasCampaign ? `Resumo operacional para ${product}: use a estrategia e o calendario como roteiro de acao. A leitura visual entra como camada opcional de refinamento depois da arte criada.` : "Rode pelo menos uma missao para gerar um briefing acionavel com score, prioridade e proximos passos."}</p>
         </section>
         <div class="insight-grid">
           <article class="metric-card"><strong>${hasDiagnosis ? score : "--"}</strong><span class="hint">ROD Score</span><p class="hint" style="margin:8px 0 0;">Impacto, urgencia, clareza e risco.</p></article>
-          <article class="metric-card"><strong>${imageScore ?? "--"}</strong><span class="hint">Visual Score</span><p class="hint" style="margin:8px 0 0;">Dopamina, contraste e fluencia visual.</p></article>
+          <article class="metric-card"><strong>${imageScore ?? "Bônus"}</strong><span class="hint">Visual Score</span><p class="hint" style="margin:8px 0 0;">Opcional depois da arte criada.</p></article>
           <article class="metric-card"><strong>${state.ideas.length || "--"}</strong><span class="hint">Ideias</span><p class="hint" style="margin:8px 0 0;">Plano tatico pronto para campanha.</p></article>
         </div>
         <div class="brief-stack">
