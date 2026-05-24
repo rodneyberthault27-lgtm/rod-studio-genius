@@ -296,6 +296,46 @@
       gap: 6px;
     }
 
+    .mentor-packs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 0 0 14px;
+    }
+
+    .pack-btn {
+      min-height: 54px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: var(--radius);
+      padding: 9px 10px;
+      background: rgba(255, 255, 255, 0.025);
+      color: inherit;
+      text-align: left;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .pack-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .pack-btn b {
+      display: block;
+      color: #f0ede8;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pack-btn span {
+      display: block;
+      margin-top: 4px;
+      color: #777780;
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
     .mentor-list {
       max-height: 470px;
       overflow: auto;
@@ -518,6 +558,188 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 16px;
+    }
+
+    .guide-panel {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding: 16px;
+    }
+
+    .guide-main {
+      display: grid;
+      gap: 8px;
+    }
+
+    .guide-kicker,
+    .step-chip {
+      color: #777780;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .guide-main h3 {
+      margin: 0;
+      color: #f0ede8;
+      font-size: clamp(24px, 3vw, 38px);
+      line-height: .95;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+
+    .guide-main p {
+      max-width: 760px;
+      margin: 0;
+      color: #8b8b92;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .guide-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .step-ladder {
+      display: grid;
+      gap: 8px;
+    }
+
+    .step-row {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr) 34px;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .step-row strong {
+      display: block;
+      color: #d8d5ce;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .step-row small {
+      display: block;
+      margin-top: 2px;
+      color: #64646b;
+      font-size: 11px;
+    }
+
+    .step-status {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      color: #777780;
+      font-size: 11px;
+      font-weight: 950;
+    }
+
+    .step-row.done {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .step-row.done .step-status {
+      background: #f0ede8;
+      color: #050505;
+    }
+
+    .final-brief {
+      display: grid;
+      gap: 14px;
+    }
+
+    .brief-hero {
+      padding: 22px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .brief-hero::after {
+      content: "OUTPUT";
+      position: absolute;
+      right: -12px;
+      bottom: -20px;
+      color: rgba(255, 255, 255, 0.035);
+      font-size: clamp(68px, 12vw, 160px);
+      font-weight: 950;
+      line-height: .8;
+      pointer-events: none;
+    }
+
+    .brief-hero h2 {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 0 10px;
+      color: #f0ede8;
+      font-size: clamp(36px, 6vw, 78px);
+      line-height: .9;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .brief-hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0;
+      color: #8b8b92;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .brief-stack {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .action-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .action-list li {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      color: #c8c5be;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .action-list li::before {
+      content: attr(data-n);
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+      color: #f0ede8;
+      font-size: 10px;
+      font-weight: 950;
     }
 
     .insight-grid {
@@ -2630,8 +2852,22 @@
         border-radius: 16px;
       }
 
-      .tabs {
+      .guide-panel {
         order: 3;
+        grid-template-columns: 1fr;
+        padding: 14px;
+      }
+
+      .guide-actions {
+        justify-content: stretch;
+      }
+
+      .guide-actions .btn {
+        width: 100%;
+      }
+
+      .tabs {
+        order: 4;
         position: sticky;
         top: 104px;
         z-index: 50;
@@ -2651,11 +2887,11 @@
       }
 
       .workspace {
-        order: 4;
+        order: 5;
       }
 
       .left {
-        order: 5;
+        order: 6;
         position: static;
         display: grid;
         gap: 12px;
@@ -2717,6 +2953,8 @@
       .diagnosis-layout,
       .image-lab,
       .field-row,
+      .mentor-packs,
+      .brief-stack,
       .insight-grid,
       .results,
       .ideas,
@@ -2792,6 +3030,7 @@
       .left,
       .quick-start,
       .tabs,
+      .guide-panel,
       .image-lab,
       .diagnosis-layout {
         max-width: 100%;
@@ -2915,6 +3154,12 @@
               <button class="btn ghost" id="selectNoneBtn">Zerar</button>
             </div>
           </div>
+          <div class="mentor-packs" aria-label="Packs prontos de mentores">
+            <button class="pack-btn" data-pack="core" type="button"><b>Core Estrategico</b><span>Base para qualquer diagnostico</span></button>
+            <button class="pack-btn" data-pack="neuro" type="button"><b>Neuro + Conversao</b><span>Atencao, desejo e decisao</span></button>
+            <button class="pack-btn" data-pack="copy" type="button"><b>Copy Direto</b><span>Oferta, prova e CTA</span></button>
+            <button class="pack-btn" data-pack="brand" type="button"><b>Brand Premium</b><span>Cultura, produto e posicionamento</span></button>
+          </div>
           <div class="mentor-list" id="mentorList"></div>
         </section>
       </aside>
@@ -3014,8 +3259,26 @@
           <button class="tab active" data-tab="diagnosis"><strong>Estratégia</strong><span>Conselho e radar</span></button>
           <button class="tab" data-tab="campaign"><strong>Calendário</strong><span>Ideias por mês</span></button>
           <button class="tab" data-tab="image"><strong>Imagem</strong><span>Heatmap e melhorias</span></button>
+          <button class="tab" data-tab="briefing"><strong>Briefing</strong><span>Plano final</span></button>
           <button class="tab" data-tab="exports"><strong>Arquivos</strong><span>Baixar materiais</span></button>
         </nav>
+
+        <section class="panel guide-panel" aria-label="Guia de uso">
+          <div class="guide-main">
+            <span class="guide-kicker">ROD Flow</span>
+            <h3 id="nextActionTitle">Comece descrevendo o desafio.</h3>
+            <p id="nextActionText">O sistema fica melhor quando entende produto, publico, objetivo e obstaculo. Depois disso, escolha um pack de mentores e rode o conselho.</p>
+          </div>
+          <div class="step-ladder">
+            <div class="step-row" data-step="diagnosis"><span class="step-chip">01</span><div><strong>Diagnostico da marca</strong><small>Radar, risco, clareza e conselho</small></div><i class="step-status">--</i></div>
+            <div class="step-row" data-step="image"><span class="step-chip">02</span><div><strong>Analise visual</strong><small>Dopamina, contraste e melhorias</small></div><i class="step-status">--</i></div>
+            <div class="step-row" data-step="campaign"><span class="step-chip">03</span><div><strong>Plano de acao</strong><small>Calendario, canais e execucao</small></div><i class="step-status">--</i></div>
+            <div class="guide-actions">
+              <button class="btn secondary" id="nextActionBtn" type="button">Ir para proxima acao</button>
+              <button class="btn ghost" data-jump-tab="briefing" type="button">Ver briefing final</button>
+            </div>
+          </div>
+        </section>
 
         <div class="workspace">
           <section id="diagnosisTab">
@@ -3170,6 +3433,10 @@
             </div>
           </section>
 
+          <section id="briefingTab" class="hidden">
+            <div id="finalBriefing" class="final-brief"></div>
+          </section>
+
           <section id="exportsTab" class="hidden">
             <div class="insight-grid">
               <div class="mini-card">
@@ -3251,6 +3518,13 @@
         analysis: null,
         isAnalyzing: false
       }
+    };
+
+    const MENTOR_PACKS = {
+      core: ["kotler", "miller", "sharp", "jobs", "ogilvy", "olivetto"],
+      neuro: ["lindstrom", "sutherland", "sharp", "miller", "hopkins", "bencivenga"],
+      copy: ["ogilvy", "hopkins", "bencivenga", "miller", "bernbach", "orwell"],
+      brand: ["jobs", "godin", "clow", "lois", "burnett", "olivetto"]
     };
 
     const $ = (id) => document.getElementById(id);
@@ -3431,6 +3705,19 @@
       renderMentors();
     }
 
+    function applyMentorPack(pack) {
+      const ids = MENTOR_PACKS[pack] || MENTOR_PACKS.core;
+      state.selectedMentors = [...ids];
+      renderMentors();
+      const labels = {
+        core: "Core Estrategico selecionado.",
+        neuro: "Pack Neuro + Conversao selecionado.",
+        copy: "Pack Copy Direto selecionado.",
+        brand: "Pack Brand Premium selecionado."
+      };
+      toast(labels[pack] || "Pack selecionado.");
+    }
+
     async function runCouncil() {
       const caseText = $("caseInput").value.trim();
       if (!caseText) return toast("Descreva um dilema antes de reunir o conselho.");
@@ -3534,6 +3821,47 @@
         const done = (tab === "diagnosis" && hasDiagnosis) || (tab === "image" && hasImage) || (tab === "campaign" && hasCampaign);
         item.classList.toggle("done", done);
       });
+      document.querySelectorAll(".step-row").forEach(row => {
+        const step = row.dataset.step;
+        const done = (step === "diagnosis" && hasDiagnosis) || (step === "image" && hasImage) || (step === "campaign" && hasCampaign);
+        row.classList.toggle("done", done);
+        const status = row.querySelector(".step-status");
+        if (status) status.textContent = done ? "OK" : "--";
+      });
+      const next = getNextAction();
+      if ($("nextActionTitle")) $("nextActionTitle").textContent = next.title;
+      if ($("nextActionText")) $("nextActionText").textContent = next.text;
+      if ($("nextActionBtn")) $("nextActionBtn").dataset.jumpTab = next.tab;
+      if ($("finalBriefing")) renderFinalBriefing();
+    }
+
+    function getNextAction() {
+      if (!state.results.length) {
+        return {
+          tab: "diagnosis",
+          title: "Comece pelo diagnostico da marca.",
+          text: "Descreva o desafio, escolha um pack de mentores e clique em Reunir Conselho. Esse primeiro passo cria o score, a tese e o radar."
+        };
+      }
+      if (!state.image.analysis) {
+        return {
+          tab: "image",
+          title: "Agora valide a arte visual.",
+          text: "Envie um post, banner, embalagem ou pagina. O Vision Lab calcula dopamina, cortisol, contraste, carga cognitiva e melhorias praticas."
+        };
+      }
+      if (!state.ideas.length) {
+        return {
+          tab: "campaign",
+          title: "Transforme o diagnostico em execucao.",
+          text: "Gere o calendario tatico para criar ideias por canal, formatos e caminhos criativos de campanha."
+        };
+      }
+      return {
+        tab: "briefing",
+        title: "Briefing final pronto para decisao.",
+        text: "Voce ja tem estrategia, leitura visual e plano tatico. Revise o briefing final e exporte os materiais para executar."
+      };
     }
 
     function renderDiagnosis() {
@@ -4270,6 +4598,75 @@
       download("rod-vision-lab-relatorio.txt", report);
     }
 
+    function renderFinalBriefing() {
+      const target = $("finalBriefing");
+      if (!target) return;
+      const hasDiagnosis = state.results.length > 0;
+      const hasImage = !!state.image.analysis;
+      const hasCampaign = state.ideas.length > 0;
+      const caseText = $("caseInput").value.trim();
+      const product = caseText ? extractProduct(caseText) : "sua marca";
+      const score = hasDiagnosis ? rodScore() : 0;
+      const metrics = aggregateMetrics();
+      const imageScore = hasImage ? state.image.analysis.platformSpecific.scoreValue : null;
+      const topActions = [];
+      if (hasDiagnosis) {
+        topActions.push(`Posicionar ${product} por uma promessa unica e demonstravel antes de falar de atributos.`);
+        topActions.push(metrics.risco > 58 ? "Reduzir risco de commodity com prova visual, mecanismo claro e linguagem especifica." : "Escalar a mensagem com ativos distintivos consistentes em todos os canais.");
+      } else {
+        topActions.push("Rodar o conselho estrategico para definir tese, risco e clareza antes de criar campanha.");
+      }
+      if (hasImage) {
+        topActions.push(...state.image.analysis.actions.slice(0, 2).map(a => a.title));
+      } else {
+        topActions.push("Analisar uma arte real para validar contraste, foco, dopamina visual e carga cognitiva.");
+      }
+      if (hasCampaign) {
+        topActions.push(`Executar as ${state.ideas.length} ideias geradas, priorizando os canais com maior aderencia ao publico.`);
+      } else {
+        topActions.push("Gerar calendario tatico para transformar a tese em posts, emails, blog e LinkedIn.");
+      }
+      const concept = state.concept || buildConcept(caseText || product);
+      target.innerHTML = `
+        <section class="panel brief-hero">
+          <span class="guide-kicker">Briefing final</span>
+          <h2>${hasDiagnosis || hasImage || hasCampaign ? "Plano de execucao ROD" : "Seu plano final aparecera aqui"}</h2>
+          <p>${hasDiagnosis || hasImage || hasCampaign ? `Resumo operacional para ${product}: use a estrategia, a leitura visual e o calendario como um roteiro de acao.` : "Rode pelo menos uma missao para gerar um briefing acionavel com score, prioridade e proximos passos."}</p>
+        </section>
+        <div class="insight-grid">
+          <article class="metric-card"><strong>${hasDiagnosis ? score : "--"}</strong><span class="hint">ROD Score</span><p class="hint" style="margin:8px 0 0;">Impacto, urgencia, clareza e risco.</p></article>
+          <article class="metric-card"><strong>${imageScore ?? "--"}</strong><span class="hint">Visual Score</span><p class="hint" style="margin:8px 0 0;">Dopamina, contraste e fluencia visual.</p></article>
+          <article class="metric-card"><strong>${state.ideas.length || "--"}</strong><span class="hint">Ideias</span><p class="hint" style="margin:8px 0 0;">Plano tatico pronto para campanha.</p></article>
+        </div>
+        <div class="brief-stack">
+          <article class="mini-card">
+            <b>Tese central</b>
+            <p>${concept.platform}<br><br>${concept.benefit}</p>
+          </article>
+          <article class="mini-card">
+            <b>Prioridade agora</b>
+            <p>${getNextAction().text}</p>
+          </article>
+        </div>
+        <article class="mini-card">
+          <b>Checklist de execucao</b>
+          <ul class="action-list">
+            ${topActions.slice(0, 6).map((item, index) => `<li data-n="${String(index + 1).padStart(2, "0")}">${item}</li>`).join("")}
+          </ul>
+        </article>
+        <div class="brief-stack">
+          <article class="mini-card">
+            <b>Mensagem para campanha</b>
+            <p>${hasDiagnosis ? "Uma promessa curta, demonstravel e repetida em todos os pontos de contato. Menos explicacao, mais prova visual." : "A mensagem sera refinada depois do diagnostico."}</p>
+          </article>
+          <article class="mini-card">
+            <b>Risco a vigiar</b>
+            <p>${hasDiagnosis ? (metrics.risco > 58 ? `Risco alto (${metrics.risco}/100): a marca pode parecer generica. Aumente diferencial e prova.` : `Risco controlado (${metrics.risco}/100): mantenha consistencia e nao dilua a promessa.`) : "Risco ainda nao medido."}</p>
+          </article>
+        </div>
+      `;
+    }
+
     function inferImageFormat(pixels) {
       if (pixels.aspect > 2.2) return "Banner Físico / Outdoor / PDV";
       if (pixels.aspect > 1.35) return "Banner de Site / Web";
@@ -4309,8 +4706,10 @@
       $("diagnosisTab").classList.toggle("hidden", tab !== "diagnosis");
       $("campaignTab").classList.toggle("hidden", tab !== "campaign");
       $("imageTab").classList.toggle("hidden", tab !== "image");
+      $("briefingTab").classList.toggle("hidden", tab !== "briefing");
       $("exportsTab").classList.toggle("hidden", tab !== "exports");
       if (tab === "campaign") renderCampaign();
+      if (tab === "briefing") renderFinalBriefing();
     }
 
     function wait(ms) {
@@ -4339,6 +4738,11 @@
         setTab(btn.dataset.jumpTab);
         document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }));
+      $("nextActionBtn").addEventListener("click", () => {
+        const tab = $("nextActionBtn").dataset.jumpTab || getNextAction().tab;
+        setTab(tab);
+        document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
       $("clearBtn").addEventListener("click", () => {
         state.results = [];
         state.ideas = [];
@@ -4356,8 +4760,9 @@
         toast("Resultados limpos.");
       });
       $("selectAllBtn").addEventListener("click", () => { state.selectedMentors = MENTORS.map(m => m.id); renderMentors(); });
-      $("selectCoreBtn").addEventListener("click", () => { state.selectedMentors = ["kotler", "miller", "sharp", "jobs", "ogilvy", "olivetto"]; renderMentors(); });
+      $("selectCoreBtn").addEventListener("click", () => { applyMentorPack("core"); });
       $("selectNoneBtn").addEventListener("click", () => { state.selectedMentors = []; renderMentors(); });
+      document.querySelectorAll("[data-pack]").forEach(btn => btn.addEventListener("click", () => applyMentorPack(btn.dataset.pack)));
       document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.addEventListener("click", () => setTab(btn.dataset.tab)));
       $("generateCampaignBtn").addEventListener("click", () => generateCampaign(true));
       $("moreIdeasBtn").addEventListener("click", () => generateCampaign(false));
