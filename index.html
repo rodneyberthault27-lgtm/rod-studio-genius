@@ -3089,8 +3089,8 @@
     }
     /* Reference-inspired tactical dashboard skin */
     :root {
-      --acid: #b7ff00;
-      --acid-soft: rgba(183, 255, 0, 0.18);
+      --acid: #8b5cf6;
+      --acid-soft: rgba(139, 92, 246, 0.2);
       --blood: #ff3232;
       --ink: #050505;
       --grid-line: rgba(255, 255, 255, 0.045);
@@ -3297,7 +3297,7 @@
       gap: 28px;
       border: 0 !important;
       background:
-        radial-gradient(circle at 70% 35%, rgba(183,255,0,.075), transparent 26%),
+        radial-gradient(circle at 70% 35%, rgba(139,92,246,.13), transparent 26%),
         linear-gradient(var(--grid-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
         #050505 !important;
@@ -3446,7 +3446,7 @@
 
     .mission-item.done {
       border-color: var(--acid);
-      background: rgba(183,255,0,.055);
+      background: rgba(139,92,246,.09);
     }
 
     .reward-strip {
@@ -3479,6 +3479,64 @@
       background: rgba(255,255,255,.012);
     }
 
+    .service-icon,
+    .tab-mark {
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.16);
+      color: var(--acid);
+      font-weight: 950;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .service-icon {
+      width: 46px;
+      height: 46px;
+      margin: 18px 0 22px;
+      font-size: 18px;
+      font-style: normal;
+      background: rgba(255,255,255,.018);
+    }
+
+    .service-grid article.is-main {
+      background: rgba(139,92,246,.075) !important;
+      border-color: rgba(139,92,246,.36) !important;
+    }
+
+    .service-grid article.is-bonus {
+      opacity: .84;
+    }
+
+    .service-grid article small {
+      display: block;
+      margin-top: 14px;
+      color: #777;
+      font-size: 9px;
+      font-weight: 950;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .tab-mark {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      font-size: 9px;
+      border-radius: 999px;
+    }
+
+    .tab.active .tab-mark {
+      border-color: #050505;
+      color: #050505;
+    }
+
     .service-grid article:last-child {
       border-right: 0;
     }
@@ -3509,23 +3567,34 @@
     input:focus,
     select:focus {
       border-color: var(--acid) !important;
-      box-shadow: 0 0 0 2px rgba(183,255,0,.08) !important;
+      box-shadow: 0 0 0 2px rgba(139,92,246,.12) !important;
     }
 
     .mentor-card.active,
     .result-card:hover,
     .idea-card:hover {
       border-color: var(--acid) !important;
-      background: rgba(183,255,0,.045) !important;
+      background: rgba(139,92,246,.08) !important;
     }
 
     .check {
       color: var(--acid);
-      border-color: rgba(183,255,0,.35);
+      border-color: rgba(139,92,246,.45);
     }
 
     .bar span {
       background: var(--acid) !important;
+    }
+
+    .hotspot.area {
+      border-color: var(--acid) !important;
+      background: rgba(139,92,246,.16) !important;
+      box-shadow: 0 0 22px rgba(139,92,246,.26) !important;
+    }
+
+    .hotspot.area::before {
+      background: var(--acid) !important;
+      color: #050505 !important;
     }
 
     .swatch,
@@ -3535,7 +3604,7 @@
 
     .studio-cta {
       background:
-        linear-gradient(90deg, rgba(183,255,0,.08), transparent 62%),
+        linear-gradient(90deg, rgba(139,92,246,.12), transparent 62%),
         linear-gradient(var(--grid-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
         #080808 !important;
@@ -3689,7 +3758,7 @@
       display: block;
       width: 0%;
       height: 100%;
-      background: repeating-linear-gradient(90deg, var(--acid) 0 12px, rgba(183,255,0,.62) 12px 16px);
+      background: repeating-linear-gradient(90deg, var(--acid) 0 12px, rgba(139,92,246,.62) 12px 16px);
       transition: width 520ms cubic-bezier(.2,.8,.2,1);
     }
 
@@ -3747,14 +3816,14 @@
 
     .badge.unlocked {
       border-color: var(--acid);
-      background: rgba(183,255,0,.08);
+      background: rgba(139,92,246,.1);
       color: var(--acid);
     }
 
     .next-reward {
       margin: 0 22px 14px;
       padding: 10px 12px;
-      border: 1px dashed rgba(183,255,0,.38);
+      border: 1px dashed rgba(139,92,246,.48);
       color: #cfcfcf;
       font-size: 11px;
       line-height: 1.45;
@@ -3944,8 +4013,8 @@
           </div>
           <div class="quick-step">
             <span>02</span>
-            <b>Escolha a ferramenta</b>
-            <p>Use Diagnóstico para estratégia, Plano para calendário ou Imagem para criativos.</p>
+            <b>Crie o conteúdo</b>
+            <p>Gere o calendário e as ideias antes de usar a análise visual opcional.</p>
           </div>
           <div class="quick-step">
             <span>03</span>
@@ -3965,20 +4034,20 @@
         </section>
 
         <section class="service-grid" aria-label="Serviços do ROD Studio Genius">
-          <article><span>01</span><h3>CONSELHO</h3><p>Diagnóstico estratégico por múltiplas escolas de marketing.</p><b>→</b></article>
-          <article><span>02</span><h3>PLANO</h3><p>Calendário tático com variações criativas por canal.</p><b>→</b></article>
-          <article><span>03</span><h3>VISÃO</h3><p>Análise opcional de imagem, atenção, paleta e conversão.</p><b>→</b></article>
-          <article><span>04</span><h3>COPY</h3><p>Promessas, CTA, headlines e hipóteses de teste A/B.</p><b>→</b></article>
-          <article><span>05</span><h3>PROMPT</h3><p>Comandos de redesign e remasterização para IA visual.</p><b>→</b></article>
-          <article><span>06</span><h3>EXPORT</h3><p>Briefing, CSV, JSON e relatório visual para operação.</p><b>→</b></article>
+          <article class="is-main"><span>01</span><i class="service-icon">R</i><h3>RADAR</h3><p>Diagnóstico estratégico por múltiplas escolas de marketing.</p><small>Comece aqui</small><b>→</b></article>
+          <article class="is-main"><span>02</span><i class="service-icon">C</i><h3>CONTEÚDO</h3><p>Calendário tático, formatos e variações criativas por canal.</p><small>Crie depois</small><b>→</b></article>
+          <article class="is-bonus"><span>03</span><i class="service-icon">V</i><h3>VISÃO</h3><p>Análise opcional de imagem, atenção, paleta e conversão.</p><small>Bônus visual</small><b>→</b></article>
+          <article><span>04</span><i class="service-icon">T</i><h3>COPY</h3><p>Promessas, CTA, headlines e hipóteses de teste A/B.</p><small>Refine texto</small><b>→</b></article>
+          <article><span>05</span><i class="service-icon">P</i><h3>PROMPT</h3><p>Comandos de redesign e remasterização para IA visual.</p><small>Use se tiver arte</small><b>→</b></article>
+          <article><span>06</span><i class="service-icon">X</i><h3>EXPORT</h3><p>Briefing, CSV, JSON e relatório visual para operação.</p><small>Finalize</small><b>→</b></article>
         </section>
 
         <nav class="tabs" aria-label="Navegação">
-          <button class="tab active" data-tab="diagnosis"><strong>Estratégia</strong><span>Conselho e radar</span></button>
-          <button class="tab" data-tab="campaign"><strong>Calendário</strong><span>Ideias por mês</span></button>
-          <button class="tab" data-tab="image"><strong>Imagem</strong><span>Opcional após criar</span></button>
-          <button class="tab" data-tab="briefing"><strong>Briefing</strong><span>Plano final</span></button>
-          <button class="tab" data-tab="exports"><strong>Arquivos</strong><span>Baixar materiais</span></button>
+          <button class="tab active" data-tab="diagnosis"><span class="tab-mark">1</span><strong>Estratégia</strong><span>Diagnosticar</span></button>
+          <button class="tab" data-tab="campaign"><span class="tab-mark">2</span><strong>Conteúdo</strong><span>Criar ideias</span></button>
+          <button class="tab" data-tab="image"><span class="tab-mark">+</span><strong>Imagem</strong><span>Bônus opcional</span></button>
+          <button class="tab" data-tab="briefing"><span class="tab-mark">3</span><strong>Briefing</strong><span>Decidir</span></button>
+          <button class="tab" data-tab="exports"><span class="tab-mark">4</span><strong>Arquivos</strong><span>Exportar</span></button>
         </nav>
 
         <section class="panel guide-panel" aria-label="Guia de uso">
