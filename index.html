@@ -1000,6 +1000,13 @@
       flex-wrap: wrap;
     }
 
+    .method-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 0 18px 14px;
+    }
+
     .filters {
       display: flex;
       gap: 8px;
@@ -1025,6 +1032,106 @@
       transform: translateY(-2px);
       border-color: rgba(34, 211, 238, 0.32);
       background: rgba(15, 23, 42, 0.8);
+    }
+
+    .kanban-board {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(230px, 1fr));
+      gap: 12px;
+      padding: 0 18px 18px;
+      overflow-x: auto;
+    }
+
+    .kanban-column {
+      min-height: 420px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(2, 6, 23, 0.44);
+    }
+
+    .kanban-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .kanban-head b {
+      color: #f8fafc;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .kanban-head span {
+      min-width: 28px;
+      min-height: 24px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(34, 211, 238, 0.12);
+      color: #bae6fd;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .kanban-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .kanban-card {
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .kanban-card h4 {
+      margin: 9px 0 8px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .kanban-card p {
+      margin: 0;
+      color: #94a3b8;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .method-board {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 0 18px 18px;
+    }
+
+    .method-card {
+      min-height: 220px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.58);
+    }
+
+    .method-card b {
+      display: block;
+      color: #fff;
+      margin-bottom: 8px;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .method-card p {
+      margin: 0 0 12px;
+      color: #94a3b8;
+      line-height: 1.55;
     }
 
     .idea-meta {
@@ -1464,6 +1571,7 @@
       .shell, .diagnosis-layout, .hero { grid-template-columns: 1fr; }
       .left, .radar-wrap { position: static; }
       .ideas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .method-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .image-lab { grid-template-columns: 1fr; }
       .neuro-score-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
@@ -1473,6 +1581,7 @@
       .topbar { align-items: flex-start; flex-direction: column; }
       .status-strip { justify-content: flex-start; }
       .field-row, .insight-grid, .results, .ideas, .planner-top, .metric-grid, .palette-row { grid-template-columns: 1fr; }
+      .method-board { grid-template-columns: 1fr; }
       .neuro-score-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .neuro-conversion-head { align-items: flex-start; flex-direction: column; }
       .visual-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -4326,6 +4435,7 @@
                 </div>
               </div>
               <div class="month-bar" id="monthBar"></div>
+              <div class="method-tabs" id="campaignViewTabs" aria-label="Visualização do plano de conteúdo"></div>
               <div class="filter-row">
                 <div class="filters" id="channelFilters"></div>
                 <button class="btn ghost" id="moreIdeasBtn">Mais 15 Ideias</button>
@@ -4509,6 +4619,7 @@
       activeTab: "diagnosis",
       activeMonth: 0,
       activeChannel: "Todos",
+      campaignView: "calendar",
       concept: null,
       neuroText: "",
       mentorPhotos: {},
@@ -5210,6 +5321,7 @@
     function renderCampaign() {
       $("plannerTitle").textContent = `Planejamento: ${MONTHS[state.activeMonth]}`;
       renderMonths();
+      renderCampaignViewTabs();
       renderFilters();
       renderConcept();
       renderIdeas();
@@ -5220,6 +5332,23 @@
       document.querySelectorAll("[data-month]").forEach(btn => btn.addEventListener("click", () => {
         state.activeMonth = Number(btn.dataset.month);
         state.activeChannel = "Todos";
+        renderCampaign();
+      }));
+    }
+
+    function renderCampaignViewTabs() {
+      const views = [
+        ["calendar", "Calendário", "Ideias por dia"],
+        ["kanban", "Kanban", "Produção"],
+        ["method", "Método", "Framework"]
+      ];
+      $("campaignViewTabs").innerHTML = views.map(([id, label, hint]) => `
+        <button class="tab ${state.campaignView === id ? "active" : ""}" data-campaign-view="${id}" type="button">
+          <strong>${label}</strong><span>${hint}</span>
+        </button>
+      `).join("");
+      document.querySelectorAll("[data-campaign-view]").forEach(btn => btn.addEventListener("click", () => {
+        state.campaignView = btn.dataset.campaignView;
         renderCampaign();
       }));
     }
@@ -5259,6 +5388,8 @@
         $("ideasGrid").innerHTML = `<div class="empty" style="grid-column:1/-1;"><h3 style="margin:0 0 8px;">Nada por aqui ainda.</h3><p style="margin:0;">Gere a campanha do mês ou mude o filtro de canal.</p></div>`;
         return;
       }
+      if (state.campaignView === "kanban") return renderKanban(ideas);
+      if (state.campaignView === "method") return renderContentMethod(ideas);
       $("ideasGrid").innerHTML = ideas.map(idea => `
         <article class="idea-card">
           <div class="idea-meta">
@@ -5274,6 +5405,80 @@
           </div>
         </article>
       `).join("");
+    }
+
+    function kanbanStageFor(idea) {
+      const stages = ["Briefing", "Criar", "Revisar", "Publicar"];
+      return stages[(idea.day + idea.channel.length + idea.format.length) % stages.length];
+    }
+
+    function renderKanban(ideas) {
+      const stages = [
+        ["Briefing", "Definir promessa e ângulo"],
+        ["Criar", "Produzir copy e visual"],
+        ["Revisar", "Checar clareza, prova e CTA"],
+        ["Publicar", "Agendar e medir resposta"]
+      ];
+      $("ideasGrid").innerHTML = `
+        <div class="kanban-board">
+          ${stages.map(([stage, hint]) => {
+            const rows = ideas.filter(idea => kanbanStageFor(idea) === stage);
+            return `
+              <section class="kanban-column">
+                <div class="kanban-head"><div><b>${stage}</b><p class="hint" style="margin:4px 0 0;">${hint}</p></div><span>${rows.length}</span></div>
+                <div class="kanban-stack">
+                  ${rows.length ? rows.map(idea => `
+                    <article class="kanban-card">
+                      <div class="idea-meta"><span class="tag">Dia ${idea.day}</span><span class="tag">${idea.channel}</span></div>
+                      <h4>${idea.title}</h4>
+                      <p><strong style="color:#bae6fd;">${idea.format}:</strong> ${idea.visualDescription}</p>
+                    </article>
+                  `).join("") : `<p class="hint">Sem cards nesta etapa.</p>`}
+                </div>
+              </section>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    function renderContentMethod(ideas) {
+      const concept = state.concept || buildConcept($("caseInput").value.trim());
+      const topChannels = [...new Set(ideas.map(i => i.channel))].slice(0, 4).join(", ");
+      $("ideasGrid").innerHTML = `
+        <div class="method-board">
+          <article class="method-card">
+            <b>1. Promessa</b>
+            <p>${concept.platform}</p>
+            <span class="tag">Benefício antes de atributo</span>
+          </article>
+          <article class="method-card">
+            <b>2. Prova</b>
+            <p>Transforme cada ideia em demonstração: antes/depois, uso real, número, comparação ou depoimento.</p>
+            <span class="tag">Reduz risco percebido</span>
+          </article>
+          <article class="method-card">
+            <b>3. Canal</b>
+            <p>Canais ativos deste mês: ${topChannels || "gere ideias para mapear canais"}. Ajuste o mesmo conceito ao comportamento de cada canal.</p>
+            <span class="tag">Distribuição com contexto</span>
+          </article>
+          <article class="method-card">
+            <b>4. Formato</b>
+            <p>Use Reels para atenção rápida, carrossel para ensino, email para argumento e blog para autoridade.</p>
+            <span class="tag">Sistema 1 + Sistema 2</span>
+          </article>
+          <article class="method-card">
+            <b>5. CTA</b>
+            <p>Feche cada peça com uma ação específica: testar, chamar, agendar, salvar, comparar ou comprar.</p>
+            <span class="tag">Menos fricção</span>
+          </article>
+          <article class="method-card">
+            <b>6. Aprendizado</b>
+            <p>Depois de publicar, classifique o card como manter, melhorar ou pausar com base em atenção, clique e resposta comercial.</p>
+            <span class="tag">Loop de melhoria</span>
+          </article>
+        </div>
+      `;
     }
 
     function runNeuro() {
