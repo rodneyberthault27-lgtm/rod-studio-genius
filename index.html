@@ -642,10 +642,66 @@
       background: linear-gradient(135deg, rgba(37, 99, 235, 0.36), rgba(124, 58, 237, 0.32));
     }
 
+    .tab[data-done="true"] {
+      border-color: rgba(34, 197, 94, 0.25);
+    }
+
+    .tab[data-done="true"] .tab-mark {
+      background: rgba(34, 197, 94, 0.22);
+      color: #bbf7d0;
+    }
+
+    .tab[aria-selected="true"] {
+      box-shadow: inset 0 -2px 0 rgba(34, 211, 238, 0.75);
+    }
+
     .workspace {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 16px;
+    }
+
+    .workspace > section {
+      position: relative;
+    }
+
+    .process-window {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+        rgba(2, 6, 23, 0.42);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    }
+
+    .process-window::before {
+      content: attr(data-window-title);
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 18px 0 44px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background:
+        radial-gradient(circle at 16px 50%, #ef4444 0 4px, transparent 4.5px),
+        radial-gradient(circle at 28px 50%, #f59e0b 0 4px, transparent 4.5px),
+        radial-gradient(circle at 40px 50%, #22c55e 0 4px, transparent 4.5px),
+        rgba(255, 255, 255, 0.035);
+      color: #e2e8f0;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .process-window > .panel,
+    .process-window > .empty,
+    .process-window > .final-brief,
+    .process-window > .insight-grid {
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 0;
     }
 
     .guide-panel {
@@ -959,6 +1015,90 @@
       background: var(--c);
     }
 
+    .ux-status-panel {
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: var(--radius);
+      background: rgba(2, 6, 23, 0.44);
+    }
+
+    .ux-status-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .ux-status-head b {
+      color: #f8fafc;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .ux-status-head span {
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .brief-meter {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.14);
+    }
+
+    .brief-meter span {
+      display: block;
+      width: var(--w, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22d3ee, #facc15);
+      transition: width 220ms ease;
+    }
+
+    .brief-checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .brief-check {
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 9px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .brief-check::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, 0.42);
+    }
+
+    .brief-check.done {
+      border-color: rgba(34, 211, 238, 0.24);
+      color: #e0f2fe;
+      background: rgba(34, 211, 238, 0.08);
+    }
+
+    .brief-check.done::before {
+      background: #22d3ee;
+      box-shadow: 0 0 14px rgba(34, 211, 238, 0.65);
+    }
+
     .planner-top {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
@@ -1005,6 +1145,45 @@
       gap: 8px;
       overflow-x: auto;
       padding: 0 18px 14px;
+    }
+
+    .tab-context {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius);
+      background: rgba(2, 6, 23, 0.42);
+      margin: 0 0 14px;
+    }
+
+    .tab-context b {
+      color: #f8fafc;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .tab-context p {
+      margin: 4px 0 0;
+      color: #94a3b8;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .tab-context span {
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border: 1px solid rgba(250, 204, 21, 0.22);
+      border-radius: 999px;
+      color: #fde68a;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .filters {
@@ -1581,6 +1760,7 @@
       .topbar { align-items: flex-start; flex-direction: column; }
       .status-strip { justify-content: flex-start; }
       .field-row, .insight-grid, .results, .ideas, .planner-top, .metric-grid, .palette-row { grid-template-columns: 1fr; }
+      .brief-checklist, .tab-context { grid-template-columns: 1fr; }
       .method-board { grid-template-columns: 1fr; }
       .neuro-score-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .neuro-conversion-head { align-items: flex-start; flex-direction: column; }
@@ -4207,6 +4387,7 @@
             </div>
           </div>
           <textarea id="caseInput" placeholder="Descreva aqui o desafio da marca, produto, serviço ou campanha. Ex: público, diferencial, objeções, concorrentes, objetivo e prazo."></textarea>
+          <div class="ux-status-panel" id="briefQualityPanel" aria-live="polite"></div>
           <div class="field-row">
             <div class="field">
               <label for="segmentInput">Segmento</label>
@@ -4375,6 +4556,7 @@
           <button class="tab" data-tab="briefing"><span class="tab-mark">3</span><strong>Briefing</strong><span>Decidir</span></button>
           <button class="tab" data-tab="exports"><span class="tab-mark">4</span><strong>Arquivos</strong><span>Exportar</span></button>
         </nav>
+        <div class="tab-context" id="tabContext" aria-live="polite"></div>
 
         <section class="panel guide-panel" aria-label="Guia de uso">
           <div class="guide-main">
@@ -4394,7 +4576,7 @@
         </section>
 
         <div class="workspace">
-          <section id="diagnosisTab">
+          <section id="diagnosisTab" class="process-window" data-window-title="Janela 01 - Estratégia">
             <div id="emptyState" class="empty">
               <div class="empty-guide">
                 <span>Próximo passo</span>
@@ -4419,7 +4601,7 @@
             </div>
           </section>
 
-          <section id="campaignTab" class="hidden">
+          <section id="campaignTab" class="process-window hidden" data-window-title="Janela 02 - Conteúdo e Kanban">
             <div class="panel">
               <div class="planner-top">
                 <div>
@@ -4446,7 +4628,7 @@
             </div>
           </section>
 
-          <section id="imageTab" class="hidden">
+          <section id="imageTab" class="process-window hidden" data-window-title="Janela 03 - Análise Visual">
             <input id="imageFileInput" type="file" accept="image/*" class="hidden" />
             <div class="panel section">
               <div class="section-title">
@@ -4548,11 +4730,11 @@
             </div>
           </section>
 
-          <section id="briefingTab" class="hidden">
+          <section id="briefingTab" class="process-window hidden" data-window-title="Janela 04 - Briefing Final">
             <div id="finalBriefing" class="final-brief"></div>
           </section>
 
-          <section id="exportsTab" class="hidden">
+          <section id="exportsTab" class="process-window hidden" data-window-title="Janela 05 - Exportação">
             <div class="insight-grid">
               <div class="mini-card">
                 <b>CSV do calendário</b>
@@ -4872,6 +5054,7 @@
         btn.classList.toggle("active", btn.dataset.objective === objective);
       });
       renderMentors();
+      renderBriefQuality();
       updateDopaminePanel();
       const labels = {
         positioning: "Objetivo aplicado: posicionar marca.",
@@ -5041,6 +5224,7 @@
       if ($("nextActionText")) $("nextActionText").textContent = next.text;
       if ($("nextActionBtn")) $("nextActionBtn").dataset.jumpTab = next.tab;
       renderGameLayer();
+      updateProcessState();
       if ($("finalBriefing")) renderFinalBriefing();
     }
 
@@ -6098,6 +6282,83 @@
       return "neutralidade, apoio e organizacao visual";
     }
 
+    const TAB_CONTEXTS = {
+      diagnosis: {
+        title: "Estratégia",
+        body: "Janela para entender o problema, reduzir incerteza e gerar um diagnóstico antes de criar qualquer peça.",
+        status: "Entrada"
+      },
+      campaign: {
+        title: "Conteúdo",
+        body: "Janela para transformar a tese em calendário, Kanban de produção e método de execução.",
+        status: "Produção"
+      },
+      image: {
+        title: "Imagem",
+        body: "Janela para avaliar criativos com foco em atenção, contraste, carga cognitiva, copy e melhoria visual.",
+        status: "Refino"
+      },
+      briefing: {
+        title: "Briefing",
+        body: "Janela para consolidar decisões, riscos e próximas ações em um plano único.",
+        status: "Decisão"
+      },
+      exports: {
+        title: "Arquivos",
+        body: "Janela para retirar CSV, JSON, briefing e relatórios do sistema sem procurar comandos espalhados.",
+        status: "Saída"
+      }
+    };
+
+    function briefQuality() {
+      const text = $("caseInput")?.value.trim() || "";
+      const checks = [
+        ["Produto", /produto|servi[cç]o|solu[cç][aã]o|marca|oferta/i.test(text)],
+        ["Público", /p[úu]blico|cliente|lead|seguidores|pessoas|empresas|gestores|estudantes/i.test(text)],
+        ["Objetivo", /objetivo|vender|lan[cç]ar|posicionar|crescer|converter|explicar|melhorar/i.test(text)],
+        ["Obstáculo", /obst[áa]culo|problema|dificuldade|risco|concorr|obje[cç][aã]o|confus/i.test(text)]
+      ];
+      const lengthScore = text.length >= 220 ? 20 : text.length >= 120 ? 14 : text.length >= 60 ? 8 : 0;
+      const score = Math.min(100, checks.filter(([, done]) => done).length * 20 + lengthScore);
+      return { score, checks, textLength: text.length };
+    }
+
+    function renderBriefQuality() {
+      const target = $("briefQualityPanel");
+      if (!target) return;
+      const q = briefQuality();
+      const label = q.score >= 80 ? "pronto para diagnóstico" : q.score >= 50 ? "bom, mas pode melhorar" : "faltam sinais importantes";
+      target.innerHTML = `
+        <div class="ux-status-head"><b>Qualidade do briefing</b><span>${q.score}/100 · ${label}</span></div>
+        <div class="brief-meter" aria-label="Qualidade do briefing"><span style="--w:${q.score}%"></span></div>
+        <div class="brief-checklist">
+          ${q.checks.map(([label, done]) => `<span class="brief-check ${done ? "done" : ""}">${label}</span>`).join("")}
+        </div>
+      `;
+    }
+
+    function renderTabContext() {
+      const context = TAB_CONTEXTS[state.activeTab] || TAB_CONTEXTS.diagnosis;
+      const target = $("tabContext");
+      if (!target) return;
+      target.innerHTML = `<div><b>${context.title}</b><p>${context.body}</p></div><span>${context.status}</span>`;
+    }
+
+    function updateProcessState() {
+      const done = {
+        diagnosis: state.results.length > 0,
+        campaign: state.ideas.length > 0,
+        image: !!state.image.analysis,
+        briefing: state.results.length > 0 || state.ideas.length > 0 || !!state.image.analysis,
+        exports: state.results.length > 0 || state.ideas.length > 0 || !!state.image.analysis
+      };
+      document.querySelectorAll(".tab[data-tab]").forEach(btn => {
+        const active = btn.dataset.tab === state.activeTab;
+        btn.dataset.done = done[btn.dataset.tab] ? "true" : "false";
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+      });
+    }
+
     function setTab(tab) {
       state.activeTab = tab;
       document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tab));
@@ -6108,6 +6369,8 @@
       $("exportsTab").classList.toggle("hidden", tab !== "exports");
       if (tab === "campaign") renderCampaign();
       if (tab === "briefing") renderFinalBriefing();
+      renderTabContext();
+      updateProcessState();
     }
 
     function wait(ms) {
@@ -6120,6 +6383,7 @@
       $("toneInput").value = "Premium prático";
       state.selectedMentors = ["kotler", "miller", "sharp", "jobs", "ogilvy", "olivetto"];
       renderMentors();
+      renderBriefQuality();
       toast("Exemplo preenchido. Agora clique em Reunir Conselho.");
     }
 
@@ -6128,7 +6392,11 @@
       loadMentorPhotos();
       renderMonths();
       renderFilters();
+      renderBriefQuality();
+      renderTabContext();
       updateDopaminePanel();
+      document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.setAttribute("role", "tab"));
+      $("caseInput").addEventListener("input", renderBriefQuality);
       $("runBtn").addEventListener("click", runCouncil);
       $("exampleBtn").addEventListener("click", fillExampleChallenge);
       $("emptyExampleBtn").addEventListener("click", fillExampleChallenge);
@@ -6153,6 +6421,7 @@
         $("rodScore").textContent = "--";
         document.querySelector(".score-box")?.classList.remove("has-score");
         $("scoreHint").textContent = "Execute uma análise para medir impacto, clareza, urgência e risco.";
+        renderBriefQuality();
         updateDopaminePanel();
         $("emptyState").classList.remove("hidden");
         $("diagnosisContent").classList.add("hidden");
