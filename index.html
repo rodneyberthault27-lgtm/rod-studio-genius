@@ -1291,6 +1291,111 @@
       margin-bottom: 8px;
     }
 
+    .neuro-conversion {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(250, 204, 21, 0.06)),
+        rgba(2, 6, 23, 0.62);
+    }
+
+    .neuro-conversion-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .neuro-conversion-head h3 {
+      margin: 4px 0 0;
+      color: white;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .neuro-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid rgba(250, 204, 21, 0.26);
+      border-radius: 999px;
+      background: rgba(250, 204, 21, 0.1);
+      color: #fde68a;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .neuro-score-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .neuro-score-card {
+      min-height: 112px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.62);
+    }
+
+    .neuro-score-card strong {
+      display: block;
+      color: white;
+      font-size: 30px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .neuro-score-card span {
+      display: block;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .neuro-score-card p {
+      margin: 8px 0 0;
+      color: #94a3b8;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .trigger-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .trigger-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      padding: 0 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .trigger-chip i {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--c, #22d3ee);
+      box-shadow: 0 0 14px var(--c, #22d3ee);
+    }
+
     .palette-row {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1360,6 +1465,7 @@
       .left, .radar-wrap { position: static; }
       .ideas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .image-lab { grid-template-columns: 1fr; }
+      .neuro-score-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
     @media (max-width: 760px) {
@@ -1367,6 +1473,8 @@
       .topbar { align-items: flex-start; flex-direction: column; }
       .status-strip { justify-content: flex-start; }
       .field-row, .insight-grid, .results, .ideas, .planner-top, .metric-grid, .palette-row { grid-template-columns: 1fr; }
+      .neuro-score-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .neuro-conversion-head { align-items: flex-start; flex-direction: column; }
       .visual-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero-copy { padding: 20px; }
       .score-box { margin: 0 20px 20px; }
@@ -4188,6 +4296,7 @@
             </div>
             <div id="diagnosisContent" class="hidden">
               <div class="insight-grid" id="executiveGrid"></div>
+              <div id="neuroConversionPanel"></div>
               <div class="diagnosis-layout" style="margin-top:16px;">
                 <aside class="panel radar-wrap">
                   <div class="section-title">
@@ -4862,6 +4971,7 @@
       updateDopaminePanel();
       $("scoreHint").textContent = score >= 78 ? "Alta oportunidade: avance com campanha e teste de conversão." : score >= 62 ? "Boa oportunidade: refine prova, mensagem e distribuição." : "Oportunidade moderada: reduza risco e aumente clareza antes de escalar.";
       renderExecutiveGrid();
+      renderNeuroConversion();
       renderRadar();
       renderResults();
     }
@@ -4874,6 +4984,89 @@
         ["Próxima Melhor Ação", `Criar uma demonstração visual simples: caos em uma cor, prioridade na outra. Use isso em embalagem, Reels e landing page.`],
         ["Risco Estratégico", `Se a comunicação focar só em "duas pontas", o produto vira commodity. O score de risco atual é ${m.risco}/100.`]
       ].map(([title, body]) => `<article class="mini-card"><b>${title}</b><p>${body}</p></article>`).join("");
+    }
+
+    function neuroLabel(value) {
+      if (value >= 78) return "forte";
+      if (value >= 62) return "bom";
+      if (value >= 46) return "ajustar";
+      return "fraco";
+    }
+
+    function analyzeNeuroConversion() {
+      const m = aggregateMetrics();
+      const caseText = $("caseInput").value.trim();
+      const textLength = caseText.length;
+      const proofSignals = /prova|depoimento|resultado|garantia|case|antes|depois|n[úu]mero|dados|cliente/i.test(caseText) ? 14 : 0;
+      const actionSignals = /compre|agende|teste|comece|clique|chame|cadastre|baixar|solicite|garanta/i.test(caseText) ? 10 : 0;
+      const noveltySignals = /novo|m[ée]todo|diferencial|exclusivo|in[ée]dito|transforma|simples|r[áa]pido/i.test(caseText) ? 8 : 0;
+      const overloadPenalty = textLength > 760 ? 14 : textLength > 480 ? 8 : textLength < 90 ? 6 : 0;
+      const attention = clamp(Math.round(m.clareza * 0.42 + m.impacto * 0.28 + noveltySignals + 18 - overloadPenalty));
+      const cognitiveLoad = clamp(Math.round(100 - (m.clareza * 0.48 + (100 - m.risco) * 0.28) + overloadPenalty));
+      const desire = clamp(Math.round(m.impacto * 0.38 + m.urgencia * 0.22 + noveltySignals + 18));
+      const proof = clamp(Math.round((100 - m.risco) * 0.36 + m.clareza * 0.22 + proofSignals + 22));
+      const urgency = clamp(Math.round(m.urgencia * 0.68 + actionSignals + (m.risco > 58 ? 4 : 0)));
+      const clarity = clamp(Math.round(m.clareza * 0.76 + 20 - overloadPenalty));
+      const reward = clamp(Math.round((attention + desire + proof + urgency + clarity + (100 - cognitiveLoad)) / 6));
+      const tension = clamp(Math.round(cognitiveLoad * 0.46 + m.risco * 0.34 + Math.max(0, 58 - proof) * 0.22));
+      const recommendation = reward >= tension
+        ? "A mensagem cria recompensa antes de esforço. Reforce prova e CTA para transformar atenção em ação."
+        : "A mensagem ainda cobra esforço antes de gerar desejo. Simplifique a promessa e mostre prova mais cedo.";
+      const triggers = [
+        { name: "Prova", value: proof, color: "#22d3ee" },
+        { name: "Urgência", value: urgency, color: "#f59e0b" },
+        { name: "Novidade", value: clamp(attention + noveltySignals), color: "#a78bfa" },
+        { name: "Segurança", value: clamp(100 - m.risco + proofSignals), color: "#34d399" },
+        { name: "Status", value: clamp(desire - 4 + (caseText.match(/premium|autoridade|performance|controle|profissional/i) ? 12 : 0)), color: "#f472b6" }
+      ].sort((a, b) => b.value - a.value);
+      const actions = [
+        clarity < 68 ? "Abrir com uma promessa de uma linha antes de qualquer explicação." : "Manter a promessa curta como primeiro elemento da campanha.",
+        proof < 66 ? "Adicionar prova concreta: antes/depois, número, depoimento ou demonstração visual." : "Usar a prova atual como bloco fixo em landing page e criativos.",
+        cognitiveLoad > 54 ? "Cortar termos abstratos e separar benefício, prova e CTA em blocos distintos." : "Preservar a baixa fricção: benefício primeiro, detalhe depois.",
+        urgency < 58 ? "Criar um motivo claro para agir agora sem depender só de desconto." : "Conectar urgência ao custo de continuar com o problema."
+      ];
+      return { attention, cognitiveLoad, desire, proof, urgency, clarity, reward, tension, recommendation, triggers, actions };
+    }
+
+    function renderNeuroConversion() {
+      const target = $("neuroConversionPanel");
+      if (!target || !state.results.length) return;
+      const n = analyzeNeuroConversion();
+      const cards = [
+        ["Atenção", n.attention, "Leitura em 3 segundos"],
+        ["Carga", n.cognitiveLoad, "Quanto menor, melhor"],
+        ["Desejo", n.desire, "Recompensa percebida"],
+        ["Prova", n.proof, "Confiança para agir"],
+        ["Urgência", n.urgency, "Motivo para agora"],
+        ["Clareza", n.clarity, "Promessa sem ruído"]
+      ];
+      target.innerHTML = `
+        <section class="neuro-conversion" aria-label="Painel de neuro conversão">
+          <div class="neuro-conversion-head">
+            <div>
+              <span class="guide-kicker">Neuro Conversão</span>
+              <h3>Sistema 1 entende primeiro. Sistema 2 justifica depois.</h3>
+            </div>
+            <span class="neuro-pill">Recompensa ${n.reward}/100 · Tensão ${n.tension}/100</span>
+          </div>
+          <div class="neuro-score-grid">
+            ${cards.map(([label, value, desc]) => `
+              <article class="neuro-score-card">
+                <strong>${value}</strong>
+                <span>${label} · ${neuroLabel(value)}</span>
+                <p>${desc}</p>
+              </article>
+            `).join("")}
+          </div>
+          <div class="trigger-row">
+            ${n.triggers.map(t => `<span class="trigger-chip" title="${t.name}: ${t.value}/100"><i style="--c:${t.color}"></i>${t.name} ${t.value}</span>`).join("")}
+          </div>
+          <div class="brief-stack" style="margin-top:14px;">
+            <article class="mini-card"><b>Veredito neural</b><p>${n.recommendation}</p></article>
+            <article class="mini-card"><b>Próximas otimizações</b><ul class="action-list">${n.actions.map((a, i) => `<li data-n="${String(i + 1).padStart(2, "0")}">${a}</li>`).join("")}</ul></article>
+          </div>
+        </section>
+      `;
     }
 
     function renderRadar() {
@@ -5142,6 +5335,7 @@
         generatedAt: new Date().toISOString(),
         case: $("caseInput").value.trim(),
         score: state.results.length ? rodScore() : null,
+        neuroConversion: state.results.length ? analyzeNeuroConversion() : null,
         concept: state.concept,
         results: state.results,
         ideas: state.ideas,
@@ -5597,11 +5791,13 @@
       const product = caseText ? extractProduct(caseText) : "sua marca";
       const score = hasDiagnosis ? rodScore() : 0;
       const metrics = aggregateMetrics();
+      const neuro = hasDiagnosis ? analyzeNeuroConversion() : null;
       const imageScore = hasImage ? state.image.analysis.platformSpecific.scoreValue : null;
       const topActions = [];
       if (hasDiagnosis) {
         topActions.push(`Posicionar ${product} por uma promessa unica e demonstravel antes de falar de atributos.`);
         topActions.push(metrics.risco > 58 ? "Reduzir risco de commodity com prova visual, mecanismo claro e linguagem especifica." : "Escalar a mensagem com ativos distintivos consistentes em todos os canais.");
+        topActions.push(...neuro.actions.slice(0, 2));
       } else {
         topActions.push("Rodar o conselho estrategico para definir tese, risco e clareza antes de criar campanha.");
       }
@@ -5624,9 +5820,17 @@
         </section>
         <div class="insight-grid">
           <article class="metric-card"><strong>${hasDiagnosis ? score : "--"}</strong><span class="hint">ROD Score</span><p class="hint" style="margin:8px 0 0;">Impacto, urgencia, clareza e risco.</p></article>
+          <article class="metric-card"><strong>${neuro ? neuro.reward : "--"}</strong><span class="hint">Neuro Score</span><p class="hint" style="margin:8px 0 0;">Recompensa, desejo, prova e friccao.</p></article>
           <article class="metric-card"><strong>${imageScore ?? "Bônus"}</strong><span class="hint">Visual Score</span><p class="hint" style="margin:8px 0 0;">Opcional depois da arte criada.</p></article>
           <article class="metric-card"><strong>${state.ideas.length || "--"}</strong><span class="hint">Ideias</span><p class="hint" style="margin:8px 0 0;">Plano tatico pronto para campanha.</p></article>
         </div>
+        ${neuro ? `
+          <article class="mini-card">
+            <b>Neuro conversão</b>
+            <p>${neuro.recommendation}</p>
+            <div class="trigger-row">${neuro.triggers.slice(0, 4).map(t => `<span class="trigger-chip" title="${t.name}: ${t.value}/100"><i style="--c:${t.color}"></i>${t.name} ${t.value}</span>`).join("")}</div>
+          </article>
+        ` : ""}
         <div class="brief-stack">
           <article class="mini-card">
             <b>Tese central</b>
