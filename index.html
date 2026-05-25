@@ -822,6 +822,22 @@
       background: rgba(255, 255, 255, 0.018);
     }
 
+    .step-row.active {
+      border-color: rgba(139, 92, 246, 0.62);
+      background: rgba(139, 92, 246, 0.12);
+      box-shadow: inset 3px 0 0 var(--acid, #8b5cf6);
+    }
+
+    .step-row.locked {
+      opacity: 0.46;
+      filter: grayscale(0.6);
+    }
+
+    .step-row.done {
+      border-color: rgba(52, 211, 153, 0.34);
+      background: rgba(52, 211, 153, 0.08);
+    }
+
     .step-row strong {
       display: block;
       color: #d8d5ce;
@@ -1238,6 +1254,34 @@
       font-weight: 900;
       text-transform: uppercase;
       white-space: nowrap;
+    }
+
+    .optional-lab-strip {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin: -4px 0 14px;
+      padding: 10px 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.26);
+      border-radius: var(--radius);
+      background: rgba(2, 6, 23, 0.28);
+    }
+
+    .optional-lab-strip b {
+      display: block;
+      color: #e5e7eb;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .optional-lab-strip span {
+      display: block;
+      margin-top: 3px;
+      color: #94a3b8;
+      font-size: 12px;
+      line-height: 1.35;
     }
 
     .filters {
@@ -5268,15 +5312,21 @@
           <button class="tab active" data-tab="diagnosis"><span class="tab-mark">1</span><strong>Estratégia</strong><span>Diagnosticar</span></button>
           <button class="tab" data-tab="persona"><span class="tab-mark">2</span><strong>Persona</strong><span>Definir público</span></button>
           <button class="tab" data-tab="campaign"><span class="tab-mark">3</span><strong>Conteúdo</strong><span>Criar ideias</span></button>
-          <button class="tab" data-tab="image"><span class="tab-mark">+</span><strong>Imagem</strong><span>Bônus opcional</span></button>
           <button class="tab" data-tab="briefing"><span class="tab-mark">4</span><strong>Briefing</strong><span>Decidir</span></button>
           <button class="tab" data-tab="exports"><span class="tab-mark">5</span><strong>Arquivos</strong><span>Exportar</span></button>
         </nav>
+        <div class="optional-lab-strip">
+          <div>
+            <b>Laboratório separado</b>
+            <span>A análise de imagem é opcional e entra só quando uma arte já existir.</span>
+          </div>
+          <button class="btn ghost" data-jump-tab="image" type="button">Abrir análise visual</button>
+        </div>
         <div class="tab-context" id="tabContext" aria-live="polite"></div>
 
         <section class="panel guide-panel" aria-label="Guia de uso">
           <div class="guide-main">
-            <span class="guide-kicker">ROD Flow</span>
+            <span class="guide-kicker" id="flowStepLabel">Etapa 1 de 5</span>
             <h3 id="nextActionTitle">Comece descrevendo o desafio.</h3>
             <p id="nextActionText">Escolha um objetivo pronto para reduzir esforço mental. O sistema monta o briefing base, seleciona mentores e mostra a próxima ação com recompensa clara.</p>
           </div>
@@ -5285,6 +5335,7 @@
             <div class="step-row" data-step="persona"><span class="step-chip">02</span><div><strong>Persona</strong><small>Dor, desejo, objeções e canais</small></div><i class="step-status">--</i></div>
             <div class="step-row" data-step="campaign"><span class="step-chip">03</span><div><strong>Plano de acao</strong><small>Calendario, canais e execucao</small></div><i class="step-status">--</i></div>
             <div class="step-row" data-step="briefing"><span class="step-chip">04</span><div><strong>Briefing final</strong><small>Decisão e exportação</small></div><i class="step-status">--</i></div>
+            <div class="step-row" data-step="exports"><span class="step-chip">05</span><div><strong>Arquivos</strong><small>PDF, site e Notion</small></div><i class="step-status">--</i></div>
             <div class="guide-actions">
               <button class="btn secondary" id="nextActionBtn" type="button">Ir para proxima acao</button>
               <button class="btn ghost" data-jump-tab="briefing" type="button">Ver briefing final</button>
@@ -5952,6 +6003,34 @@
       });
     }
 
+    function syncNextActionGuide() {
+      const next = getNextAction();
+      const stepIndex = Math.max(0, REQUIRED_FLOW.indexOf(next.tab));
+      if ($("flowStepLabel")) $("flowStepLabel").textContent = next.tab === "image" ? "Laboratório opcional" : `Etapa ${Math.min(stepIndex + 1, 5)} de 5`;
+      if ($("nextActionTitle")) $("nextActionTitle").textContent = next.title;
+      if ($("nextActionText")) $("nextActionText").textContent = next.text;
+      if ($("nextActionBtn")) $("nextActionBtn").dataset.jumpTab = next.tab;
+      return next;
+    }
+
+    function renderStepLadder(next = getNextAction()) {
+      const hasDiagnosis = state.results.length > 0;
+      const hasCampaign = state.ideas.length > 0;
+      const hasPersona = !!state.persona;
+      const access = flowAccess();
+      document.querySelectorAll(".step-row").forEach(row => {
+        const step = row.dataset.step;
+        const done = (step === "diagnosis" && hasDiagnosis) || (step === "persona" && hasPersona) || (step === "campaign" && hasCampaign) || (step === "briefing" && hasDiagnosis && hasPersona && hasCampaign);
+        const active = step === next.tab;
+        const locked = !access[step];
+        row.classList.toggle("done", done);
+        row.classList.toggle("active", active && !done);
+        row.classList.toggle("locked", locked);
+        const status = row.querySelector(".step-status");
+        if (status) status.textContent = done ? "Feito" : locked ? "Bloq." : active ? "Agora" : "Livre";
+      });
+    }
+
     function updateDopaminePanel() {
       const hasDiagnosis = state.results.length > 0;
       const hasImage = !!state.image.analysis;
@@ -5964,22 +6043,13 @@
       if ($("dopaminePercent")) $("dopaminePercent").textContent = `${percent}%`;
       if (!hasDiagnosis && $("rodScore")) $("rodScore").textContent = `${percent}`;
       if (!hasDiagnosis && $("scoreHint")) $("scoreHint").textContent = percent ? "missões ativas" : "comece uma missão";
+      const next = syncNextActionGuide();
       document.querySelectorAll(".mission-item").forEach(item => {
         const tab = item.dataset.jumpTab;
         const done = (tab === "diagnosis" && hasDiagnosis) || (tab === "persona" && hasPersona) || (tab === "campaign" && hasCampaign) || (tab === "image" && hasImage);
         item.classList.toggle("done", done);
       });
-      document.querySelectorAll(".step-row").forEach(row => {
-        const step = row.dataset.step;
-        const done = (step === "diagnosis" && hasDiagnosis) || (step === "persona" && hasPersona) || (step === "campaign" && hasCampaign) || (step === "briefing" && hasDiagnosis && hasPersona && hasCampaign);
-        row.classList.toggle("done", done);
-        const status = row.querySelector(".step-status");
-        if (status) status.textContent = done ? "OK" : "--";
-      });
-      const next = getNextAction();
-      if ($("nextActionTitle")) $("nextActionTitle").textContent = next.title;
-      if ($("nextActionText")) $("nextActionText").textContent = next.text;
-      if ($("nextActionBtn")) $("nextActionBtn").dataset.jumpTab = next.tab;
+      renderStepLadder(next);
       renderGameLayer();
       updateProcessState();
       if ($("finalBriefing")) renderFinalBriefing();
@@ -6008,9 +6078,9 @@
         };
       }
       return {
-        tab: "briefing",
-        title: "Briefing final pronto para decisão.",
-        text: "Você já tem estratégia, persona e plano tático. A análise visual fica separada como laboratório opcional."
+        tab: state.activeTab === "briefing" ? "exports" : "briefing",
+        title: state.activeTab === "briefing" ? "Finalize salvando ou exportando." : "Briefing final pronto para decisão.",
+        text: state.activeTab === "briefing" ? "Agora salve no site, gere PDF ou copie o pacote para Notion. A análise visual continua separada como laboratório opcional." : "Você já tem estratégia, persona e plano tático. Revise o briefing final antes de exportar."
       };
     }
 
@@ -7300,17 +7370,17 @@
 
     const TAB_CONTEXTS = {
       diagnosis: {
-        title: "Estratégia",
+        title: "Etapa 1 - Estratégia",
         body: "Janela para entender o problema, reduzir incerteza e gerar um diagnóstico antes de criar qualquer peça.",
         status: "Entrada"
       },
       persona: {
-        title: "Persona",
+        title: "Etapa 2 - Persona",
         body: "Janela para transformar o diagnóstico em dor, desejo, objeção, mensagem guia e canais prioritários.",
         status: "Público"
       },
       campaign: {
-        title: "Conteúdo",
+        title: "Etapa 3 - Conteúdo",
         body: "Janela para transformar a persona em calendário, Kanban de produção e método de execução.",
         status: "Produção"
       },
@@ -7320,16 +7390,18 @@
         status: "Bônus"
       },
       briefing: {
-        title: "Briefing",
+        title: "Etapa 4 - Briefing",
         body: "Janela para consolidar decisões, riscos e próximas ações em um plano único.",
         status: "Decisão"
       },
       exports: {
-        title: "Arquivos",
+        title: "Etapa 5 - Arquivos",
         body: "Janela para retirar CSV, JSON, briefing e relatórios do sistema sem procurar comandos espalhados.",
         status: "Saída"
       }
     };
+
+    const REQUIRED_FLOW = ["diagnosis", "persona", "campaign", "briefing", "exports"];
 
     function briefQuality() {
       const text = $("caseInput")?.value.trim() || "";
@@ -7418,6 +7490,7 @@
       if (tab === "briefing") renderFinalBriefing();
       renderTabContext();
       updateProcessState();
+      renderStepLadder(syncNextActionGuide());
       return true;
     }
 
@@ -7428,7 +7501,7 @@
         campaign: state.ideas.length > 0,
         image: !!state.image.analysis,
         briefing: state.results.length > 0 && !!state.persona && state.ideas.length > 0,
-        exports: state.results.length > 0 && !!state.persona && state.ideas.length > 0
+        exports: false
       };
       const access = flowAccess();
       document.querySelectorAll(".tab[data-tab]").forEach(btn => {
