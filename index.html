@@ -5382,6 +5382,7 @@
                       <input id="imageIntensity" type="range" min="0.15" max="1" value="0.78" step="0.05" style="width:170px;" />
                     </div>
                     <button class="btn" id="analyzeImageBtn" style="width:100%;margin-top:12px;">Decodificar Imagem</button>
+                    <button class="btn secondary" id="remakeArtBtn" style="width:100%;margin-top:8px;">Refazer arte com melhorias</button>
                   </div>
                 </aside>
 
@@ -6656,7 +6657,14 @@
       let saturation = 0;
       let edgeEnergy = 0;
       const bins = new Map();
-      const hotGrid = Array.from({ length: 6 }, () => Array.from({ length: 6 }, () => 0));
+      const saliencyGridSize = 12;
+      const saliencyGrid = Array.from({ length: saliencyGridSize }, () => Array.from({ length: saliencyGridSize }, () => 0));
+      const lumaAt = (x, y) => {
+        const xx = Math.max(0, Math.min(canvas.width - 1, x));
+        const yy = Math.max(0, Math.min(canvas.height - 1, y));
+        const i = (yy * canvas.width + xx) * 4;
+        return 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+      };
       for (let y = 0; y < canvas.height; y += 3) {
         for (let x = 0; x < canvas.width; x += 3) {
           const idx = (y * canvas.width + x) * 4;
@@ -6664,6 +6672,21 @@
           const maxc = Math.max(r, g, b), minc = Math.min(r, g, b);
           const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
           const sat = maxc === 0 ? 0 : (maxc - minc) / maxc;
+          const nx = x / Math.max(1, canvas.width);
+          const ny = y / Math.max(1, canvas.height);
+          const localContrast = Math.abs(lum - lumaAt(x + 9, y)) + Math.abs(lum - lumaAt(x - 9, y)) + Math.abs(lum - lumaAt(x, y + 9)) + Math.abs(lum - lumaAt(x, y - 9));
+          const edgeX = Math.abs(lumaAt(x + 2, y) - lumaAt(x - 2, y));
+          const edgeY = Math.abs(lumaAt(x, y + 2) - lumaAt(x, y - 2));
+          const edge = Math.hypot(edgeX, edgeY);
+          const thirdsBias = 1 - Math.min(
+            Math.abs(nx - 1 / 3),
+            Math.abs(nx - 2 / 3),
+            Math.abs(ny - 1 / 3),
+            Math.abs(ny - 2 / 3)
+          ) * 2.8;
+          const centerWeight = 1 - Math.min(1, Math.hypot(nx - 0.5, ny - 0.48) * 1.6);
+          const skinLike = r > 95 && g > 42 && b > 24 && r > g && g > b && (r - b) > 28 ? 18 : 0;
+          const textLike = localContrast > 95 && sat < 0.42 ? 16 : 0;
           brightness += lum;
           saturation += sat;
           samples.push({ r, g, b, lum, sat, x, y });
@@ -6672,9 +6695,9 @@
           const qb = Math.round(b / 32) * 32;
           const key = `${qr},${qg},${qb}`;
           bins.set(key, (bins.get(key) || 0) + 1);
-          const gx = Math.min(5, Math.floor((x / canvas.width) * 6));
-          const gy = Math.min(5, Math.floor((y / canvas.height) * 6));
-          hotGrid[gy][gx] += lum * 0.4 + sat * 180 + (Math.abs(x / canvas.width - 0.5) < 0.23 ? 15 : 0);
+          const gx = Math.min(saliencyGridSize - 1, Math.floor(nx * saliencyGridSize));
+          const gy = Math.min(saliencyGridSize - 1, Math.floor(ny * saliencyGridSize));
+          saliencyGrid[gy][gx] += edge * 1.7 + localContrast * 0.42 + sat * 155 + centerWeight * 28 + Math.max(0, thirdsBias) * 34 + skinLike + textLike;
           if (x > 0 && y > 0) {
             const prev = ((y - 1) * canvas.width + (x - 1)) * 4;
             edgeEnergy += Math.abs(r - data[prev]) + Math.abs(g - data[prev + 1]) + Math.abs(b - data[prev + 2]);
@@ -6691,12 +6714,19 @@
       const darkRatio = Math.round(samples.filter(p => p.lum < 42).length / count * 100);
       const lightRatio = Math.round(samples.filter(p => p.lum > 212).length / count * 100);
       const breathingRoom = clamp(Math.round((darkRatio + lightRatio) * 0.75));
-      const points = [];
-      hotGrid.forEach((row, gy) => row.forEach((score, gx) => points.push({
+      const candidatePoints = [];
+      saliencyGrid.forEach((row, gy) => row.forEach((score, gx) => candidatePoints.push({
         score,
-        x: Math.round(((gx + 0.5) / 6) * 100),
-        y: Math.round(((gy + 0.5) / 6) * 100)
+        x: Math.round(((gx + 0.5) / saliencyGridSize) * 100),
+        y: Math.round(((gy + 0.5) / saliencyGridSize) * 100)
       })));
+      candidatePoints.sort((a, b) => b.score - a.score);
+      const points = [];
+      for (const p of candidatePoints) {
+        const tooClose = points.some(existing => Math.hypot(existing.x - p.x, existing.y - p.y) < 18);
+        if (!tooClose) points.push(p);
+        if (points.length >= 5) break;
+      }
       points.sort((a, b) => b.score - a.score);
       const top = points[0]?.score || 1;
       const second = points[1]?.score || 1;
@@ -6709,6 +6739,12 @@
           }, 0) / 2)
         : 0;
       const centerBias = clamp(Math.round(100 - Math.hypot((points[0]?.x || 50) - 50, (points[0]?.y || 50) - 45) * 2.1));
+      const ruleOfThirdsBias = clamp(Math.round(100 - Math.min(
+        Math.abs((points[0]?.x || 50) - 33),
+        Math.abs((points[0]?.x || 50) - 67),
+        Math.abs((points[0]?.y || 50) - 33),
+        Math.abs((points[0]?.y || 50) - 67)
+      ) * 3));
       return {
         width: img.naturalWidth,
         height: img.naturalHeight,
@@ -6721,10 +6757,11 @@
         salienceGap,
         focusSpread,
         centerBias,
+        ruleOfThirdsBias,
         darkRatio,
         lightRatio,
         palette,
-        heatmapPoints: points.slice(0, 3).map((p, i) => ({ ...p, label: String(i + 1) }))
+        heatmapPoints: points.slice(0, 5).map((p, i) => ({ ...p, label: String(i + 1) }))
       };
     }
 
@@ -6735,8 +6772,8 @@
       const formatFit = scoreFormatFit(format, pixels);
       const contrast = clamp(Math.round(Math.abs(pixels.brightness - 128) * 0.42 + pixels.saturation * 0.28 + pixels.salienceGap * 0.34 + 24));
       const cognitiveLoad = clamp(Math.round(pixels.complexity * 0.52 + pixels.colorEntropy * 0.28 + pixels.focusSpread * 0.42 - pixels.breathingRoom * 0.18));
-      const clarity = clamp(Math.round(94 - cognitiveLoad * 0.62 + pixels.salienceGap * 0.22 + pixels.centerBias * 0.18 + formatFit * 0.12));
-      const persuasion = clamp(Math.round(contrast * 0.28 + clarity * 0.26 + pixels.centerBias * 0.16 + pixels.saturation * 0.14 + formatFit * 0.16));
+      const clarity = clamp(Math.round(94 - cognitiveLoad * 0.62 + pixels.salienceGap * 0.2 + pixels.centerBias * 0.14 + pixels.ruleOfThirdsBias * 0.1 + formatFit * 0.12));
+      const persuasion = clamp(Math.round(contrast * 0.27 + clarity * 0.25 + pixels.centerBias * 0.12 + pixels.ruleOfThirdsBias * 0.1 + pixels.saturation * 0.12 + formatFit * 0.14));
       const urgency = clamp(Math.round(34 + pixels.saturation * 0.28 + contrast * 0.26 + pixels.complexity * 0.12 + (format.includes("Social") ? 8 : 0)));
       const dopamine = clamp(Math.round(persuasion * 0.34 + contrast * 0.24 + (100 - cognitiveLoad) * 0.22 + pixels.salienceGap * 0.2));
       const cortisol = clamp(Math.round(cognitiveLoad * 0.62 + pixels.focusSpread * 0.28 + Math.max(0, 48 - contrast) * 0.32));
@@ -6749,7 +6786,7 @@
       return {
         context: {
           format,
-          reasoning: `Formato ${formatChoice === "Automático" ? "inferido" : "definido"} com proporcao ${pixels.width}x${pixels.height} e leitura visual ${pixels.aspect > 1.35 ? "horizontal" : pixels.aspect < 0.8 ? "vertical" : "quadrada"}.`
+          reasoning: `Formato ${formatChoice === "Automático" ? "inferido" : "definido"} com proporcao ${pixels.width}x${pixels.height}. A leitura combina contraste local, bordas, saliencia cromatica, centro optico e regra dos terços.`
         },
         scores: { clarity, persuasion, urgency, contrast, cognitiveLoad, dopamine, cortisol, visualFluency, formatFit },
         heatmapPoints: points,
@@ -6786,6 +6823,7 @@
           keyElementsTitle: "Hierarquia Visual",
           keyElements: [
             { element: "Foco principal", status: pixels.salienceGap > 62 ? "Forte" : "Fraco", note: `Dominancia do primeiro hotspot: ${pixels.salienceGap}/100.` },
+            { element: "Composicao", status: pixels.ruleOfThirdsBias > 58 ? "Forte" : "Ajustar", note: `Aderencia a centro optico/regra dos tercos: ${pixels.ruleOfThirdsBias}/100.` },
             { element: "Carga cognitiva", status: cognitiveLoad < 46 ? "Forte" : "Fraco", note: `Carga estimada: ${cognitiveLoad}/100. Quanto menor, maior a fluencia.` },
             { element: "CTA", status: urgency > 65 && contrast > 58 ? "Forte" : "Fraco", note: "Deve ficar perto da promessa e dentro do caminho natural do olhar." }
           ]
@@ -6814,6 +6852,30 @@
         redesign: `/imagine prompt: premium commercial redesign for ${format}, clear visual hierarchy, single dominant focal point, stronger headline area, high contrast CTA, refined composition, color accent ${dominant.hex}, neuromarketing improvements: ${actionText}${extra} --v 6.0 --style raw --q 2`,
         upscale: `/imagine prompt: high-end commercial remaster of the original image, preserve core product and structure, improve material realism, crisp details, studio-grade lighting, clean shadows, 8k texture quality, polished advertising finish${extra} --v 6.0 --style raw --q 2`
       };
+    }
+
+    function remakeArtWithImprovements() {
+      const a = state.image.analysis;
+      if (!a) return toast("Analise a imagem antes de refazer a arte.");
+      state.image.activePanel = "improvements";
+      document.querySelectorAll("[data-image-panel]").forEach(btn => btn.classList.toggle("active", btn.dataset.imagePanel === state.image.activePanel));
+      renderImagePanel();
+      const prompt = [
+        a.prompts.redesign,
+        "",
+        "Ajustes obrigatorios:",
+        `- Reposicionar promessa/CTA perto do hotspot 1 (${a.heatmapPoints[0]?.x || 50}%/${a.heatmapPoints[0]?.y || 45}%).`,
+        `- Reduzir carga cognitiva para abaixo de 45; carga atual: ${a.scores.cognitiveLoad}/100.`,
+        `- Aumentar contraste e fluencia visual; contraste atual: ${a.scores.contrast}/100.`,
+        "- Manter produto/marca reconheciveis e preservar a informacao essencial."
+      ].join("\n");
+      navigator.clipboard?.writeText(prompt).then(
+        () => toast("Prompt de redesign copiado. Cole na sua IA de imagem."),
+        () => {
+          download("rod-redesign-prompt.txt", prompt);
+          toast("Baixei o prompt de redesign.");
+        }
+      );
     }
 
     function scoreFormatFit(format, pixels) {
@@ -6960,6 +7022,7 @@
           <div class="ideas" style="padding:0;">${a.actions.map((act, i) => `<article class="idea-card"><div class="idea-meta"><span class="tag">Ação ${i + 1}</span><span class="tag">${act.priority}</span></div><h3>${act.title}</h3><p>${act.why}</p><div class="variations">${act.steps.map((s, idx) => `<div class="variation"><i>${idx + 1}</i><span><b>Passo</b><span>${s}</span></span></div>`).join("")}</div></article>`).join("")}</div>
           <div class="mini-card" style="margin-top:14px;"><b>Prompt de Redesign</b><div class="prompt-box">${a.prompts.redesign}</div><button class="btn secondary" data-copy-prompt="redesign" style="margin-top:10px;">Copiar Prompt</button></div>
           <div class="mini-card" style="margin-top:14px;"><b>Prompt de Upscale</b><div class="prompt-box">${a.prompts.upscale}</div><button class="btn secondary" data-copy-prompt="upscale" style="margin-top:10px;">Copiar Prompt</button></div>
+          <button class="btn" id="remakeArtPanelBtn" style="width:100%;margin-top:14px;">Refazer arte com melhorias</button>
           <button class="btn" id="downloadImageReportBtn" style="width:100%;margin-top:14px;">Exportar Relatório Visual</button>
         `;
         document.querySelectorAll("[data-copy-prompt]").forEach(btn => btn.addEventListener("click", () => {
@@ -6967,6 +7030,7 @@
           navigator.clipboard?.writeText(prompt);
           toast("Prompt copiado.");
         }));
+        $("remakeArtPanelBtn").addEventListener("click", remakeArtWithImprovements);
         $("downloadImageReportBtn").addEventListener("click", exportImageReport);
       }
     }
@@ -7327,6 +7391,7 @@
       $("imageFileInput").addEventListener("change", event => handleImageFile(event.target.files?.[0]));
       $("resetImageBtn").addEventListener("click", resetImageLab);
       $("analyzeImageBtn").addEventListener("click", analyzeUploadedImage);
+      $("remakeArtBtn").addEventListener("click", remakeArtWithImprovements);
       $("imageIntensity").addEventListener("input", event => {
         state.image.intensity = Number(event.target.value);
         renderImageOverlay();
