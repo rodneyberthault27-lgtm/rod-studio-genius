@@ -53,9 +53,49 @@
 
     .shell {
       display: grid;
-      grid-template-columns: 380px minmax(0, 1fr);
-      gap: 20px;
+      grid-template-columns: var(--left-width, 380px) 10px minmax(0, 1fr);
+      gap: 10px;
       align-items: start;
+    }
+
+    .resize-handle {
+      position: sticky;
+      top: 92px;
+      z-index: 8;
+      width: 10px;
+      min-height: calc(100vh - 128px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.34), transparent),
+        rgba(255, 255, 255, 0.035);
+      cursor: col-resize;
+      touch-action: none;
+    }
+
+    .resize-handle::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 3px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.38);
+      transform: translate(-50%, -50%);
+    }
+
+    .resize-handle:hover,
+    .resize-handle.is-dragging {
+      border-color: rgba(139, 92, 246, 0.55);
+      background:
+        linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.66), transparent),
+        rgba(139, 92, 246, 0.08);
+    }
+
+    body.is-resizing {
+      cursor: col-resize;
+      user-select: none;
     }
 
     .topbar {
@@ -1748,6 +1788,7 @@
 
     @media (max-width: 1180px) {
       .shell, .diagnosis-layout, .hero { grid-template-columns: 1fr; }
+      .resize-handle { display: none; }
       .left, .radar-wrap { position: static; }
       .ideas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .method-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1768,6 +1809,58 @@
       .hero-copy { padding: 20px; }
       .score-box { margin: 0 20px 20px; }
       .brand h1 { font-size: 34px; }
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #111827 !important;
+      }
+
+      .topbar,
+      .left,
+      .resize-handle,
+      .hero,
+      .tabs,
+      .tab-context,
+      .guide-panel,
+      .toast,
+      .quick-start,
+      .service-grid,
+      .numbers-strip,
+      .marquee-strip {
+        display: none !important;
+      }
+
+      .app,
+      .shell,
+      .main,
+      .workspace {
+        width: 100% !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .process-window,
+      .panel,
+      .mini-card,
+      .metric-card,
+      .brief-hero {
+        border: 1px solid #d1d5db !important;
+        background: #fff !important;
+        color: #111827 !important;
+        box-shadow: none !important;
+      }
+
+      .process-window::before {
+        background: #f3f4f6 !important;
+        color: #111827 !important;
+      }
+
+      .hidden {
+        display: none !important;
+      }
     }
 
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&family=Space+Mono:wght@400;700&display=swap');
@@ -3691,8 +3784,8 @@
     }
 
     .shell {
-      grid-template-columns: 390px minmax(0, 1fr);
-      gap: 28px;
+      grid-template-columns: var(--left-width, 390px) 10px minmax(0, 1fr);
+      gap: 14px;
       padding-top: 32px;
     }
 
@@ -4438,6 +4531,8 @@
         </section>
       </aside>
 
+      <div class="resize-handle" id="layoutResizeHandle" role="separator" aria-label="Redimensionar painel de briefing" aria-orientation="vertical" tabindex="0"></div>
+
       <section class="main">
         <section class="panel hero">
           <div class="hero-copy">
@@ -4751,6 +4846,23 @@
                 <p>Leve dados estruturados para automações, dashboards ou outra ferramenta.</p>
                 <button class="btn secondary" id="jsonBtn" style="margin-top:14px;width:100%;">Exportar JSON</button>
               </div>
+              <div class="mini-card">
+                <b>PDF executivo</b>
+                <p>Abra uma versão de impressão do briefing com campanha, scores e próximas ações.</p>
+                <button class="btn secondary" id="pdfBtn" style="margin-top:14px;width:100%;">Salvar PDF</button>
+              </div>
+              <div class="mini-card">
+                <b>Salvar no site</b>
+                <p>Guarde a campanha neste navegador e recupere depois sem perder o plano.</p>
+                <button class="btn secondary" id="saveSiteBtn" style="margin-top:14px;width:100%;">Salvar Campanha</button>
+                <button class="btn ghost" id="loadSiteBtn" style="margin-top:8px;width:100%;">Carregar Salva</button>
+              </div>
+              <div class="mini-card">
+                <b>Notion-ready</b>
+                <p>Copie ou baixe um pacote em Markdown pronto para colar/importar no Notion.</p>
+                <button class="btn secondary" id="notionCopyBtn" style="margin-top:14px;width:100%;">Copiar para Notion</button>
+                <button class="btn ghost" id="notionMdBtn" style="margin-top:8px;width:100%;">Baixar .md</button>
+              </div>
             </div>
           </section>
         </div>
@@ -4854,6 +4966,8 @@
 
     const $ = (id) => document.getElementById(id);
     window.RODGenius = { state };
+    const STORAGE_KEY = "rodStudioGeniusSavedCampaign";
+    const LAYOUT_KEY = "rodStudioGeniusLayoutLeft";
 
     const MENTOR_PHOTO_TITLES = {
       kotler: ["Philip Kotler"],
@@ -5733,6 +5847,123 @@
       download("rod-genius-data.json", JSON.stringify(payload, null, 2), "application/json;charset=utf-8");
     }
 
+    function campaignSnapshot() {
+      return {
+        savedAt: new Date().toISOString(),
+        case: $("caseInput").value.trim(),
+        segment: $("segmentInput").value,
+        tone: $("toneInput").value,
+        selectedMentors: state.selectedMentors,
+        results: state.results,
+        ideas: state.ideas,
+        concept: state.concept,
+        neuroText: state.neuroText,
+        activeMonth: state.activeMonth,
+        activeChannel: state.activeChannel,
+        campaignView: state.campaignView,
+        imageAnalysis: state.image.analysis
+      };
+    }
+
+    function applyCampaignSnapshot(data) {
+      if (!data) return false;
+      $("caseInput").value = data.case || "";
+      $("segmentInput").value = data.segment || "";
+      $("toneInput").value = data.tone || "Premium prático";
+      state.selectedMentors = Array.isArray(data.selectedMentors) ? data.selectedMentors : state.selectedMentors;
+      state.results = Array.isArray(data.results) ? data.results : [];
+      state.ideas = Array.isArray(data.ideas) ? data.ideas : [];
+      state.concept = data.concept || null;
+      state.neuroText = data.neuroText || "";
+      state.activeMonth = Number.isFinite(data.activeMonth) ? data.activeMonth : 0;
+      state.activeChannel = data.activeChannel || "Todos";
+      state.campaignView = data.campaignView || "calendar";
+      if (data.imageAnalysis) state.image.analysis = data.imageAnalysis;
+      renderMentors();
+      renderBriefQuality();
+      if (state.results.length) renderDiagnosis();
+      if (state.ideas.length) renderCampaign();
+      updateDopaminePanel();
+      return true;
+    }
+
+    function saveCampaignToSite() {
+      const snapshot = campaignSnapshot();
+      if (!snapshot.case && !snapshot.ideas.length && !snapshot.results.length) return toast("Crie um briefing ou campanha antes de salvar.");
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+      toast("Campanha salva neste navegador.");
+    }
+
+    function loadCampaignFromSite() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return toast("Nenhuma campanha salva neste navegador.");
+      try {
+        const data = JSON.parse(raw);
+        if (applyCampaignSnapshot(data)) {
+          setTab(data.ideas?.length ? "campaign" : "diagnosis");
+          toast("Campanha salva carregada.");
+        }
+      } catch (error) {
+        toast("Nao consegui carregar a campanha salva.");
+      }
+    }
+
+    function buildNotionMarkdown() {
+      const snap = campaignSnapshot();
+      const m = state.results.length ? aggregateMetrics() : null;
+      const neuro = state.results.length ? analyzeNeuroConversion() : null;
+      const lines = [
+        "# ROD Studio Genius - Campanha",
+        "",
+        `**Salvo em:** ${new Date().toLocaleString("pt-BR")}`,
+        "",
+        "## Desafio",
+        snap.case || "Sem desafio preenchido.",
+        "",
+        "## Contexto",
+        `- Segmento: ${snap.segment || "Nao informado"}`,
+        `- Tom: ${snap.tone || "Nao informado"}`,
+        `- ROD Score: ${state.results.length ? rodScore() : "Nao gerado"}`,
+        m ? `- Impacto: ${m.impacto} | Urgencia: ${m.urgencia} | Clareza: ${m.clareza} | Risco: ${m.risco}` : "- Metricas: ainda nao geradas",
+        neuro ? `- Neuro Score: ${neuro.reward}/100 | Tensao: ${neuro.tension}/100` : "- Neuro Score: ainda nao gerado",
+        "",
+        "## Tese",
+        snap.concept ? `${snap.concept.platform}\n\n${snap.concept.benefit}` : "Gere a campanha para criar a tese.",
+        "",
+        "## Diagnostico dos mentores",
+        ...(state.results.length ? state.results.map(r => `### ${r.mentorName}\n${r.diagnosis}`) : ["Sem diagnostico ainda."]),
+        "",
+        "## Calendario de conteudo",
+        ...(state.ideas.length ? state.ideas
+          .sort((a, b) => a.monthIndex - b.monthIndex || a.day - b.day)
+          .map(i => `- **${MONTHS[i.monthIndex]} / Dia ${i.day} / ${i.channel} / ${i.format}:** ${i.title}\n  - ${i.visualDescription}\n  - ${i.creativeVariations.map(v => `${v.title}: ${v.description}`).join(" | ")}`)
+          : ["Sem ideias geradas ainda."])
+      ];
+      return lines.join("\n");
+    }
+
+    function copyNotionMarkdown() {
+      const md = buildNotionMarkdown();
+      navigator.clipboard?.writeText(md).then(
+        () => toast("Pacote copiado para colar no Notion."),
+        () => {
+          download("rod-genius-notion.md", md, "text/markdown;charset=utf-8");
+          toast("Clipboard bloqueado. Baixei o Markdown.");
+        }
+      );
+    }
+
+    function downloadNotionMarkdown() {
+      download("rod-genius-notion.md", buildNotionMarkdown(), "text/markdown;charset=utf-8");
+    }
+
+    function exportPDF() {
+      if (!state.results.length && !state.ideas.length) return toast("Gere um diagnostico ou campanha antes do PDF.");
+      renderFinalBriefing();
+      setTab("briefing");
+      setTimeout(() => window.print(), 180);
+    }
+
     function handleImageFile(file) {
       if (!file || !file.type.startsWith("image/")) return toast("Envie um arquivo de imagem.");
       const reader = new FileReader();
@@ -6373,6 +6604,50 @@
       updateProcessState();
     }
 
+    function initResizableLayout() {
+      const shell = document.querySelector(".shell");
+      const handle = $("layoutResizeHandle");
+      if (!shell || !handle) return;
+      const saved = Number(localStorage.getItem(LAYOUT_KEY));
+      if (saved) shell.style.setProperty("--left-width", `${clamp(saved, 280, 560)}px`);
+
+      const setWidth = (clientX) => {
+        const rect = shell.getBoundingClientRect();
+        const width = clamp(Math.round(clientX - rect.left), 280, 560);
+        shell.style.setProperty("--left-width", `${width}px`);
+        localStorage.setItem(LAYOUT_KEY, String(width));
+      };
+
+      const stop = () => {
+        handle.classList.remove("is-dragging");
+        document.body.classList.remove("is-resizing");
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", stop);
+      };
+
+      const move = (event) => setWidth(event.clientX);
+
+      handle.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        handle.classList.add("is-dragging");
+        document.body.classList.add("is-resizing");
+        handle.setPointerCapture?.(event.pointerId);
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop);
+      });
+
+      handle.addEventListener("keydown", event => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End", "r", "R"].includes(event.key)) return;
+        const current = parseInt(getComputedStyle(shell).getPropertyValue("--left-width")) || 380;
+        if (event.key === "ArrowLeft") shell.style.setProperty("--left-width", `${clamp(current - 24, 280, 560)}px`);
+        if (event.key === "ArrowRight") shell.style.setProperty("--left-width", `${clamp(current + 24, 280, 560)}px`);
+        if (event.key === "Home") shell.style.setProperty("--left-width", "280px");
+        if (event.key === "End") shell.style.setProperty("--left-width", "560px");
+        if (event.key === "r" || event.key === "R") shell.style.setProperty("--left-width", "380px");
+        localStorage.setItem(LAYOUT_KEY, String(parseInt(getComputedStyle(shell).getPropertyValue("--left-width")) || 380));
+      });
+    }
+
     function wait(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -6392,6 +6667,7 @@
       loadMentorPhotos();
       renderMonths();
       renderFilters();
+      initResizableLayout();
       renderBriefQuality();
       renderTabContext();
       updateDopaminePanel();
@@ -6441,6 +6717,11 @@
       $("csvBtn").addEventListener("click", exportCSV);
       $("briefBtn").addEventListener("click", exportBriefing);
       $("jsonBtn").addEventListener("click", exportJSON);
+      $("pdfBtn").addEventListener("click", exportPDF);
+      $("saveSiteBtn").addEventListener("click", saveCampaignToSite);
+      $("loadSiteBtn").addEventListener("click", loadCampaignFromSite);
+      $("notionCopyBtn").addEventListener("click", copyNotionMarkdown);
+      $("notionMdBtn").addEventListener("click", downloadNotionMarkdown);
       $("uploadImageBtn").addEventListener("click", () => $("imageFileInput").click());
       $("imageUploadZone").addEventListener("click", () => $("imageFileInput").click());
       $("imageFileInput").addEventListener("change", event => handleImageFile(event.target.files?.[0]));
