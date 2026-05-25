@@ -691,6 +691,20 @@
       color: #bbf7d0;
     }
 
+    .tab[data-locked="true"],
+    [data-jump-tab][data-locked="true"] {
+      opacity: 0.46;
+      cursor: not-allowed;
+      filter: grayscale(0.55);
+    }
+
+    .tab[data-locked="true"] .tab-mark,
+    [data-jump-tab][data-locked="true"] .step-chip,
+    [data-jump-tab][data-locked="true"] span:first-child {
+      background: rgba(148, 163, 184, 0.12);
+      color: #94a3b8;
+    }
+
     .tab[aria-selected="true"] {
       box-shadow: inset 0 -2px 0 rgba(34, 211, 238, 0.75);
     }
@@ -6199,8 +6213,8 @@
 
     function generatePersona() {
       if (!state.results.length) {
-        state.results = MENTORS.filter(m => state.selectedMentors.includes(m.id)).map(m => localDiagnosis(m, $("caseInput").value.trim(), $("segmentInput").value, $("toneInput").value));
-        renderDiagnosis();
+        setTab("diagnosis");
+        return toast("Rode o diagnóstico antes de gerar a persona.");
       }
       state.persona = buildPersona();
       state.concept = buildConcept($("caseInput").value.trim());
@@ -6223,12 +6237,12 @@
 
     function generateCampaign(reset = true) {
       if (!state.results.length) {
-        state.results = MENTORS.filter(m => state.selectedMentors.includes(m.id)).map(m => localDiagnosis(m, $("caseInput").value.trim(), $("segmentInput").value, $("toneInput").value));
-        renderDiagnosis();
+        setTab("diagnosis");
+        return toast("Rode o diagnóstico antes de gerar a campanha.");
       }
       if (!state.persona) {
-        state.persona = buildPersona();
-        renderPersona();
+        setTab("persona");
+        return toast("Crie a persona antes de gerar a campanha.");
       }
       if (!state.concept || state.persona) state.concept = buildConcept($("caseInput").value.trim());
       const month = state.activeMonth;
@@ -7351,23 +7365,46 @@
       target.innerHTML = `<div><b>${context.title}</b><p>${context.body}</p></div><span>${context.status}</span>`;
     }
 
-    function updateProcessState() {
-      const done = {
-        diagnosis: state.results.length > 0,
-        persona: !!state.persona,
-        campaign: state.ideas.length > 0,
-        image: !!state.image.analysis,
-        briefing: state.results.length > 0 && !!state.persona && state.ideas.length > 0,
-        exports: state.results.length > 0 && !!state.persona && state.ideas.length > 0
+    function flowAccess() {
+      const hasDiagnosis = state.results.length > 0;
+      const hasPersona = !!state.persona;
+      const hasCampaign = state.ideas.length > 0;
+      return {
+        diagnosis: true,
+        persona: hasDiagnosis,
+        campaign: hasDiagnosis && hasPersona,
+        image: true,
+        briefing: hasDiagnosis && hasPersona && hasCampaign,
+        exports: hasDiagnosis && hasPersona && hasCampaign
       };
-      document.querySelectorAll(".tab[data-tab]").forEach(btn => {
-        const active = btn.dataset.tab === state.activeTab;
-        btn.dataset.done = done[btn.dataset.tab] ? "true" : "false";
-        btn.setAttribute("aria-selected", active ? "true" : "false");
-      });
     }
 
-    function setTab(tab) {
+    function lockedTabMessage(tab) {
+      if ((tab === "persona" || tab === "campaign" || tab === "briefing" || tab === "exports") && !state.results.length) {
+        return "Rode o diagnóstico antes de liberar as próximas etapas.";
+      }
+      if ((tab === "campaign" || tab === "briefing" || tab === "exports") && !state.persona) {
+        return "Crie a persona antes de liberar conteúdo, briefing e arquivos.";
+      }
+      if ((tab === "briefing" || tab === "exports") && !state.ideas.length) {
+        return "Gere a campanha antes de liberar briefing e arquivos.";
+      }
+      const labels = {
+        persona: "Rode o diagnóstico antes de criar a persona.",
+        campaign: "Crie a persona antes de gerar o conteúdo.",
+        briefing: "Gere a campanha antes de revisar o briefing final.",
+        exports: "Gere a campanha antes de exportar os arquivos."
+      };
+      return labels[tab] || "Complete a etapa anterior para liberar esta área.";
+    }
+
+    function setTab(tab, options = {}) {
+      const access = flowAccess();
+      if (!access[tab] && !options.force) {
+        const next = getNextAction();
+        toast(lockedTabMessage(tab));
+        return setTab(next.tab, { force: true });
+      }
       state.activeTab = tab;
       document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tab));
       $("diagnosisTab").classList.toggle("hidden", tab !== "diagnosis");
@@ -7381,6 +7418,34 @@
       if (tab === "briefing") renderFinalBriefing();
       renderTabContext();
       updateProcessState();
+      return true;
+    }
+
+    function updateProcessState() {
+      const done = {
+        diagnosis: state.results.length > 0,
+        persona: !!state.persona,
+        campaign: state.ideas.length > 0,
+        image: !!state.image.analysis,
+        briefing: state.results.length > 0 && !!state.persona && state.ideas.length > 0,
+        exports: state.results.length > 0 && !!state.persona && state.ideas.length > 0
+      };
+      const access = flowAccess();
+      document.querySelectorAll(".tab[data-tab]").forEach(btn => {
+        const active = btn.dataset.tab === state.activeTab;
+        btn.dataset.done = done[btn.dataset.tab] ? "true" : "false";
+        btn.dataset.locked = access[btn.dataset.tab] ? "false" : "true";
+        btn.title = access[btn.dataset.tab] ? "" : lockedTabMessage(btn.dataset.tab);
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+        btn.setAttribute("aria-disabled", access[btn.dataset.tab] ? "false" : "true");
+      });
+      document.querySelectorAll("[data-jump-tab]").forEach(btn => {
+        const tab = btn.dataset.jumpTab;
+        const locked = !access[tab];
+        btn.dataset.locked = locked ? "true" : "false";
+        btn.setAttribute("aria-disabled", locked ? "true" : "false");
+        btn.title = locked ? lockedTabMessage(tab) : "";
+      });
     }
 
     function initResizableLayout() {
@@ -7458,16 +7523,18 @@
       $("emptyExampleBtn").addEventListener("click", fillExampleChallenge);
       document.querySelectorAll("[data-objective]").forEach(btn => btn.addEventListener("click", () => applyObjective(btn.dataset.objective)));
       document.querySelectorAll("[data-jump-tab]").forEach(btn => btn.addEventListener("click", () => {
-        setTab(btn.dataset.jumpTab);
-        document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (setTab(btn.dataset.jumpTab)) {
+          document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }));
       document.querySelectorAll("[data-scroll-target]").forEach(btn => btn.addEventListener("click", () => {
         document.querySelector(btn.dataset.scrollTarget)?.scrollIntoView({ behavior: "smooth", block: "start" });
       }));
       $("nextActionBtn").addEventListener("click", () => {
         const tab = $("nextActionBtn").dataset.jumpTab || getNextAction().tab;
-        setTab(tab);
-        document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (setTab(tab)) {
+          document.querySelector(".workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       });
       $("clearBtn").addEventListener("click", () => {
         state.results = [];
