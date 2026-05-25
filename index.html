@@ -5176,24 +5176,30 @@
                 <b>Clareza estratégica</b>
                 <small>Diagnóstico e radar</small>
               </button>
-              <button class="mission-item" data-jump-tab="campaign" type="button">
+              <button class="mission-item" data-jump-tab="persona" type="button">
                 <span>02</span>
+                <b>Persona</b>
+                <small>Dor, desejo e canais</small>
+              </button>
+              <button class="mission-item" data-jump-tab="campaign" type="button">
+                <span>03</span>
                 <b>Plano de ação</b>
                 <small>Calendário e ideias</small>
               </button>
               <button class="mission-item" data-jump-tab="image" type="button">
-                <span>03</span>
+                <span>Lab</span>
                 <b>Bônus visual</b>
                 <small>Opcional após criar</small>
               </button>
             </div>
             <div class="combo-row">
               <div class="combo-card"><b id="comboCount">0x</b><span>Combo ativo</span></div>
-              <div class="combo-card"><b id="badgeCount">0/4</b><span>Badges</span></div>
+              <div class="combo-card"><b id="badgeCount">0/5</b><span>Badges</span></div>
               <div class="combo-card"><b id="streakLabel">Idle</b><span>Ritual</span></div>
             </div>
             <div class="badge-vault" id="badgeVault">
               <div class="badge" data-badge="diagnosis">Radar<br>Aberto</div>
+              <div class="badge" data-badge="persona">Pessoa<br>Certa</div>
               <div class="badge" data-badge="campaign">Plano<br>Vivo</div>
               <div class="badge" data-badge="image">Olho<br>Ativo</div>
               <div class="badge" data-badge="briefing">Sistema<br>Completo</div>
@@ -5246,10 +5252,11 @@
 
         <nav class="tabs" aria-label="Navegação">
           <button class="tab active" data-tab="diagnosis"><span class="tab-mark">1</span><strong>Estratégia</strong><span>Diagnosticar</span></button>
-          <button class="tab" data-tab="campaign"><span class="tab-mark">2</span><strong>Conteúdo</strong><span>Criar ideias</span></button>
+          <button class="tab" data-tab="persona"><span class="tab-mark">2</span><strong>Persona</strong><span>Definir público</span></button>
+          <button class="tab" data-tab="campaign"><span class="tab-mark">3</span><strong>Conteúdo</strong><span>Criar ideias</span></button>
           <button class="tab" data-tab="image"><span class="tab-mark">+</span><strong>Imagem</strong><span>Bônus opcional</span></button>
-          <button class="tab" data-tab="briefing"><span class="tab-mark">3</span><strong>Briefing</strong><span>Decidir</span></button>
-          <button class="tab" data-tab="exports"><span class="tab-mark">4</span><strong>Arquivos</strong><span>Exportar</span></button>
+          <button class="tab" data-tab="briefing"><span class="tab-mark">4</span><strong>Briefing</strong><span>Decidir</span></button>
+          <button class="tab" data-tab="exports"><span class="tab-mark">5</span><strong>Arquivos</strong><span>Exportar</span></button>
         </nav>
         <div class="tab-context" id="tabContext" aria-live="polite"></div>
 
@@ -5261,8 +5268,9 @@
           </div>
           <div class="step-ladder">
             <div class="step-row" data-step="diagnosis"><span class="step-chip">01</span><div><strong>Diagnostico da marca</strong><small>Radar, risco, clareza e conselho</small></div><i class="step-status">--</i></div>
-            <div class="step-row" data-step="campaign"><span class="step-chip">02</span><div><strong>Plano de acao</strong><small>Calendario, canais e execucao</small></div><i class="step-status">--</i></div>
-            <div class="step-row" data-step="image"><span class="step-chip">03</span><div><strong>Otimizacao visual</strong><small>Opcional depois do conteudo</small></div><i class="step-status">--</i></div>
+            <div class="step-row" data-step="persona"><span class="step-chip">02</span><div><strong>Persona</strong><small>Dor, desejo, objeções e canais</small></div><i class="step-status">--</i></div>
+            <div class="step-row" data-step="campaign"><span class="step-chip">03</span><div><strong>Plano de acao</strong><small>Calendario, canais e execucao</small></div><i class="step-status">--</i></div>
+            <div class="step-row" data-step="briefing"><span class="step-chip">04</span><div><strong>Briefing final</strong><small>Decisão e exportação</small></div><i class="step-status">--</i></div>
             <div class="guide-actions">
               <button class="btn secondary" id="nextActionBtn" type="button">Ir para proxima acao</button>
               <button class="btn ghost" data-jump-tab="briefing" type="button">Ver briefing final</button>
@@ -5296,7 +5304,20 @@
             </div>
           </section>
 
-          <section id="campaignTab" class="process-window hidden" data-window-title="Janela 02 - Conteúdo e Kanban">
+          <section id="personaTab" class="process-window hidden" data-window-title="Janela 02 - Persona">
+            <div class="panel section">
+              <div class="section-title">
+                <div>
+                  <h3>Persona estratégica</h3>
+                  <p class="hint" style="margin:6px 0 0;">Transforme o diagnóstico em público, dor, desejo, objeção, gatilho e canais antes de criar conteúdo.</p>
+                </div>
+                <button class="btn" id="generatePersonaBtn" type="button">Gerar Persona</button>
+              </div>
+              <div id="personaContent" class="insight-grid"></div>
+            </div>
+          </section>
+
+          <section id="campaignTab" class="process-window hidden" data-window-title="Janela 03 - Conteúdo e Kanban">
             <div class="panel">
               <div class="planner-top">
                 <div>
@@ -5323,7 +5344,7 @@
             </div>
           </section>
 
-          <section id="imageTab" class="process-window hidden" data-window-title="Janela 03 - Análise Visual">
+          <section id="imageTab" class="process-window hidden" data-window-title="Laboratório separado - Análise Visual">
             <input id="imageFileInput" type="file" accept="image/*" class="hidden" />
             <div class="panel section">
               <div class="section-title">
@@ -5516,6 +5537,7 @@
       activeChannel: "Todos",
       campaignView: "calendar",
       concept: null,
+      persona: null,
       neuroText: "",
       mentorPhotos: {},
       image: {
@@ -5798,8 +5820,8 @@
         }
         state.concept = buildConcept(caseText);
         renderDiagnosis();
-        setTab("diagnosis");
-        toast("Conselho reunido. Diagnóstico pronto.");
+        setTab("persona");
+        toast("Diagnóstico pronto. Próximo passo: gerar persona.");
       } catch (err) {
         console.error(err);
         $("modeLabel").textContent = "Modo Demo Inteligente";
@@ -5871,23 +5893,27 @@
       const hasDiagnosis = state.results.length > 0;
       const hasImage = !!state.image.analysis;
       const hasCampaign = state.ideas.length > 0;
-      const hasBriefing = hasDiagnosis && hasCampaign;
+      const hasPersona = !!state.persona;
+      const hasBriefing = hasDiagnosis && hasPersona && hasCampaign;
       const diagnosisXP = hasDiagnosis ? 90 + Math.round(rodScore() * 0.35) : 0;
+      const personaXP = hasPersona ? 45 : 0;
       const imageXP = hasImage ? 55 + Math.round((state.image.analysis.platformSpecific.scoreValue || 0) * 0.24) : 0;
       const campaignXP = hasCampaign ? Math.min(130, 55 + state.ideas.length * 3) : 0;
       const briefingXP = hasBriefing ? 70 : 0;
-      const xp = Math.min(300, diagnosisXP + imageXP + campaignXP + briefingXP);
-      const completed = [hasDiagnosis, hasCampaign, hasBriefing, hasImage].filter(Boolean).length;
+      const xp = Math.min(300, diagnosisXP + personaXP + imageXP + campaignXP + briefingXP);
+      const completed = [hasDiagnosis, hasPersona, hasCampaign, hasBriefing, hasImage].filter(Boolean).length;
       const level = xp >= 260 ? "Sistema de Decisao" : xp >= 185 ? "Operador Criativo" : xp >= 95 ? "Estrategista em Campo" : "Briefing Zero";
-      const ritual = completed >= 4 ? "Full" : completed >= 2 ? "Quente" : completed === 1 ? "Ativo" : "Idle";
+      const ritual = completed >= 5 ? "Full" : completed >= 3 ? "Quente" : completed === 1 ? "Ativo" : "Idle";
       const nextReward = !hasDiagnosis
         ? "rode o diagnostico para liberar o radar estrategico."
+        : !hasPersona
+          ? "crie a persona para destravar o calendario com mais precisão."
         : !hasCampaign
           ? "gere o calendario para completar o plano de acao."
           : !hasImage
             ? "briefing pronto. Opcional: analise um criativo para ganhar XP bonus e refinar a arte."
             : "sistema completo. Exporte os materiais da missao.";
-      return { xp, completed, level, ritual, nextReward, hasDiagnosis, hasImage, hasCampaign, hasBriefing };
+      return { xp, completed, level, ritual, nextReward, hasDiagnosis, hasPersona, hasImage, hasCampaign, hasBriefing };
     }
 
     function renderGameLayer() {
@@ -5897,11 +5923,12 @@
       if ($("xpReadout")) $("xpReadout").textContent = `${game.xp} / 300 XP`;
       if ($("levelName")) $("levelName").textContent = game.level;
       if ($("comboCount")) $("comboCount").textContent = `${game.completed}x`;
-      if ($("badgeCount")) $("badgeCount").textContent = `${game.completed}/4`;
+      if ($("badgeCount")) $("badgeCount").textContent = `${game.completed}/5`;
       if ($("streakLabel")) $("streakLabel").textContent = game.ritual;
       if ($("nextReward")) $("nextReward").innerHTML = `<b>Proxima recompensa:</b> ${game.nextReward}`;
       const badges = {
         diagnosis: game.hasDiagnosis,
+        persona: game.hasPersona,
         image: game.hasImage,
         campaign: game.hasCampaign,
         briefing: game.hasBriefing
@@ -5915,7 +5942,8 @@
       const hasDiagnosis = state.results.length > 0;
       const hasImage = !!state.image.analysis;
       const hasCampaign = state.ideas.length > 0;
-      const progress = (hasDiagnosis ? 50 : 0) + (hasCampaign ? 50 : 0) + (hasImage && !hasCampaign ? 10 : 0);
+      const hasPersona = !!state.persona;
+      const progress = (hasDiagnosis ? 34 : 0) + (hasPersona ? 33 : 0) + (hasCampaign ? 33 : 0) + (hasImage && !hasCampaign ? 8 : 0);
       const percent = Math.min(100, progress);
       const ring = $("dopamineRing");
       if (ring) ring.style.strokeDashoffset = String(302 - (302 * percent) / 100);
@@ -5924,12 +5952,12 @@
       if (!hasDiagnosis && $("scoreHint")) $("scoreHint").textContent = percent ? "missões ativas" : "comece uma missão";
       document.querySelectorAll(".mission-item").forEach(item => {
         const tab = item.dataset.jumpTab;
-        const done = (tab === "diagnosis" && hasDiagnosis) || (tab === "image" && hasImage) || (tab === "campaign" && hasCampaign);
+        const done = (tab === "diagnosis" && hasDiagnosis) || (tab === "persona" && hasPersona) || (tab === "campaign" && hasCampaign) || (tab === "image" && hasImage);
         item.classList.toggle("done", done);
       });
       document.querySelectorAll(".step-row").forEach(row => {
         const step = row.dataset.step;
-        const done = (step === "diagnosis" && hasDiagnosis) || (step === "image" && hasImage) || (step === "campaign" && hasCampaign);
+        const done = (step === "diagnosis" && hasDiagnosis) || (step === "persona" && hasPersona) || (step === "campaign" && hasCampaign) || (step === "briefing" && hasDiagnosis && hasPersona && hasCampaign);
         row.classList.toggle("done", done);
         const status = row.querySelector(".step-status");
         if (status) status.textContent = done ? "OK" : "--";
@@ -5951,24 +5979,24 @@
           text: "Use um dos botões de autoatendimento para preencher o briefing em segundos. Depois clique em Reunir Conselho para liberar score, tese e direção."
         };
       }
+      if (!state.persona) {
+        return {
+          tab: "persona",
+          title: "Defina a persona antes do conteúdo.",
+          text: "A persona transforma a estratégia em dor, desejo, objeções e canais. Isso evita criar posts soltos e melhora o calendário."
+        };
+      }
       if (!state.ideas.length) {
         return {
           tab: "campaign",
-          title: "Transforme o diagnostico em conteudo.",
-          text: "Gere o calendario tatico para criar ideias por canal, formatos e caminhos criativos de campanha."
-        };
-      }
-      if (!state.image.analysis) {
-        return {
-          tab: "briefing",
-          title: "Briefing pronto. Imagem e opcional.",
-          text: "Voce ja pode exportar o plano final. Quando tiver uma arte criada, use a aba Imagem para refinar contraste, foco, dopamina visual e CTA."
+          title: "Transforme a persona em conteúdo.",
+          text: "Gere o calendário tático usando a persona como filtro de mensagem, canal e objeção."
         };
       }
       return {
         tab: "briefing",
-        title: "Briefing final pronto para decisao.",
-        text: "Voce ja tem estrategia, plano tatico e leitura visual. Revise o briefing final e exporte os materiais para executar."
+        title: "Briefing final pronto para decisão.",
+        text: "Você já tem estratégia, persona e plano tático. A análise visual fica separada como laboratório opcional."
       };
     }
 
@@ -6132,13 +6160,64 @@
       `).join("");
     }
 
+    function buildPersona() {
+      const caseText = $("caseInput").value.trim();
+      const product = extractProduct(caseText);
+      const m = aggregateMetrics();
+      const premium = /premium|alto valor|sofistic|consultoria|estrat/i.test(caseText);
+      const name = premium ? "Decisor exigente" : "Comprador pragmático";
+      return {
+        name,
+        segment: $("segmentInput").value || "Público principal",
+        pain: `Tem dificuldade de entender rapidamente por que ${product} é diferente e teme desperdiçar atenção, tempo ou verba.`,
+        desire: premium ? "Quer clareza, status de boa decisão e uma solução que pareça madura desde o primeiro contato." : "Quer uma solução simples, confiável e fácil de explicar para decidir sem fricção.",
+        objection: m.risco > 58 ? "Pode achar genérico, caro ou parecido com alternativas mais baratas." : "Pode adiar a decisão se a prova e o próximo passo não estiverem evidentes.",
+        trigger: m.clareza > 70 ? "Promessa direta com prova visual." : "Demonstração antes de explicação.",
+        message: `${product} ajuda você a sair da confusão para uma decisão mais clara, com menos esforço e mais prova.`,
+        channels: state.ideas.length ? [...new Set(state.ideas.map(i => i.channel))].slice(0, 4) : ["Instagram", "LinkedIn", "Email", "Blog"],
+        contentAngles: ["Antes/depois", "Prova visual", "Bastidor real", "Objeção respondida"]
+      };
+    }
+
+    function renderPersona() {
+      const target = $("personaContent");
+      if (!target) return;
+      const p = state.persona;
+      if (!p) {
+        target.innerHTML = `<div class="empty" style="grid-column:1/-1;min-height:260px;"><h3 style="margin:0 0 8px;">Persona ainda não criada.</h3><p style="margin:0;">Rode o diagnóstico e clique em Gerar Persona para destravar o conteúdo.</p></div>`;
+        return;
+      }
+      target.innerHTML = `
+        <article class="mini-card"><b>${p.name}</b><p>${p.segment}</p><span class="tag">${p.trigger}</span></article>
+        <article class="mini-card"><b>Dor principal</b><p>${p.pain}</p></article>
+        <article class="mini-card"><b>Desejo</b><p>${p.desire}</p></article>
+        <article class="mini-card"><b>Objeção</b><p>${p.objection}</p></article>
+        <article class="mini-card"><b>Mensagem guia</b><p>${p.message}</p></article>
+        <article class="mini-card"><b>Canais e ângulos</b><p>${p.channels.join(", ")}</p><div class="trigger-row">${p.contentAngles.map(a => `<span class="trigger-chip">${a}</span>`).join("")}</div></article>
+      `;
+    }
+
+    function generatePersona() {
+      if (!state.results.length) {
+        state.results = MENTORS.filter(m => state.selectedMentors.includes(m.id)).map(m => localDiagnosis(m, $("caseInput").value.trim(), $("segmentInput").value, $("toneInput").value));
+        renderDiagnosis();
+      }
+      state.persona = buildPersona();
+      state.concept = buildConcept($("caseInput").value.trim());
+      renderPersona();
+      updateDopaminePanel();
+      setTab("campaign");
+      toast("Persona criada. Próximo passo: gerar conteúdo.");
+    }
+
     function buildConcept(caseText) {
       const product = extractProduct(caseText);
+      const persona = state.persona;
       return {
-        audience: "Estudantes de alta performance, concurseiros, universitários, gestores e profissionais que alternam contexto o dia todo.",
+        audience: persona ? `${persona.name}: ${persona.pain}` : "Estudantes de alta performance, concurseiros, universitários, gestores e profissionais que alternam contexto o dia todo.",
         benefit: "Organizar pensamento, prioridade e revisão sem interromper o fluxo.",
         differential: `${product} concentra duas cores em um único corpo, reduzindo atrito físico e mental no momento da anotação.`,
-        platform: "Duas cores. Uma mente no controle."
+        platform: persona ? persona.message : "Duas cores. Uma mente no controle."
       };
     }
 
@@ -6147,7 +6226,11 @@
         state.results = MENTORS.filter(m => state.selectedMentors.includes(m.id)).map(m => localDiagnosis(m, $("caseInput").value.trim(), $("segmentInput").value, $("toneInput").value));
         renderDiagnosis();
       }
-      if (!state.concept) state.concept = buildConcept($("caseInput").value.trim());
+      if (!state.persona) {
+        state.persona = buildPersona();
+        renderPersona();
+      }
+      if (!state.concept || state.persona) state.concept = buildConcept($("caseInput").value.trim());
       const month = state.activeMonth;
       const existing = state.ideas.filter(i => i.monthIndex === month);
       const start = reset ? 1 : (existing.length ? Math.max(...existing.map(i => i.day)) + 1 : 1);
@@ -6156,6 +6239,7 @@
       state.ideas = [...state.ideas, ...newIdeas];
       renderCampaign();
       updateDopaminePanel();
+      if (reset) setTab("briefing");
       toast(reset ? `Campanha de ${MONTHS[month]} gerada.` : `Mais 15 ideias adicionadas em ${MONTHS[month]}.`);
     }
 
@@ -6441,6 +6525,7 @@
         score: state.results.length ? rodScore() : null,
         neuroConversion: state.results.length ? analyzeNeuroConversion() : null,
         concept: state.concept,
+        persona: state.persona,
         results: state.results,
         ideas: state.ideas,
         imageAnalysis: state.image.analysis
@@ -6475,6 +6560,7 @@
       state.results = Array.isArray(data.results) ? data.results : [];
       state.ideas = Array.isArray(data.ideas) ? data.ideas : [];
       state.concept = data.concept || null;
+      state.persona = data.persona || null;
       state.neuroText = data.neuroText || "";
       state.activeMonth = Number.isFinite(data.activeMonth) ? data.activeMonth : 0;
       state.activeChannel = data.activeChannel || "Todos";
@@ -6483,6 +6569,7 @@
       renderMentors();
       renderBriefQuality();
       if (state.results.length) renderDiagnosis();
+      if (state.persona) renderPersona();
       if (state.ideas.length) renderCampaign();
       updateDopaminePanel();
       return true;
@@ -6527,6 +6614,16 @@
         `- ROD Score: ${state.results.length ? rodScore() : "Nao gerado"}`,
         m ? `- Impacto: ${m.impacto} | Urgencia: ${m.urgencia} | Clareza: ${m.clareza} | Risco: ${m.risco}` : "- Metricas: ainda nao geradas",
         neuro ? `- Neuro Score: ${neuro.reward}/100 | Tensao: ${neuro.tension}/100` : "- Neuro Score: ainda nao gerado",
+        "",
+        "## Persona",
+        state.persona ? [
+          `**Nome:** ${state.persona.name}`,
+          `**Dor:** ${state.persona.pain}`,
+          `**Desejo:** ${state.persona.desire}`,
+          `**Objeção:** ${state.persona.objection}`,
+          `**Mensagem:** ${state.persona.message}`,
+          `**Canais:** ${state.persona.channels.join(", ")}`
+        ].join("\n") : "Persona ainda nao criada.",
         "",
         "## Tese",
         snap.concept ? `${snap.concept.platform}\n\n${snap.concept.benefit}` : "Gere a campanha para criar a tese.",
@@ -7071,12 +7168,14 @@
       const hasDiagnosis = state.results.length > 0;
       const hasImage = !!state.image.analysis;
       const hasCampaign = state.ideas.length > 0;
+      const hasPersona = !!state.persona;
       const caseText = $("caseInput").value.trim();
       const product = caseText ? extractProduct(caseText) : "sua marca";
       const score = hasDiagnosis ? rodScore() : 0;
       const metrics = aggregateMetrics();
       const neuro = hasDiagnosis ? analyzeNeuroConversion() : null;
       const imageScore = hasImage ? state.image.analysis.platformSpecific.scoreValue : null;
+      const persona = state.persona;
       const topActions = [];
       if (hasDiagnosis) {
         topActions.push(`Posicionar ${product} por uma promessa unica e demonstravel antes de falar de atributos.`);
@@ -7093,7 +7192,7 @@
       if (hasCampaign) {
         topActions.push(`Executar as ${state.ideas.length} ideias geradas, priorizando os canais com maior aderencia ao publico.`);
       } else {
-        topActions.push("Gerar calendario tatico para transformar a tese em posts, emails, blog e LinkedIn.");
+        topActions.push(hasPersona ? "Gerar calendario tatico usando a persona como filtro de canal, promessa e objeção." : "Criar a persona antes do calendario para evitar posts soltos.");
       }
       const concept = state.concept || buildConcept(caseText || product);
       target.innerHTML = `
@@ -7105,9 +7204,17 @@
         <div class="insight-grid">
           <article class="metric-card"><strong>${hasDiagnosis ? score : "--"}</strong><span class="hint">ROD Score</span><p class="hint" style="margin:8px 0 0;">Impacto, urgencia, clareza e risco.</p></article>
           <article class="metric-card"><strong>${neuro ? neuro.reward : "--"}</strong><span class="hint">Neuro Score</span><p class="hint" style="margin:8px 0 0;">Recompensa, desejo, prova e friccao.</p></article>
+          <article class="metric-card"><strong>${hasPersona ? "OK" : "--"}</strong><span class="hint">Persona</span><p class="hint" style="margin:8px 0 0;">Dor, desejo, objeção e canais.</p></article>
           <article class="metric-card"><strong>${imageScore ?? "Bônus"}</strong><span class="hint">Visual Score</span><p class="hint" style="margin:8px 0 0;">Opcional depois da arte criada.</p></article>
           <article class="metric-card"><strong>${state.ideas.length || "--"}</strong><span class="hint">Ideias</span><p class="hint" style="margin:8px 0 0;">Plano tatico pronto para campanha.</p></article>
         </div>
+        ${persona ? `
+          <article class="mini-card">
+            <b>Persona guia: ${persona.name}</b>
+            <p>${persona.pain}<br><br>${persona.message}</p>
+            <div class="trigger-row">${persona.contentAngles.map(a => `<span class="trigger-chip">${a}</span>`).join("")}</div>
+          </article>
+        ` : ""}
         ${neuro ? `
           <article class="mini-card">
             <b>Neuro conversão</b>
@@ -7183,15 +7290,20 @@
         body: "Janela para entender o problema, reduzir incerteza e gerar um diagnóstico antes de criar qualquer peça.",
         status: "Entrada"
       },
+      persona: {
+        title: "Persona",
+        body: "Janela para transformar o diagnóstico em dor, desejo, objeção, mensagem guia e canais prioritários.",
+        status: "Público"
+      },
       campaign: {
         title: "Conteúdo",
-        body: "Janela para transformar a tese em calendário, Kanban de produção e método de execução.",
+        body: "Janela para transformar a persona em calendário, Kanban de produção e método de execução.",
         status: "Produção"
       },
       image: {
-        title: "Imagem",
-        body: "Janela para avaliar criativos com foco em atenção, contraste, carga cognitiva, copy e melhoria visual.",
-        status: "Refino"
+        title: "Laboratório visual",
+        body: "Área separada e opcional para avaliar criativos quando a arte já existir. Ela não bloqueia o passo a passo principal.",
+        status: "Bônus"
       },
       briefing: {
         title: "Briefing",
@@ -7242,10 +7354,11 @@
     function updateProcessState() {
       const done = {
         diagnosis: state.results.length > 0,
+        persona: !!state.persona,
         campaign: state.ideas.length > 0,
         image: !!state.image.analysis,
-        briefing: state.results.length > 0 || state.ideas.length > 0 || !!state.image.analysis,
-        exports: state.results.length > 0 || state.ideas.length > 0 || !!state.image.analysis
+        briefing: state.results.length > 0 && !!state.persona && state.ideas.length > 0,
+        exports: state.results.length > 0 && !!state.persona && state.ideas.length > 0
       };
       document.querySelectorAll(".tab[data-tab]").forEach(btn => {
         const active = btn.dataset.tab === state.activeTab;
@@ -7258,10 +7371,12 @@
       state.activeTab = tab;
       document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tab));
       $("diagnosisTab").classList.toggle("hidden", tab !== "diagnosis");
+      $("personaTab").classList.toggle("hidden", tab !== "persona");
       $("campaignTab").classList.toggle("hidden", tab !== "campaign");
       $("imageTab").classList.toggle("hidden", tab !== "image");
       $("briefingTab").classList.toggle("hidden", tab !== "briefing");
       $("exportsTab").classList.toggle("hidden", tab !== "exports");
+      if (tab === "persona") renderPersona();
       if (tab === "campaign") renderCampaign();
       if (tab === "briefing") renderFinalBriefing();
       renderTabContext();
@@ -7333,6 +7448,7 @@
       renderFilters();
       initResizableLayout();
       renderBriefQuality();
+      renderPersona();
       renderTabContext();
       updateDopaminePanel();
       document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.setAttribute("role", "tab"));
@@ -7357,6 +7473,7 @@
         state.results = [];
         state.ideas = [];
         state.concept = null;
+        state.persona = null;
         state.neuroText = "";
         $("rodScore").textContent = "--";
         document.querySelector(".score-box")?.classList.remove("has-score");
@@ -7367,6 +7484,7 @@
         $("diagnosisContent").classList.add("hidden");
         $("ideasGrid").innerHTML = "";
         $("conceptPanel").classList.add("hidden");
+        renderPersona();
         $("neuroPanel").classList.add("hidden");
         toast("Resultados limpos.");
       });
@@ -7375,6 +7493,7 @@
       $("selectNoneBtn").addEventListener("click", () => { state.selectedMentors = []; renderMentors(); });
       document.querySelectorAll("[data-pack]").forEach(btn => btn.addEventListener("click", () => applyMentorPack(btn.dataset.pack)));
       document.querySelectorAll(".tab[data-tab]").forEach(btn => btn.addEventListener("click", () => setTab(btn.dataset.tab)));
+      $("generatePersonaBtn").addEventListener("click", generatePersona);
       $("generateCampaignBtn").addEventListener("click", () => generateCampaign(true));
       $("moreIdeasBtn").addEventListener("click", () => generateCampaign(false));
       $("neuroBtn").addEventListener("click", runNeuro);
