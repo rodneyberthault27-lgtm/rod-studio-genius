@@ -5096,6 +5096,222 @@
         margin: 0 14px 18px !important;
       }
     }
+
+    /* V6 UX pass: less landing page, more guided command center */
+    .marquee-strip,
+    .numbers-strip {
+      display: none !important;
+    }
+
+    .hero {
+      min-height: 420px !important;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, 420px) !important;
+      align-items: stretch !important;
+      gap: 12px !important;
+      background:
+        linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent 42%),
+        rgba(4, 5, 7, 0.96) !important;
+      border-color: rgba(139, 92, 246, 0.2) !important;
+    }
+
+    .hero-copy {
+      padding: clamp(26px, 4vw, 46px) !important;
+      justify-content: center !important;
+    }
+
+    .hero-logo {
+      width: min(300px, 70vw) !important;
+      max-height: 138px !important;
+      margin-bottom: 18px !important;
+      border-radius: 16px !important;
+      background: rgba(255, 255, 255, 0.04) !important;
+    }
+
+    .hero h2 {
+      max-width: 680px !important;
+      margin: 14px 0 12px !important;
+      font-size: clamp(48px, 5.2vw, 82px) !important;
+      line-height: .9 !important;
+    }
+
+    .hero p {
+      max-width: 560px !important;
+      font-size: 16px !important;
+      color: #b7bdc8 !important;
+    }
+
+    .hero-actions {
+      margin-top: 22px !important;
+    }
+
+    .dopamine-panel {
+      min-height: 0 !important;
+      margin: 18px !important;
+      padding: 0 !important;
+      border-radius: 16px !important;
+      background: rgba(8, 10, 14, 0.78) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .dopamine-head {
+      min-height: 58px !important;
+      padding: 0 16px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .dopamine-head span {
+      color: #c4b5fd !important;
+    }
+
+    .game-hud {
+      padding: 16px !important;
+      grid-template-columns: 1fr auto !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .level-name {
+      font-size: 16px !important;
+    }
+
+    .xp-track {
+      height: 6px !important;
+      border-radius: 999px !important;
+    }
+
+    .dopamine-ring,
+    .combo-row,
+    .badge-vault,
+    .reward-strip {
+      display: none !important;
+    }
+
+    .mission-list {
+      padding: 14px 16px 10px !important;
+      gap: 7px !important;
+    }
+
+    .mission-item {
+      grid-template-columns: 42px minmax(0, 1fr) !important;
+      min-height: 50px !important;
+      border-radius: 10px !important;
+      background: rgba(255, 255, 255, 0.025) !important;
+    }
+
+    .mission-item b {
+      font-size: 12px !important;
+      text-transform: uppercase !important;
+      letter-spacing: .04em !important;
+    }
+
+    .mission-item small {
+      font-size: 10px !important;
+    }
+
+    .next-reward {
+      margin: 0 16px 16px !important;
+      border-style: solid !important;
+      border-color: rgba(139, 92, 246, .25) !important;
+      background: rgba(139, 92, 246, .06) !important;
+    }
+
+    .quick-start {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      margin: 12px 0 !important;
+    }
+
+    .quick-step {
+      min-height: 104px !important;
+      padding: 16px !important;
+    }
+
+    .service-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 8px !important;
+      margin: 12px 0 !important;
+    }
+
+    .service-grid article {
+      min-height: 126px !important;
+      padding: 14px !important;
+    }
+
+    .service-grid h3 {
+      font-size: 24px !important;
+    }
+
+    .service-grid p {
+      font-size: 11px !important;
+      line-height: 1.45 !important;
+    }
+
+    .tabs[aria-label] {
+      top: 76px !important;
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      gap: 6px !important;
+      padding: 6px !important;
+      margin: 12px 0 !important;
+    }
+
+    .tabs[aria-label] .tab {
+      min-height: 50px !important;
+      padding: 8px !important;
+    }
+
+    .tabs[aria-label] .tab strong {
+      font-size: 11px !important;
+    }
+
+    .tabs[aria-label] .tab span:not(.tab-mark) {
+      font-size: 9px !important;
+    }
+
+    .optional-lab-strip {
+      margin: 0 0 12px !important;
+      border-color: rgba(139, 92, 246, 0.18) !important;
+      background: rgba(139, 92, 246, 0.045) !important;
+    }
+
+    .guide-panel {
+      grid-template-columns: minmax(0, .9fr) minmax(380px, 1.1fr) !important;
+      padding: 14px !important;
+      margin-bottom: 12px !important;
+    }
+
+    .step-ladder {
+      gap: 6px !important;
+    }
+
+    .step-row {
+      min-height: 44px !important;
+      border-radius: 10px !important;
+    }
+
+    .process-window::before {
+      content: attr(data-window-title) " / passo guiado" !important;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .guide-panel {
+        grid-template-columns: 1fr !important;
+      }
+      .dopamine-panel {
+        margin: 0 18px 18px !important;
+      }
+      .service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero h2 { font-size: 42px !important; }
+      .hero-logo { width: 220px !important; }
+      .quick-start { grid-template-columns: 1fr !important; }
+      .service-grid { grid-template-columns: 1fr !important; }
+      .tabs[aria-label] { grid-template-columns: 1fr !important; }
+      .optional-lab-strip { grid-template-columns: 1fr !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -5207,8 +5423,8 @@
             <div class="hero-ghost">ROD</div>
             <div class="eyebrow">RAW STRATEGY STUDIO</div>
             <img class="hero-logo" src="assets/rod-logo.png" alt="ROD Neuromarketing, Criação e Consultoria" />
-            <h2>Entre com um problema. <span class="acid">Saia com uma decisao.</span></h2>
-            <p>O sistema estrategico da ROD transforma desafios de marca em diagnostico, campanha, copy, calendario e plano de acao. Nao e gerador de ideias. E uma <strong>maquina de decisao criativa.</strong></p>
+            <h2>Seu briefing vira <span class="acid">plano de acao.</span></h2>
+            <p>Um fluxo de autoatendimento para sair de uma ideia solta e chegar em diagnostico, persona, conteudo, briefing final e arquivos prontos para execucao.</p>
             <div class="hero-actions">
               <button class="btn" data-scroll-target=".self-service">Comecar autoatendimento -></button>
               <button class="btn secondary" data-jump-tab="diagnosis">Diagnosticar agora</button>
@@ -5217,7 +5433,7 @@
           </div>
           <div class="score-box dopamine-panel">
             <div class="dopamine-head">
-              <span>Strategy Dopamine Meter</span>
+              <span>Painel de progresso</span>
               <strong id="dopaminePercent">0%</strong>
             </div>
             <div class="game-hud">
@@ -5251,13 +5467,18 @@
               </button>
               <button class="mission-item" data-jump-tab="campaign" type="button">
                 <span>03</span>
-                <b>Plano de ação</b>
-                <small>Calendário e ideias</small>
+                <b>Plano de acao</b>
+                <small>Calendario e ideias</small>
               </button>
-              <button class="mission-item" data-jump-tab="image" type="button">
-                <span>Lab</span>
-                <b>Bônus visual</b>
-                <small>Opcional após criar</small>
+              <button class="mission-item" data-jump-tab="briefing" type="button">
+                <span>04</span>
+                <b>Briefing final</b>
+                <small>Decisao e sintese</small>
+              </button>
+              <button class="mission-item" data-jump-tab="exports" type="button">
+                <span>05</span>
+                <b>Exportar</b>
+                <small>Arquivos da missao</small>
               </button>
             </div>
             <div class="combo-row">
@@ -6060,7 +6281,7 @@
       const next = syncNextActionGuide();
       document.querySelectorAll(".mission-item").forEach(item => {
         const tab = item.dataset.jumpTab;
-        const done = (tab === "diagnosis" && hasDiagnosis) || (tab === "persona" && hasPersona) || (tab === "campaign" && hasCampaign) || (tab === "image" && hasImage);
+        const done = (tab === "diagnosis" && hasDiagnosis) || (tab === "persona" && hasPersona) || (tab === "campaign" && hasCampaign) || (tab === "briefing" && hasDiagnosis && hasPersona && hasCampaign) || (tab === "exports" && hasDiagnosis && hasPersona && hasCampaign) || (tab === "image" && hasImage);
         item.classList.toggle("done", done);
       });
       renderStepLadder(next);
