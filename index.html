@@ -820,6 +820,16 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.018);
+      color: inherit;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .step-row:hover {
+      transform: translateY(-1px);
+      border-color: rgba(139, 92, 246, .45);
+      background: rgba(139, 92, 246, .06);
     }
 
     .step-row.active {
@@ -5102,10 +5112,10 @@
         <button class="active" data-jump-tab="diagnosis" type="button">Inicio</button>
         <button data-scroll-target=".quick-start" type="button">Metodo</button>
         <button data-scroll-target=".service-grid" type="button">Ferramentas</button>
-        <button data-jump-tab="image" type="button">Criativos</button>
-        <button data-jump-tab="briefing" type="button">Briefing</button>
+        <button data-jump-tab="image" type="button">Otimizar</button>
+        <button data-jump-tab="briefing" type="button">Plano Final</button>
       </nav>
-      <button class="top-cta" data-jump-tab="diagnosis" type="button">Iniciar diagnostico -></button>
+      <button class="top-cta" data-scroll-target=".self-service" type="button">Comecar autoatendimento -></button>
       <div class="status-strip">
         <span class="pill"><span class="dot"></span><span id="modeLabel">Modo Demo Inteligente</span></span>
         <span class="pill"><span id="mentorCount">4</span> mentores ativos</span>
@@ -5200,8 +5210,8 @@
             <h2>Entre com um problema. <span class="acid">Saia com uma decisao.</span></h2>
             <p>O sistema estrategico da ROD transforma desafios de marca em diagnostico, campanha, copy, calendario e plano de acao. Nao e gerador de ideias. E uma <strong>maquina de decisao criativa.</strong></p>
             <div class="hero-actions">
-              <button class="btn" data-jump-tab="diagnosis">Iniciar diagnostico -></button>
-              <button class="btn secondary" data-jump-tab="image">Analisar criativo</button>
+              <button class="btn" data-scroll-target=".self-service">Comecar autoatendimento -></button>
+              <button class="btn secondary" data-jump-tab="diagnosis">Diagnosticar agora</button>
               <button class="btn ghost" data-scroll-target=".quick-start">Ver como funciona</button>
             </div>
           </div>
@@ -5309,11 +5319,11 @@
         </section>
 
         <nav class="tabs" aria-label="Navegação">
-          <button class="tab active" data-tab="diagnosis"><span class="tab-mark">1</span><strong>Estratégia</strong><span>Diagnosticar</span></button>
-          <button class="tab" data-tab="persona"><span class="tab-mark">2</span><strong>Persona</strong><span>Definir público</span></button>
-          <button class="tab" data-tab="campaign"><span class="tab-mark">3</span><strong>Conteúdo</strong><span>Criar ideias</span></button>
-          <button class="tab" data-tab="briefing"><span class="tab-mark">4</span><strong>Briefing</strong><span>Decidir</span></button>
-          <button class="tab" data-tab="exports"><span class="tab-mark">5</span><strong>Arquivos</strong><span>Exportar</span></button>
+          <button class="tab active" data-tab="diagnosis"><span class="tab-mark">1</span><strong>Diagnosticar</strong><span>Entender problema</span></button>
+          <button class="tab" data-tab="persona"><span class="tab-mark">2</span><strong>Persona</strong><span>Definir publico</span></button>
+          <button class="tab" data-tab="campaign"><span class="tab-mark">3</span><strong>Criar Conteudo</strong><span>Ideias e calendario</span></button>
+          <button class="tab" data-tab="briefing"><span class="tab-mark">4</span><strong>Plano Final</strong><span>Decidir execucao</span></button>
+          <button class="tab" data-tab="exports"><span class="tab-mark">5</span><strong>Exportar</strong><span>Baixar arquivos</span></button>
         </nav>
         <div class="optional-lab-strip">
           <div>
@@ -5331,11 +5341,11 @@
             <p id="nextActionText">Escolha um objetivo pronto para reduzir esforço mental. O sistema monta o briefing base, seleciona mentores e mostra a próxima ação com recompensa clara.</p>
           </div>
           <div class="step-ladder">
-            <div class="step-row" data-step="diagnosis"><span class="step-chip">01</span><div><strong>Diagnostico da marca</strong><small>Radar, risco, clareza e conselho</small></div><i class="step-status">--</i></div>
-            <div class="step-row" data-step="persona"><span class="step-chip">02</span><div><strong>Persona</strong><small>Dor, desejo, objeções e canais</small></div><i class="step-status">--</i></div>
-            <div class="step-row" data-step="campaign"><span class="step-chip">03</span><div><strong>Plano de acao</strong><small>Calendario, canais e execucao</small></div><i class="step-status">--</i></div>
-            <div class="step-row" data-step="briefing"><span class="step-chip">04</span><div><strong>Briefing final</strong><small>Decisão e exportação</small></div><i class="step-status">--</i></div>
-            <div class="step-row" data-step="exports"><span class="step-chip">05</span><div><strong>Arquivos</strong><small>PDF, site e Notion</small></div><i class="step-status">--</i></div>
+            <button class="step-row" data-step="diagnosis" data-jump-tab="diagnosis" type="button"><span class="step-chip">01</span><div><strong>Diagnosticar</strong><small>Radar, risco, clareza e conselho</small></div><i class="step-status">--</i></button>
+            <button class="step-row" data-step="persona" data-jump-tab="persona" type="button"><span class="step-chip">02</span><div><strong>Persona</strong><small>Dor, desejo, objecoes e canais</small></div><i class="step-status">--</i></button>
+            <button class="step-row" data-step="campaign" data-jump-tab="campaign" type="button"><span class="step-chip">03</span><div><strong>Criar conteudo</strong><small>Calendario, canais e execucao</small></div><i class="step-status">--</i></button>
+            <button class="step-row" data-step="briefing" data-jump-tab="briefing" type="button"><span class="step-chip">04</span><div><strong>Plano final</strong><small>Decisao e exportacao</small></div><i class="step-status">--</i></button>
+            <button class="step-row" data-step="exports" data-jump-tab="exports" type="button"><span class="step-chip">05</span><div><strong>Exportar</strong><small>Arquivos para executar</small></div><i class="step-status">--</i></button>
             <div class="guide-actions">
               <button class="btn secondary" id="nextActionBtn" type="button">Ir para proxima acao</button>
               <button class="btn ghost" data-jump-tab="briefing" type="button">Ver briefing final</button>
@@ -5858,6 +5868,9 @@
       renderMentors();
       renderBriefQuality();
       updateDopaminePanel();
+      $("runBtn").textContent = "Gerar Diagnostico";
+      if ($("nextActionTitle")) $("nextActionTitle").textContent = "Objetivo selecionado. Agora rode o radar.";
+      if ($("nextActionText")) $("nextActionText").textContent = "O briefing base ja esta pronto. Clique em Gerar Diagnostico para receber score, tese de posicionamento e proxima acao recomendada.";
       const labels = {
         positioning: "Objetivo aplicado: posicionar marca.",
         launch: "Objetivo aplicado: lancar oferta.",
@@ -5895,7 +5908,8 @@
         toast("A API falhou, então usei o motor local do ROD Studio Genius.");
       } finally {
         $("runBtn").disabled = false;
-        $("runBtn").textContent = "Reunir Conselho";
+        const hasObjective = !!document.querySelector(".objective-btn.active");
+        $("runBtn").textContent = hasObjective ? "Gerar Diagnostico" : "Reunir Conselho";
       }
     }
 
@@ -7615,6 +7629,8 @@
         state.concept = null;
         state.persona = null;
         state.neuroText = "";
+        document.querySelectorAll(".objective-btn").forEach(btn => btn.classList.remove("active"));
+        $("runBtn").textContent = "Reunir Conselho";
         $("rodScore").textContent = "--";
         document.querySelector(".score-box")?.classList.remove("has-score");
         $("scoreHint").textContent = "Execute uma análise para medir impacto, clareza, urgência e risco.";
