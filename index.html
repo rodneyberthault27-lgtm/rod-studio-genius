@@ -629,6 +629,173 @@
       color: rgba(245, 244, 240, .78);
     }
 
+    .vision-lab {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(320px, .7fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .upload-zone {
+      position: relative;
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      border: 1px dashed rgba(245, 244, 240, .26);
+      background:
+        linear-gradient(rgba(245, 244, 240, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245, 244, 240, .035) 1px, transparent 1px),
+        rgba(16, 14, 30, .78);
+      background-size: 18px 18px, 18px 18px, auto;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .upload-zone.has-image {
+      place-items: stretch;
+      padding: 0;
+      border-style: solid;
+    }
+
+    .upload-empty {
+      max-width: 440px;
+      text-align: center;
+    }
+
+    .upload-empty b {
+      display: block;
+      color: var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .upload-empty p {
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .image-stage {
+      position: relative;
+      display: none;
+      min-height: 420px;
+      background: #07070c;
+    }
+
+    .upload-zone.has-image .image-stage {
+      display: grid;
+      place-items: center;
+    }
+
+    .upload-zone.has-image .upload-empty {
+      display: none;
+    }
+
+    .image-stage img {
+      display: block;
+      max-width: 100%;
+      max-height: 680px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .gaze-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      mix-blend-mode: screen;
+    }
+
+    .hotspot {
+      position: absolute;
+      width: var(--size, 28%);
+      aspect-ratio: 1;
+      left: var(--x);
+      top: var(--y);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(29, 184, 122, .78) 0 8%, rgba(123, 111, 212, .56) 28%, rgba(123, 111, 212, .18) 52%, transparent 72%);
+      opacity: .86;
+    }
+
+    .gaze-dot {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      transform: translate(-50%, -50%);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(245, 244, 240, .7);
+      background: rgba(26, 23, 48, .78);
+      color: var(--paper);
+      border-radius: 50%;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .vision-panel {
+      border: 1px solid var(--line);
+      background: rgba(16, 14, 30, .78);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .vision-tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .vision-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin: 18px 0;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .vision-metric {
+      padding: 16px;
+      background: rgba(245, 244, 240, .035);
+    }
+
+    .vision-metric strong {
+      display: block;
+      color: var(--mapped);
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -.06em;
+    }
+
+    .vision-metric span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(245, 244, 240, .58);
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .image-note {
+      color: rgba(245, 244, 240, .54);
+      font-size: 12px;
+      margin-top: 12px;
+    }
+
     .manifesto {
       max-width: 880px;
       margin: 0 auto;
@@ -668,6 +835,7 @@
 
       .hero,
       .diagnostic,
+      .vision-lab,
       .section-head {
         grid-template-columns: 1fr;
       }
@@ -734,6 +902,7 @@
         <a href="#problema">Problema</a>
         <a href="#metodo">Metodo</a>
         <a href="#diagnostico">Diagnostico</a>
+        <a href="#eye-tracking">Eye tracking</a>
       </nav>
       <a class="btn nav-cta" href="#diagnostico">Diagnostico gratuito</a>
     </header>
@@ -905,6 +1074,51 @@
         </div>
       </section>
 
+      <section id="eye-tracking" class="section">
+        <div class="section-head">
+          <div>
+            <span class="label">Eye tracking simulado</span>
+            <h2>Suba uma arte. Veja onde o olhar provavelmente para primeiro.</h2>
+          </div>
+          <p class="copy">O leitor visual roda no navegador. Ele estima pontos de atencao por saliencia de pixels: contraste, brilho, saturacao e concentracao visual. Nao substitui laboratorio, mas revela friccoes obvias antes de publicar.</p>
+        </div>
+
+        <div class="vision-lab">
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-empty">
+              <b>Leitor de imagem</b>
+              <p>Envie criativo, landing page, embalagem ou banner. A Mindframe gera mapa visual, ordem de olhar e acoes de melhoria.</p>
+              <button class="btn" id="uploadBtn" type="button">Enviar imagem</button>
+              <input id="imageInput" type="file" accept="image/*" hidden />
+              <p class="image-note">Processamento local. Nenhum arquivo precisa sair do navegador.</p>
+            </div>
+            <div class="image-stage">
+              <img id="previewImage" alt="Imagem analisada" />
+              <div class="gaze-overlay" id="gazeOverlay"></div>
+            </div>
+          </div>
+
+          <aside class="vision-panel" aria-live="polite">
+            <div class="result-head">
+              <span>Visual scan</span>
+              <strong class="score" id="visionScore">--</strong>
+            </div>
+            <div class="result-body" id="visionResult">
+              <div class="meter"><span style="--w:0%"></span></div>
+              <div class="finding">
+                <b>Aguardando imagem</b>
+                <p>O mapa de atencao aparece aqui. Use para testar se headline, produto, prova e CTA competem ou trabalham juntos.</p>
+              </div>
+              <div class="actions-list">
+                <div class="action">1. Envie uma imagem.</div>
+                <div class="action">2. Veja os 3 pontos provaveis de fixacao.</div>
+                <div class="action">3. Ajuste hierarquia, contraste e CTA.</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
       <section class="section paper">
         <div class="manifesto">
           <span class="label">Manifesto</span>
@@ -926,6 +1140,13 @@
     const form = document.getElementById("diagForm");
     const resultBody = document.getElementById("resultBody");
     const scoreEl = document.getElementById("score");
+    const imageInput = document.getElementById("imageInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const uploadZone = document.getElementById("uploadZone");
+    const previewImage = document.getElementById("previewImage");
+    const gazeOverlay = document.getElementById("gazeOverlay");
+    const visionScore = document.getElementById("visionScore");
+    const visionResult = document.getElementById("visionResult");
 
     function clamp(value, min = 0, max = 100) {
       return Math.max(min, Math.min(max, value));
@@ -1000,10 +1221,155 @@
       `;
     }
 
+    function analyzePixels(img) {
+      const size = 180;
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0, size, size);
+      const { data } = ctx.getImageData(0, 0, size, size);
+      const grid = 6;
+      const cell = size / grid;
+      const cells = [];
+      let totalSat = 0;
+      let totalContrast = 0;
+      let totalBrightness = 0;
+
+      function pixel(x, y) {
+        const i = (y * size + x) * 4;
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        const bright = (r + g + b) / 3;
+        const sat = max === 0 ? 0 : (max - min) / max;
+        return { r, g, b, bright, sat };
+      }
+
+      for (let gy = 0; gy < grid; gy++) {
+        for (let gx = 0; gx < grid; gx++) {
+          let bright = 0;
+          let sat = 0;
+          let contrast = 0;
+          let count = 0;
+          const x0 = Math.floor(gx * cell);
+          const y0 = Math.floor(gy * cell);
+          const x1 = Math.floor((gx + 1) * cell);
+          const y1 = Math.floor((gy + 1) * cell);
+          for (let y = y0; y < y1 - 1; y += 3) {
+            for (let x = x0; x < x1 - 1; x += 3) {
+              const p = pixel(x, y);
+              const right = pixel(x + 1, y);
+              const down = pixel(x, y + 1);
+              bright += p.bright;
+              sat += p.sat;
+              contrast += Math.abs(p.bright - right.bright) + Math.abs(p.bright - down.bright);
+              count++;
+            }
+          }
+          bright /= Math.max(1, count);
+          sat /= Math.max(1, count);
+          contrast /= Math.max(1, count);
+          const cx = (gx + .5) / grid;
+          const cy = (gy + .5) / grid;
+          const centerBias = 1 - Math.min(1, Math.hypot(cx - .5, cy - .45) * 1.25);
+          const score = contrast * 1.85 + sat * 95 + Math.abs(bright - 128) * .36 + centerBias * 36;
+          cells.push({ gx, gy, x: cx * 100, y: cy * 100, score, bright, sat, contrast });
+          totalSat += sat;
+          totalContrast += contrast;
+          totalBrightness += bright;
+        }
+      }
+
+      cells.sort((a, b) => b.score - a.score);
+      const points = [];
+      for (const cellData of cells) {
+        const tooClose = points.some(p => Math.hypot(p.gx - cellData.gx, p.gy - cellData.gy) < 1.65);
+        if (!tooClose) points.push(cellData);
+        if (points.length === 3) break;
+      }
+
+      const avgSat = totalSat / cells.length;
+      const avgContrast = totalContrast / cells.length;
+      const avgBrightness = totalBrightness / cells.length;
+      const salienceGap = points[0] && points[1] ? clamp(Math.round((points[0].score - points[1].score) * .9), 0, 100) : 0;
+      const attention = clamp(Math.round(points[0].score * .42 + avgContrast * 1.4 + avgSat * 30));
+      const cognitiveLoad = clamp(Math.round(68 - salienceGap * .34 + avgSat * 24 + (avgContrast > 24 ? 12 : 0)));
+      const contrastScore = clamp(Math.round(avgContrast * 3.2 + Math.abs(avgBrightness - 128) * .22));
+      const conversionScore = clamp(Math.round(attention * .38 + contrastScore * .25 + (100 - cognitiveLoad) * .27 + salienceGap * .1));
+      return { points, avgSat, avgContrast, avgBrightness, salienceGap, attention, cognitiveLoad, contrastScore, conversionScore };
+    }
+
+    function renderGaze(analysis) {
+      gazeOverlay.innerHTML = analysis.points.map((p, index) => `
+        <span class="hotspot" style="--x:${p.x}%;--y:${p.y}%;--size:${index === 0 ? 34 : index === 1 ? 28 : 22}%;"></span>
+        <span class="gaze-dot" style="--x:${p.x}%;--y:${p.y}%;">${index + 1}</span>
+      `).join("");
+    }
+
+    function renderVision(analysis, fileName) {
+      const verdict = analysis.conversionScore >= 76
+        ? "Boa fluencia visual"
+        : analysis.conversionScore >= 58
+          ? "Atencao com friccao"
+          : "Friccao visual alta";
+      const first = analysis.points[0];
+      const focus = first ? `O primeiro ponto provavel de fixacao esta em ${Math.round(first.x)}% da largura e ${Math.round(first.y)}% da altura.` : "Nao foi possivel estimar o primeiro ponto.";
+      const actions = [
+        analysis.cognitiveLoad > 62 ? "Reduza elementos concorrentes. O olho deve encontrar uma promessa antes de encontrar detalhes." : "Preserve a hierarquia atual e teste uma prova visual mais perto do CTA.",
+        analysis.salienceGap < 18 ? "Aumente o contraste entre foco principal e fundo. Hoje os pontos de atencao parecem competir." : "Use o ponto 1 como ancora: headline, produto ou CTA precisa estar nesse eixo.",
+        analysis.contrastScore < 42 ? "Ajuste luz, tamanho ou cor do CTA. Baixo contraste atrasa decisao." : "Mantenha contraste, mas simplifique texto ao redor do elemento principal."
+      ];
+
+      visionScore.textContent = `${analysis.conversionScore}`;
+      visionResult.innerHTML = `
+        <div class="meter"><span style="--w:${analysis.conversionScore}%"></span></div>
+        <div class="vision-metrics">
+          <div class="vision-metric"><strong>${analysis.attention}</strong><span>Atencao</span></div>
+          <div class="vision-metric"><strong>${analysis.cognitiveLoad}</strong><span>Carga cognitiva</span></div>
+          <div class="vision-metric"><strong>${analysis.contrastScore}</strong><span>Contraste</span></div>
+          <div class="vision-metric"><strong>${analysis.salienceGap}</strong><span>Gap de foco</span></div>
+        </div>
+        <div class="finding">
+          <b>${verdict}</b>
+          <p>${focus} O arquivo analisado foi ${fileName}.</p>
+        </div>
+        <div class="finding">
+          <b>Leitura de decisao</b>
+          <p>${analysis.cognitiveLoad > 62 ? "A peca pede esforco antes de gerar desejo. Isso tende a aumentar abandono." : "A peca tem caminho visual aproveitavel. O proximo ganho esta em aproximar foco e acao."}</p>
+        </div>
+        <div class="actions-list">
+          ${actions.map((action, index) => `<div class="action">${index + 1}. ${action}</div>`).join("")}
+        </div>
+        <p class="image-note">Nota: isto e uma simulacao heuristica de eye tracking, baseada em saliencia visual. Para validacao clinica, use estudo com participantes reais.</p>
+      `;
+    }
+
     form.addEventListener("submit", event => {
       event.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries());
       render(diagnose(data), data);
+    });
+
+    uploadBtn.addEventListener("click", () => imageInput.click());
+    uploadZone.addEventListener("click", event => {
+      if (uploadZone.classList.contains("has-image")) imageInput.click();
+    });
+
+    imageInput.addEventListener("change", event => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        previewImage.onload = () => {
+          uploadZone.classList.add("has-image");
+          const analysis = analyzePixels(previewImage);
+          renderGaze(analysis);
+          renderVision(analysis, file.name);
+        };
+        previewImage.src = reader.result;
+      };
+      reader.readAsDataURL(file);
     });
   </script>
 </body>
